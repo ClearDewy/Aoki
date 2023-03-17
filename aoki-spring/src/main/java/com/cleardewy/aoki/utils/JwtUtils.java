@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cleardewy.aoki.constant.JwtConstant;
+import com.cleardewy.aoki.constant.ResultStatus;
+import com.cleardewy.aoki.exception.AokiException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * @ClassName: JwtUtil
- * @Author: ClearDewy
- * @Date: 2023/3/16 13:39
- * @@Description: Jwt工具类
+ * @ Author: ClearDewy
+ * @ Description: Jwt工具类
  **/
 @Slf4j
 @Component
@@ -50,12 +50,16 @@ public class JwtUtils {
         try {
             return JWT.require(Algorithm.HMAC256(JwtConstant.TOKEN_SECRET)).withIssuer(JwtConstant.ISSUER).build().verify(token);
         } catch (Exception e) {
-            log.debug("validate is token error ", e);
-            return null;
+            throw new AokiException(ResultStatus.FAIL_INVALID_TOKEN);
         }
     }
 
-    public void cleanToken(Integer uid) {
+    public void cleanToken(String token){
+        redisUtils.del(JwtConstant.REDIS_KEY + getUserIdByToken(token));
+    }
+
+
+    public void cleanTokenByUserId(Integer uid) {
         redisUtils.del(JwtConstant.REDIS_KEY + uid);
     }
 
@@ -72,6 +76,12 @@ public class JwtUtils {
         return !redisUtils.hasKey(JwtConstant.REDIS_KEY+uid);
     }
 
+    /**
+     * @ Author: ClearDewy
+     * @ Param: [java.lang.String]
+     * @ Return: boolean
+     * @ Description: 通过token判断token是否过期
+     **/
     public boolean isTokenExpiredByToken(String token){
         return !redisUtils.hasKey(JwtConstant.REDIS_KEY + getUserIdByToken(token));
     }

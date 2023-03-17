@@ -6,6 +6,16 @@
     <select id="getRoleById" parameterType="Integer" resultType="String">
         SELECT role.roleName FROM user,role WHERE user.id=#{id} AND user.roleId=role.id
     </select>
+    <select id="getUserByUsername" parameterType="String" resultType="UserDto">
+        SELECT * FROM `user` WHERE `username`=#{username}
+    </select>
 
+    <select id="getRoleByRoleId" parameterType="Integer" resultType="String">
+        SELECT `roleName` FROM `role` WHERE `id`=#{roleId}
+    </select>
+
+    <select id="getMajorByMajorId" parameterType="Integer" resultType="String">
+        SELECT `majorName` FROM `major` WHERE `id`=#{majorId}
+    </select>
 </mapper>
 

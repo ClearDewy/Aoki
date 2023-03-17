@@ -1,15 +1,22 @@
 package com.cleardewy.aoki.exception;
 
+import com.cleardewy.aoki.utils.Result;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
- * @ ClassName: GloabalExceptionAdvice
  * @ Author: ClearDewy
- * @ Date: 2023/3/16 19:55
  * @ Description:
  **/
 @ControllerAdvice
 @ResponseBody
 public class GloabalExceptionAdvice {
+
+    @ExceptionHandler(AokiException.class)
+    public Result handleException(AokiException e){
+        return Result.error(e.getCode(),e.getMessage());
+    }
 }

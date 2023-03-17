@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @ClassName: UserDto
- * @Author: ClearDewy
- * @Date: 2023/3/16 13:47
- * @@Description:
+ * @ Author: ClearDewy
+ * @ @Description:
  **/
 @Data
 @NoArgsConstructor

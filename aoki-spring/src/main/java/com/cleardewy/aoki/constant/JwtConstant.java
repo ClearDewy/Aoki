@@ -1,9 +1,7 @@
 package com.cleardewy.aoki.constant;
 
 /**
- * @ ClassName: JwtConstant
  * @ Author: ClearDewy
- * @ Date: 2023/3/16 20:20
  * @ Description:
  **/
 public final class JwtConstant {

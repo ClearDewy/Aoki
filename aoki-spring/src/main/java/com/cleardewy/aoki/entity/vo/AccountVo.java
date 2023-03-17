@@ -5,14 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @ClassName: AcountVo
- * @Author: ClearDewy
- * @Date: 2023/3/16 14:00
- * @@Description:
+ * @ Author: ClearDewy
+ * @ @Description:
  **/
 @Data
 @AllArgsConstructor
-public class AcountVo {
+public class AccountVo {
     @NotBlank(message = "用户名不能为空")
     String username;
     @NotBlank(message = "密码不能为空")

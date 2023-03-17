@@ -2,7 +2,7 @@
 mysql-public-host: ${MYSQL_PUBLIC_HOST:172.18.0.3}
 mysql-public-port: ${MYSQL_PUBLIC_PORT:3306}
 mysql-username: ${MYSQL_USERNAME:root}
-mysql-password: ${MYSQL_ROOT_PASSWORD:040110}
+mysql-password: ${MYSQL_ROOT_PASSWORD:"040110"}
 
 # 服务端口号
 server:

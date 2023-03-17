@@ -13,10 +13,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @ClassName: RedisUtils
- * @Author: ClearDewy
- * @Date: 2023/3/16 14:12
- * @@Description: Redis工具类
+ * @ Author: ClearDewy
+ * @ Description: Redis工具类
  **/
 @Component
 @Slf4j

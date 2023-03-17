@@ -6,10 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ InterfaceName: AokiRole
  * @ Author: ClearDewy
- * @ Date: 2023/3/16 20:40
- * @ Description:
+ * @ Description:权限注解，用于设定每个接口的权限
  **/
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

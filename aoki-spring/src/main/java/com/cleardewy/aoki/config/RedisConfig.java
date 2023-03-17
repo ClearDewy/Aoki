@@ -11,10 +11,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @ClassName: RedisConfig
- * @Author: ClearDewy
- * @Date: 2023/3/16 14:14
- * @@Description: 自定义Redis配置，主要将默认的<Object,Object>改为<String,Object>方便开发
+ * @ Author: ClearDewy
+ * @ Description: 自定义Redis配置，主要将默认的<Object,Object>改为<String,Object>方便开发
  **/
 @Configuration
 public class RedisConfig {

@@ -1,13 +1,19 @@
 package com.cleardewy.aoki.entity.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 /**
- * @ClassName: UserVo
- * @Author: ClearDewy
- * @Date: 2023/3/16 13:47
- * @@Description:
+ * @ Author: ClearDewy
+ * @ @Description:
  **/
-
+@Data
+@AllArgsConstructor
 public class UserVo {
-
-
+    private String username;
+    private String name;
+    private String number;
+    private String email;
+    private String major;
+    private String role;
 }
