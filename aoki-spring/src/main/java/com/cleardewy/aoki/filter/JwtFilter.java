@@ -54,7 +54,7 @@ public class JwtFilter implements HandlerInterceptor{
         //获取token
         String tokenValue = request.getHeader("Authorization");
         //没有token一律不准通过
-        if (tokenValue.isBlank()) {
+        if (tokenValue==null||tokenValue.isBlank()) {
             throw new AokiException(ResultStatus.FORBIDDEN);
         }
         //查看token是否过期

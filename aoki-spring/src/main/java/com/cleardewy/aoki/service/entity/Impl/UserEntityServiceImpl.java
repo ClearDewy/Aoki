@@ -23,6 +23,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     UserMapper userMapper;
 
     @Override
+    @Cacheable(value = "roleName:id",key = "#id")
     public String getRoleById(Integer id) {
         String role = userMapper.getRoleById(id);
         if (role.isEmpty())throw new AokiException(ResultStatus.FAIL);
@@ -30,18 +31,21 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
+    @Cacheable(value = "user:username",key = "#username")
     public UserDto getUserByUsername(String username) {
         List<UserDto> userDtoList = userMapper.getUserByUsername(username);
         if (userDtoList.isEmpty())throw new AokiException(ResultStatus.FAIL);
         return userDtoList.get(0);
     }
     @Override
+    @Cacheable(value = "roleName:roleId",key = "#roleId")
     public String getRoleByRoleId(Integer roleId){
         String role = userMapper.getRoleByRoleId(roleId);
         if (role.isEmpty())throw new AokiException(ResultStatus.FAIL);
         return role;
     }
     @Override
+    @Cacheable(value = "majorName:majorId",key = "#majorId")
     public String getMajorByMajorId(Integer majorId){
         String major = userMapper.getMajorByMajorId(majorId);
         if (major.isEmpty())throw new AokiException(ResultStatus.FAIL);

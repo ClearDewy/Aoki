@@ -24,6 +24,8 @@ spring:
       host: ${redis-host}         # 地址
       port: ${redis-port}              # 端口
       password: ${redis-password}        # 密码
+      connect-timeout: 30s
+
   cache:
     type: redis               # 缓存使用redis
     redis:
