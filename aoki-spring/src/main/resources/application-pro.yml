@@ -1,0 +1,33 @@
+# 默认以下配置默认会读取环境变量的值
+mysql-public-host: ${MYSQL_PUBLIC_HOST:172.18.0.3}
+mysql-public-port: ${MYSQL_PUBLIC_PORT:3306}
+mysql-username: ${MYSQL_USERNAME:root}
+mysql-password: ${MYSQL_ROOT_PASSWORD:040110}
+
+# 服务端口号
+server:
+  port: 8080
+
+spring:
+  datasource: # 数据库配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql-public-host}:${mysql-public-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
+    username: ${mysql-username}
+    password: ${mysql-password}
+  data:                       #直接连接redis
+    redis:
+      host: ${redis-host}         # 地址
+      port: ${redis-port}              # 端口
+      password: ${redis-password}        # 密码
+  cache:
+    type: redis               # 缓存使用redis
+    redis:
+      time-to-live: 1800      # 缓存过期时间，单位 s
+      cache-null-values: true   # 是否缓存空值
+#&serverTimezone=GMT
+logging:
+  file:
+    path: /home/log/backend
+  level:
+    root: info
+  config: classpath:logback-spring.xml

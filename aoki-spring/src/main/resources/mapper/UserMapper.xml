@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.UserMapper">
+    <select id="getRoleById" parameterType="Integer" resultType="String">
+        SELECT role.roleName FROM user,role WHERE user.id=#{id} AND user.roleId=role.id
+    </select>
+
+</mapper>
+
