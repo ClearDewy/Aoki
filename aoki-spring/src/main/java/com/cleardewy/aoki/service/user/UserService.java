@@ -16,4 +16,6 @@ public interface UserService {
     Result login(AccountVo accountVo);
 
     Result logout();
+
+    Result register(UserVo userVo);
 }

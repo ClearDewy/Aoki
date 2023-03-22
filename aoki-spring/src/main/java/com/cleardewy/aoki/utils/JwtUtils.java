@@ -8,6 +8,7 @@ import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.exception.AokiException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.el.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ public class JwtUtils {
                         .withClaim("userId",userId)
                         .withExpiresAt(expireDate)
                         .sign(Algorithm.HMAC256(JwtConstant.TOKEN_SECRET));
-        redisUtils.set(JwtConstant.REDIS_KEY + userId, token, JwtConstant.EXPIRE);
+        redisUtils.set(JwtConstant.REDIS_KEY + userId, token, JwtConstant.EXPIRE*2);
         return token;
     }
 
@@ -48,9 +49,10 @@ public class JwtUtils {
     }
     public DecodedJWT getDecodedJWTByToken(String token) {
         try {
+            log.info("获取到了token:"+token);
             return JWT.require(Algorithm.HMAC256(JwtConstant.TOKEN_SECRET)).withIssuer(JwtConstant.ISSUER).build().verify(token);
         } catch (Exception e) {
-            throw new AokiException(ResultStatus.FAIL_INVALID_TOKEN);
+            throw new AokiException(ResultStatus.Status.OVERDUE,ResultStatus.Message.INVALID_TOKEN);
         }
     }
 
@@ -63,26 +65,20 @@ public class JwtUtils {
         redisUtils.del(JwtConstant.REDIS_KEY + uid);
     }
 
-    public boolean hasToken(Integer uid) {
-        return redisUtils.hasKey(JwtConstant.REDIS_KEY + uid);
+    public boolean hasToken(String token) {
+        return redisUtils.hasKey(JwtConstant.REDIS_KEY + getUserIdByToken(token));
+    }
+
+    public boolean hasTokenById(Integer id){
+        return redisUtils.hasKey(JwtConstant.REDIS_KEY + id);
     }
 
     /**
-     * token是否过期
-     *
-     * @return true：过期
-     */
-    public boolean isTokenExpiredByUid(Integer uid) {
-        return !redisUtils.hasKey(JwtConstant.REDIS_KEY+uid);
-    }
-
-    /**
-     * @ Author: ClearDewy
      * @ Param: [java.lang.String]
      * @ Return: boolean
      * @ Description: 通过token判断token是否过期
      **/
     public boolean isTokenExpiredByToken(String token){
-        return !redisUtils.hasKey(JwtConstant.REDIS_KEY + getUserIdByToken(token));
+        return getDecodedJWTByToken(token).getExpiresAt().before(new Date());
     }
 }

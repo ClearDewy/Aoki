@@ -1,5 +1,7 @@
 package com.cleardewy.aoki;
 
+import com.cleardewy.aoki.manager.User.UserManager;
+import com.cleardewy.aoki.mapper.UserMapper;
 import com.cleardewy.aoki.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,12 @@ class AokiSpringApplicationTests {
     @Autowired
     RedisUtils redisUtils;
 
+    @Autowired
+    UserMapper userMapper;
+
     @Test
-    void contextLoads() {
-        redisUtils.set("connect","true",10);
-        System.out.println(redisUtils.get("connect"));
+    void test() {
+        System.out.println(userMapper.getRoleIdByRole("my"));
     }
 
 }

@@ -2,40 +2,41 @@ package com.cleardewy.aoki.controller.commen;
 
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.entity.vo.AccountVo;
+import com.cleardewy.aoki.entity.vo.UserVo;
 import com.cleardewy.aoki.service.user.UserService;
 import com.cleardewy.aoki.utils.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ Author: ClearDewy
- * @ Description:
+ * @ Description: 普通用户接口，实现注册登录等
  **/
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class UserController {
     @Autowired
     UserService userService;
-    @RequestMapping("/login")
-    Result login(AccountVo accountVo){
+
+    @PostMapping("/login")
+    Result login(@Valid AccountVo accountVo){
         return userService.login(accountVo);
     }
-    @RequestMapping("/logout")
+
+    @GetMapping("/logout")
     Result logout(){
         return userService.logout();
     }
-    @AokiRole({"teacher"})
-    @RequestMapping("/teacher")
-    Result teacher(){
-        return Result.success("i am teacher");
-    }
 
-    @AokiRole({"root"})
-    @RequestMapping("/root")
-    Result root(){
-        return Result.success("i am root");
+
+    @PostMapping("/register")
+    Result register(@Valid UserVo userVo){
+        return userService.register(userVo);
     }
 }

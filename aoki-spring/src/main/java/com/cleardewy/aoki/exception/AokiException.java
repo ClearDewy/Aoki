@@ -15,8 +15,13 @@ public class AokiException extends RuntimeException{
         this.code=code;
     }
 
-    public AokiException(ResultStatus resultStatus){
-        super(resultStatus.getMessage());
-        this.code=resultStatus.getStatus();
+    public AokiException(ResultStatus.Status status){
+        super(status.getMessage());
+        this.code=status.getStatus();
+    }
+
+    public AokiException(ResultStatus.Status status,ResultStatus.Message message){
+        super(message.getMessage());
+        this.code=status.getStatus();
     }
 }

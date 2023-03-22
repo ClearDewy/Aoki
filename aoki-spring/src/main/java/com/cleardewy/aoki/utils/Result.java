@@ -22,14 +22,21 @@ public class Result {
     }
 
     public static Result success(){
-        return new Result(ResultStatus.SUCCESS.getStatus(),null,null);
+        return new Result(ResultStatus.Status.SUCCESS.getStatus(),null,null);
     }
     public static Result success(Object data){
-        return new Result(ResultStatus.SUCCESS.getStatus(),null,data);
+        return new Result(ResultStatus.Status.SUCCESS.getStatus(),null,data);
     }
 
-    public static Result error(ResultStatus resultStatus){
-        return new Result(resultStatus.getStatus(),resultStatus.getMessage());
+    public static Result error(ResultStatus.Status status){
+        return new Result(status.getStatus(),status.getMessage());
+    }
+    public static Result error(ResultStatus.Status status,String message){
+        return new Result(status.getStatus(),message);
+    }
+
+    public static Result error(ResultStatus.Status status,ResultStatus.Message message){
+        return new Result(status.getStatus(),message.getMessage());
     }
 
     public static Result error(Integer status,String msg){

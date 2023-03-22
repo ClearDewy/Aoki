@@ -5,6 +5,7 @@ import com.cleardewy.aoki.entity.dto.UserDto;
 import com.cleardewy.aoki.entity.vo.AccountVo;
 import com.cleardewy.aoki.entity.vo.UserVo;
 import com.cleardewy.aoki.exception.AokiException;
+import com.cleardewy.aoki.manager.User.UserManager;
 import com.cleardewy.aoki.manager.account.AccountManager;
 import com.cleardewy.aoki.mapper.UserMapper;
 import com.cleardewy.aoki.service.user.UserService;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     AccountManager accountManager;
 
+    @Autowired
+    UserManager userManager;
+
     @Override
     public Result login(AccountVo accountVo) {
         return Result.success(accountManager.login(accountVo));
@@ -36,4 +40,11 @@ public class UserServiceImpl implements UserService {
         accountManager.logout();
         return Result.success();
     }
+
+    @Override
+    public Result register(UserVo userVo) {
+        accountManager.register(userVo);
+        return Result.success();
+    }
+
 }

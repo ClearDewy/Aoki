@@ -4,3 +4,8 @@
 /aoki-spring/aoki_backend/
 /aoki-spring/.mvn/
 /aoki-deploy/
+/aoki-vite/.vscode/
+/aoki-vite/.idea/
+
+/aoki-vite/node_modules/
+/aoki-vite/package-lock.json

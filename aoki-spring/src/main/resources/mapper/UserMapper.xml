@@ -17,5 +17,88 @@
     <select id="getMajorByMajorId" parameterType="Integer" resultType="String">
         SELECT `majorName` FROM `major` WHERE `id`=#{majorId}
     </select>
+
+    <select id="getRoleIdByRole" parameterType="String" resultType="Integer">
+        SELECT `id` FROM `role` WHERE `roleName`=#{roleName}
+    </select>
+
+    <select id="getMajorIdByMajor" parameterType="String" resultType="Integer">
+        SELECT `id` FROM `major` WHERE `majorName`=#{majorName}
+    </select>
+
+    <select id="getUserByNumber" parameterType="String" resultType="UserDto">
+        SELECT * FROM `user` WHERE `number`=#{number}
+    </select>
+
+    <select id="getUserByEmail" parameterType="String" resultType="UserDto">
+        SELECT * FROM `user` WHERE `email`=#{email}
+    </select>
+
+    <insert id="addUser" parameterType="UserDto">
+        INSERT INTO user(`username`, `password`, `name`, `number`, `email`,`majorId`,`roleId`)
+        VALUES (#{username}, #{password}, #{name}, #{number}, #{email}, #{majorId}, #{roleId})
+    </insert>
+
+    <update id="updateUserByUsername" parameterType="UserDto">
+        UPDATE user
+        SET `password`=#{password},
+            `name`=#{name},
+            `number`=#{number},
+            `email`=#{email},
+            `majorId`=#{majorId},
+            `roleId`=#{roleId}
+        WHERE `username` = #{username}
+    </update>
+
+    <update id="updateUserById" parameterType="UserDto">
+        UPDATE user
+        SET `username` = #{username},
+            `password`=#{password},
+            `name`=#{name},
+            `number`=#{number},
+            `email`=#{email},
+            `majorId`=#{majorId},
+            `roleId`=#{roleId}
+        WHERE `id`=#{id}
+    </update>
+
+    <delete id="deleteUserById" parameterType="Integer">
+        DELETE
+        from user
+        WHERE id = ${id}
+    </delete>
+
+    <select id="getAllRole">
+        SELECT `roleName` from `role`
+    </select>
+
+    <select id="getAllMajor">
+        SELECT `majorName` from `major`
+    </select>
+
+    <delete id="deleteRoleByName" parameterType="String">
+        DELETE FROM `role` WHERE `roleName`=#{roleName}
+    </delete>
+    <delete id="deleteMajorByName" parameterType="String">
+        DELETE FROM `role` WHERE `majorName`=#{majorName}
+    </delete>
+
+    <insert id="addRole" parameterType="String">
+        insert INTO `role`(`roleName`) values (#{roleName})
+    </insert>
+    <insert id="addMajor" parameterType="String">
+        insert INTO `role`(`majorName`) values (#{majorName})
+    </insert>
+
+    <select id="countUsername" parameterType="String">
+        SELECT COUNT(*) FROM `user` WHERE #{username}=`username`
+    </select>
+    <select id="countNumber" parameterType="String">
+        SELECT COUNT(*) FROM `user` WHERE #{number}=`number`
+    </select>
+    <select id="countEmail" parameterType="String">
+        SELECT COUNT(*) FROM `user` WHERE #{email}=`email`
+    </select>
+
 </mapper>
 

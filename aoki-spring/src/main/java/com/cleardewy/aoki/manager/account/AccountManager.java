@@ -6,8 +6,8 @@ import com.cleardewy.aoki.entity.dto.UserDto;
 import com.cleardewy.aoki.entity.vo.AccountVo;
 import com.cleardewy.aoki.entity.vo.UserVo;
 import com.cleardewy.aoki.exception.AokiException;
-import com.cleardewy.aoki.service.entity.Impl.UserEntityServiceImpl;
-import com.cleardewy.aoki.service.entity.UserEntityService;
+import com.cleardewy.aoki.manager.User.UserManager;
+import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.utils.JwtUtils;
 import com.cleardewy.aoki.utils.RedisUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,25 +28,25 @@ public class AccountManager {
     JwtUtils jwtUtils;
     @Autowired
     RedisUtils redisUtils;
-
     @Autowired
-    UserEntityService userEntityService;
+    UserEntityManager userEntityManager;
+    @Autowired
+    UserManager userManager;
 
     public UserVo login(AccountVo accountVo){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();        // 获取请求头
-        HttpServletResponse response = servletRequestAttributes.getResponse();
+        HttpServletResponse response = servletRequestAttributes.getResponse();      // 过去响应
         String key= Constants.Account.ACCOUNT_TRY_TIME+accountVo.getUsername();
         Integer tryLoginCount = (Integer) redisUtils.get(key);
 
         if (tryLoginCount != null && tryLoginCount >= 20) {
-            throw new AokiException(ResultStatus.FAIL_TRY_TIMES_EXCEEDED_LIMIT);
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.TRY_TIMES_EXCEEDED_LIMIT);
         }
-        UserDto userDto=null;
+        UserDto userDto;
         try {
-            userDto = userEntityService.getUserByUsername(accountVo.getUsername());
+            userDto = userEntityManager.getUserByUsername(accountVo.getUsername());
         }catch (AokiException e){
-            throw new AokiException(ResultStatus.FAIL_USERNAME_OR_PASSWORD_WRONG);
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_OR_PASSWORD_WRONG);
         }
 
         if (!userDto.getPassword().equals(accountVo.getPassword())){
@@ -55,7 +55,7 @@ public class AccountManager {
             } else {
                 redisUtils.set(key, tryLoginCount + 1, 60 * 30);
             }
-            throw new AokiException(ResultStatus.FAIL_USERNAME_OR_PASSWORD_WRONG);
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_OR_PASSWORD_WRONG);
         }
         // 认证成功，清除锁定限制
         if (tryLoginCount != null) {
@@ -63,17 +63,33 @@ public class AccountManager {
         }
 
         String jwt=jwtUtils.generateToken(userDto.getId());
-        response.setHeader("Authorization", jwt); //放到信息头部
-        response.setHeader("Access-Control-Expose-Headers", "Authorization");
+        response.setHeader("authorization", jwt);
+        response.setHeader("refresh-authorization", String.valueOf(true)); //放到信息头部
+        response.setHeader("Access-Control-Expose-Headers", "authorization");
 
-        return userEntityService.userDtoToUserVo(userDto);
+        return userManager.userDtoToUserVo(userDto);
     }
 
 
     public void logout(){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        String jwt=request.getHeader("Authorization");
+        String jwt=request.getHeader("authorization");
         jwtUtils.cleanToken(jwt);
+    }
+
+    public void register(UserVo userVo){
+        // 检验用户名是否唯一
+        if (userEntityManager.countUsername(userVo.getUsername())!=0)
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_EXIST);
+        // 检验工号是否唯一
+        if (userEntityManager.countNumber(userVo.getNumber())!=0)
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.NUMBER_EXIST);
+        // 检验邮箱是否唯一
+        if (userEntityManager.countEmail(userVo.getEmail())!=0)
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.EMAIL_EXIST);
+
+        // 添加用户
+        userEntityManager.addUser(userManager.userVoToUserDto(userVo));
     }
 }
