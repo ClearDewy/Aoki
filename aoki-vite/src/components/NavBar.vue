@@ -1,5 +1,4 @@
 <template>
-
   <el-row justify="space-between">
     <el-col span="4"><el-image :src=Logo fit="scale-down" style="height: 58px;"></el-image></el-col>
     <el-col span="4">

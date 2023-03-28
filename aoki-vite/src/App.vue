@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import Login from "./views/Login.vue";
+import Login from "./views/Login/Login.vue";
+import EmailLogin from "./views/Login/EmailLogin.vue";
+import Interface from "./views/Interface.vue";
+import Register from "./views/Register/Register.vue";
+import Certification from "./views/Register/Certification.vue";
 </script>
 
 <template>

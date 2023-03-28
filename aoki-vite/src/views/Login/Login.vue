@@ -1,29 +1,6 @@
-<!--<template>-->
-<!--  <el-form-->
-<!--      ref="accountFormRef"-->
-<!--      :model="accountForm"-->
-<!--      :rules="rules"-->
-<!--      label-width="120px"-->
-<!--      class="demo-ruleForm"-->
-<!--      :size="formSize"-->
-<!--      status-icon-->
-<!--  >-->
-<!--    <el-form-item label="用户名">-->
-<!--      <el-input v-model="accountForm.username" placeholder="请输入用户名" type="username"/>-->
-<!--    </el-form-item>-->
-<!--    <el-form-item label="密码">-->
-<!--      <el-input v-model="accountForm.password" placeholder="请输入密码" type="password" show-password/>-->
-<!--    </el-form-item>-->
-<!--  </el-form>-->
-<!--  <el-form-item>-->
-<!--    <el-button round @click="userApi.login(accountForm)">登录</el-button>-->
-<!--  </el-form-item>-->
-<!--</template>-->
-
 <template>
   <div id="login">
     <div class="login2 alignment-container">
-
       <el-space :size="100">
         <div>
           <h2 style="text-align: left">用户登录</h2>
@@ -47,9 +24,8 @@
               </el-button>
             </el-form-item>
           </el-form>
-          <router-link to="/home" type="primary" :underline="false" style="margin-top: 20px">新用户注册</router-link>
-<!--          <el-link type="primary" :underline="false" @click="toRegister()" style="margin-top: 20px">新用户注册</el-link>-->
-          <el-link type="primary" style="margin-left: 110px;margin-top: 20px" :underline="false" @click="EmailLogin()">邮箱验证码登录</el-link>
+          <router-link to="/home" type="primary" :underline="false" style="margin-top: 20px;float: left">新用户注册</router-link>
+          <router-link to="/emaillogin" type="primary" :underline="false" style="margin-top: 20px;float: right">邮箱验证码登录</router-link>
         </div>
           <div>
             <p style="color:#9b9b9b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QQ群：1233445</p>
@@ -64,8 +40,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import {Account} from "../common/constans";
-import {userApi} from "../common/userApi"
+import {Account} from "../../common/constans";
+import {userApi} from "../../common/userApi"
 import {User,Lock} from "@element-plus/icons-vue";
 
 const formSize = ref('default')

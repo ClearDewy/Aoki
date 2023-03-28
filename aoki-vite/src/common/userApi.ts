@@ -23,8 +23,4 @@ export const userApi={
         })
     },
 
-    refister:()=>{
-
-
-    }
 }

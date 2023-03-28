@@ -10,7 +10,7 @@ const routes:Array<RouteRecordRaw>=[
     {
         path:"/login",
         name:"Login",
-        component:()=>import("../views/Login.vue"),
+        component:()=>import("../views/Login/Login.vue"),
         meta:{
             title:"登录",
             requiresAuth:false
@@ -23,7 +23,7 @@ const routes:Array<RouteRecordRaw>=[
         component:()=>import("../views/Home.vue"),
         meta:{
             title:"首页",
-            requiresAuth:true
+            requiresAuth:false
         }
     }
 ]
