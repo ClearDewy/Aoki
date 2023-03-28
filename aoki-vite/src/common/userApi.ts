@@ -21,5 +21,10 @@ export const userApi={
             storage.clear()
             router.replace('/login')
         })
+    },
+
+    refister:()=>{
+
+
     }
 }

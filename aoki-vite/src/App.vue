@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
 import Login from "./views/Login.vue";
 </script>
 
 <template>
-
   <div id="app">
     <el-backtop :right="30" :bottom="20" />
     <router-view/>
   </div>
-
 
 </template>
 
@@ -19,6 +16,9 @@ import Login from "./views/Login.vue";
   width: 100%;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

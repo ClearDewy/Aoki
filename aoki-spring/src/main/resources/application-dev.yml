@@ -8,6 +8,11 @@ redis-host: localhost
 redis-port: 6379
 redis-password: "040110"
 
+mail-username: 3413758358
+mail-password: 000
+mail-host: smtp.qq.com
+mail-port: 465
+
 
 # 服务端口号
 server:
@@ -26,12 +31,18 @@ spring:
       password: ${redis-password}        # 密码
       connect-timeout: 30s
       timeout: 30s
-
   cache:
     type: redis               # 缓存使用redis
     redis:
       time-to-live: 1800      # 缓存过期时间，单位 s
       cache-null-values: true   # 是否缓存空值
+
+  mail:     #邮件配置
+    username: ${mail-username}
+    password: ${mail-password}
+    host: ${mail-host}
+    port: ${mail-port}
+
 
 #&serverTimezone=GMT
 logging:
