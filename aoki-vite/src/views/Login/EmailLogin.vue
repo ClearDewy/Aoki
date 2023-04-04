@@ -4,28 +4,29 @@
       <el-space :size="100">
         <div>
           <h2 style="text-align: left;">用户登录</h2>
-          <el-form ref="form" :model="accountForm" :rules="rule">
+          <el-form ref="form" :model="emailLoginForm" :rules="rule">
             <el-form-item prop="email">
-              <el-input v-model="accountForm.email" style="width: 280px;height: 40px;margin-top: 20px" placeholder="请输入邮箱">
+              <el-input v-model="emailLoginForm.email" style="width: 280px;height: 40px;margin-top: 20px" placeholder="请输入邮箱">
                 <template #prefix>
                   <el-icon style="font-size: 18px;"><Message /></el-icon>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item prop="code">
-              <el-input v-model="accountForm.password" style="width: 280px;height: 40px;margin-top: 20px" placeholder="请输入验证码">
+              <el-input v-model="emailLoginForm.code" style="width: 280px;height: 40px;margin-top: 20px" placeholder="请输入验证码">
                 <template #prefix>
                   <el-icon style="font-size: 18px;"><Loading /></el-icon>
                 </template>
               </el-input>
-              <el-button style="position: absolute;right: 10px;top: 24px;" type="text" @click="userApi.login(accountForm)">获取验证码
+              <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
+              <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode">获取验证码
               </el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" style="width: 280px;height: 40px;margin-top: 20px" @click="userApi.login(accountForm)">登录</el-button>
+              <el-button type="primary" style="width: 280px;height: 40px;margin-top: 20px" @click="userApi.emaillogin(emailLoginForm)">登录</el-button>
             </el-form-item>
           </el-form>
-          <router-link to="/" type="primary" :underline="false" style="margin-top: 20px;float: left">返回></router-link>
+          <router-link to="/login" type="primary" :underline="false" style="margin-top: 20px;float: left">返回></router-link>
         </div>
         <div>
           <p style="color:#9b9b9b;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QQ群：1233445</p>
@@ -41,28 +42,40 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import {userApi} from "../../common/userApi"
-import {Account} from "../../common/constans";
+import {Account, EmailLogin} from "../../common/constans";
 import {Loading,Message} from "@element-plus/icons-vue";
 
 const formSize = ref('default')
-const accountFormRef = ref<FormInstance>()
-const accountForm=reactive(Account)
+const emailLoginForm=reactive(EmailLogin)
+
+const startGrab=ref(false)
+const endTime=ref(Date.now())
 
 const rule=reactive<FormRules>(
     {
-      username:[
-        {required: true, message: '请输入邮箱', trigger: 'blur'}
+      email:[
+        {required: true, message: '请输入邮箱', trigger: 'blur'},
+        {type:"email",message:"请输入正确的邮箱"}
       ],
-      password:[
+      code:[
         {required: true, message: '请输入验证码', trigger: 'blur'}
       ]
     }
 )
+
+const getVerifyCode=()=>{
+  userApi.getVerifyCode(emailLoginForm.email).then(res=>{
+    endTime.value=Date.now()+1000*60
+    startGrab.value=true
+  })
+}
+const resetGetVerifyCode=()=>{
+  startGrab.value=false
+}
 </script>
 
 <style scoped>
 #email-login,html,body{
-  background-color: #F2F4F7;
   width: 100%;
   height: 100%;
   display: flex;

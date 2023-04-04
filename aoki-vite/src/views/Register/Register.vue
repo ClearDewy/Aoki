@@ -4,32 +4,33 @@
 
       <div>
         <h2 style="text-align: left">用户注册</h2>
-        <el-form ref="form" :model="accountForm" label-width="">
-          <el-form-item>
-            <el-input v-model="accountForm.email" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入邮箱">
+        <el-form ref="form" :model="UserRegisterForm" label-width="" :rules="rule">
+          <el-form-item prop="email">
+            <el-input v-model="UserRegisterForm.email" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入邮箱">
               <template #prefix>
                 <el-icon style=";font-size: 18px;"><Message /></el-icon>
               </template>
             </el-input>
           </el-form-item>
-          <el-form-item>
-            <el-input v-model="accountForm.code" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入验证码">
+          <el-form-item prop="code">
+            <el-input v-model="UserRegisterForm.code" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入验证码">
               <template #prefix>
                 <el-icon style=";font-size: 18px;"><Loading /></el-icon>
               </template>
             </el-input>
-            <el-button style="position: absolute;right: 10px;top: 24px;" type="text" @click="userApi.login(accountForm)">获取验证码
+            <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
+            <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode">获取验证码
             </el-button>
           </el-form-item>
-          <el-form-item>
-            <el-input v-model="accountForm.password" style="width: 280px;height:40px;margin-top: 20px" placeholder="密码" show-password>
+          <el-form-item prop="password">
+            <el-input v-model="UserRegisterForm.password" style="width: 280px;height:40px;margin-top: 20px" placeholder="密码" show-password>
               <template #prefix>
                 <el-icon style="font-size: 18px;"><Lock /></el-icon>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="userApi.login(accountForm)"
+            <el-button type="primary" @click="verifyCode(UserRegisterForm.email,UserRegisterForm.code)"
                        style="width: 280px;height:40px;margin-top: 20px">下一步
             </el-button>
           </el-form-item>
@@ -42,14 +43,53 @@
 
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import {Account} from "../../common/constans";
+import {UserRegister} from "../../common/constans";
 import {userApi} from "../../common/userApi"
 import {reactive, ref} from "vue";
 import {Message,Lock,Loading} from "@element-plus/icons-vue";
+import {POST} from "../../common/api";
+import router from "../../router";
 
 const formSize = ref('default')
-const accountFormRef = ref<FormInstance>()
-const accountForm=reactive(Account)
+const UserRegisterForm=reactive(UserRegister)
+// 表单检验
+const rule=reactive<FormRules>(
+    {
+      email:[
+        {required: true, message: '请输入邮箱', trigger: 'blur'},
+        {type:"email",message:"请输入正确的邮箱"}
+      ],
+      code:[
+        {required: true, message: '请输入验证码', trigger: 'blur'},
+        {len:6,message:"请输入正确验证码"}
+      ],
+      password:[
+        {required: true, message: '请输入密码', trigger: 'blur'},
+        {min:6,max:20,message:"密码不少于6位不大于20位"}
+      ]
+    }
+)
+
+// 验证验证码，验证码正确则跳转到完善信息页面
+const verifyCode=(email:string,code:string)=>{
+  userApi.verifyCode(email,code).then(res=>{
+
+    router.push("/certification")
+  })
+}
+
+const startGrab=ref(false)
+const endTime=ref(Date.now())
+
+const getVerifyCode=()=>{
+  userApi.getVerifyCode(UserRegisterForm.email).then(res=>{
+    endTime.value=Date.now()+1000*60
+    startGrab.value=true
+  })
+}
+const resetGetVerifyCode=()=>{
+  startGrab.value=false
+}
 
 </script>
 

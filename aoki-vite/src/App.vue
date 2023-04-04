@@ -1,21 +1,37 @@
-<script setup lang="ts">
-import Login from "./views/Login/Login.vue";
-import EmailLogin from "./views/Login/EmailLogin.vue";
-import Interface from "./views/Interface.vue";
-import Register from "./views/Register/Register.vue";
-import Certification from "./views/Register/Certification.vue";
-</script>
+
 
 <template>
   <div id="app">
     <el-backtop :right="30" :bottom="20" />
-    <router-view/>
+    <el-container style="height: 100%">
+      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);" ><navbar/></el-header>
+      <el-container>
+        <el-aside v-if="router.currentRoute.value.meta.showAside"></el-aside>
+        <el-main><router-view/></el-main>
+      </el-container>
+    </el-container>
+
   </div>
+<!--  <account/>-->
 
 </template>
 
+<script setup lang="ts">
+import navbar from "./components/NavBar.vue"
+import router from "./router";
+import account from "./components/setting/Account.vue"
+
+
+
+const Loading=document.getElementById("loading")
+
+if(Loading) Loading.remove()
+
+</script>
+
 <style scoped>
 #app{
+  background-color: #F2F4F7;
   height: 100%;
   width: 100%;
   margin: 0;

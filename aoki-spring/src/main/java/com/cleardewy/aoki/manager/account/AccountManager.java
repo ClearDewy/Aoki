@@ -3,10 +3,11 @@ package com.cleardewy.aoki.manager.account;
 import com.cleardewy.aoki.constant.Constants;
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.UserDto;
-import com.cleardewy.aoki.entity.vo.AccountVo;
-import com.cleardewy.aoki.entity.vo.UserVo;
+import com.cleardewy.aoki.entity.vo.user.AccountVo;
+import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.exception.AokiException;
-import com.cleardewy.aoki.manager.User.UserManager;
+import com.cleardewy.aoki.manager.user.UserManager;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.utils.JwtUtils;
 import com.cleardewy.aoki.utils.RedisUtils;
@@ -32,6 +33,9 @@ public class AccountManager {
     UserEntityManager userEntityManager;
     @Autowired
     UserManager userManager;
+
+    @Autowired
+    EmailVerifyManager emailVerifyManager;
 
     public UserVo login(AccountVo accountVo){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -78,18 +82,55 @@ public class AccountManager {
         jwtUtils.cleanToken(jwt);
     }
 
-    public void register(UserVo userVo){
+    public void register(UserVo userVo,String code){
         // 检验用户名是否唯一
         if (userEntityManager.countUsername(userVo.getUsername())!=0)
             throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_EXIST);
-        // 检验工号是否唯一
-        if (userEntityManager.countNumber(userVo.getNumber())!=0)
-            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.NUMBER_EXIST);
         // 检验邮箱是否唯一
         if (userEntityManager.countEmail(userVo.getEmail())!=0)
             throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.EMAIL_EXIST);
-
+        emailVerifyManager.verifyCode(new EmailVerifyVo(userVo.getEmail(),code));
         // 添加用户
         userEntityManager.addUser(userManager.userVoToUserDto(userVo));
+    }
+
+
+    public UserVo emailLogin(EmailVerifyVo emailVerifyVo){
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = servletRequestAttributes.getResponse();      // 过去响应
+        String key= Constants.Account.ACCOUNT_TRY_TIME+emailVerifyVo.getEmail();
+        Integer tryLoginCount = (Integer) redisUtils.get(key);
+
+        if (tryLoginCount != null && tryLoginCount >= 20) {
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.TRY_TIMES_EXCEEDED_LIMIT);
+        }
+        UserDto userDto;
+        try {
+            userDto = userEntityManager.getUserByEmail(emailVerifyVo.getEmail());
+        }catch (AokiException e){
+            throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_OR_PASSWORD_WRONG);
+        }
+
+        try {
+            emailVerifyManager.verifyCode(emailVerifyVo);
+        }catch (AokiException e){
+            if (tryLoginCount == null) {
+                redisUtils.set(key, 1, 60 * 30); // 三十分钟不尝试，该限制会自动清空消失
+            } else {
+                redisUtils.set(key, tryLoginCount + 1, 60 * 30);
+            }
+            throw e;
+        }
+        // 认证成功，清除锁定限制
+        if (tryLoginCount != null) {
+            redisUtils.del(key);
+        }
+
+        String jwt=jwtUtils.generateToken(userDto.getId());
+        response.setHeader("authorization", jwt);
+        response.setHeader("refresh-authorization", String.valueOf(true)); //放到信息头部
+        response.setHeader("Access-Control-Expose-Headers", "authorization");
+
+        return userManager.userDtoToUserVo(userDto);
     }
 }

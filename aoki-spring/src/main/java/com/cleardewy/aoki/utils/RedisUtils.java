@@ -26,7 +26,32 @@ public final class RedisUtils {
         RedisUtils.redisTemplate = redisTemplate;
     }
 
+
+    // =============================cache============================
+    /**
+     * @ Description: 设置默认缓存时间为 1h
+     **/
+    public boolean setCache(String prefix,Object key,Object value){
+        return set(prefix+"::"+key.toString(),value,3600);
+    }
+
+    public Object getCache(String prefix,Object key){
+        return get(prefix+"::"+key.toString());
+    }
+
+    /**
+     * @ Description:  判断是否有key
+     **/
+    public boolean hasCache(String prefix,Object key){
+        return hasKey(prefix+"::"+key.toString());
+    }
+
+    public void delCache(String prefix,Object key){
+        del(prefix+"::"+key.toString());
+    }
+
     // =============================common============================
+
 
     public boolean getLock(String lockName, int expireTime) {
         boolean result = false;

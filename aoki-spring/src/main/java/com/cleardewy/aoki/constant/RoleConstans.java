@@ -4,16 +4,12 @@ package com.cleardewy.aoki.constant;
  * @ Author: ClearDewy
  * @ Description:
  **/
-public enum RoleConstans {
+public final class RoleConstans {
 
-    ROOT("root"),
-    TEACHER("teacher"),
+    public final static int ROOT=0;
 
-    STUDENT("student");
+    public final static int TEACHER=1;
 
-    private final String role;
+    public final static int STUDENT=2;
 
-    RoleConstans(String role) {
-        this.role = role;
-    }
 }

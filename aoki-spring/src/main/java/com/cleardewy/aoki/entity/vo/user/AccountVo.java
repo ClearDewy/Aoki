@@ -1,4 +1,4 @@
-package com.cleardewy.aoki.entity.vo;
+package com.cleardewy.aoki.entity.vo.user;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AccountVo {
 
-    @NotBlank(message = "用户名不能为空")
+    @NotBlank(message = "学工号不能为空")
     String username;
 
 

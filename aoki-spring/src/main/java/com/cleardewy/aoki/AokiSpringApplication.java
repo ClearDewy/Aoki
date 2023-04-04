@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync(proxyTargetClass=true) //开启异步注解
-@EnableCaching      // 开启缓存
 public class AokiSpringApplication {
 
     public static void main(String[] args) {

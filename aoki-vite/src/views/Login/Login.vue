@@ -24,7 +24,7 @@
               </el-button>
             </el-form-item>
           </el-form>
-          <router-link to="/home" type="primary" :underline="false" style="margin-top: 20px;float: left">新用户注册</router-link>
+          <router-link to="/register" type="primary" :underline="false" style="margin-top: 20px;float: left">新用户注册</router-link>
           <router-link to="/emaillogin" type="primary" :underline="false" style="margin-top: 20px;float: right">邮箱验证码登录</router-link>
         </div>
           <div>
@@ -45,7 +45,6 @@ import {userApi} from "../../common/userApi"
 import {User,Lock} from "@element-plus/icons-vue";
 
 const formSize = ref('default')
-const accountFormRef = ref<FormInstance>()
 const accountForm=reactive(Account)
 
 const rule=reactive<FormRules>(
@@ -64,7 +63,6 @@ const rule=reactive<FormRules>(
 
 <style scoped>
 #login,html,body{
-  background-color: #F2F4F7;
   width: 100%;
   height: 100%;
   display: flex;

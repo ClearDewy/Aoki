@@ -18,8 +18,8 @@ public class UserDto implements Serializable {
     private String username;
     private String password;
     private String name;
-    private String number;
     private String email;
     private Integer majorId;
-    private Integer roleId;
+    private Integer role;
+    private String avatarURL;
 }

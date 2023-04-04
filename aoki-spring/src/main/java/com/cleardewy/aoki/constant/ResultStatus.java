@@ -21,8 +21,28 @@ public final class ResultStatus {
         USERNAME_EXIST("该用户名已存在"),
         NUMBER_EXIST("该学工号已存在"),
         EMAIL_EXIST("该邮箱已被使用"),
+
+        EMAIL_SEND_FAIL("邮件发送失败"),
+        VERIFY_CODE_WRONG("验证码错误"),
+        VERIFY_CODE_FREQUENT("验证码发送频繁"),
         NO_PERMISSIONS("无权访问"),
-        OVERDUE_TOKEN("登录已过期，请重新登录");
+        OVERDUE_TOKEN("登录已过期，请重新登录"),
+
+        OLD_PASSWORD_WRONG("当前密码错误"),
+
+        AVATAR_IS_EMPTY("头像不能为空"),
+
+        AVATAR_SIZE_LIMIT("头像大小不能超过2M"),
+
+        IMG_IS_EMPTY("图片不能为空"),
+
+        IMG_SIZE_LIMIT("图片大小不能超过2M"),
+
+        IMG_SUFFIX_ERROR("请选择jpg,jpeg,gif,png,webp格式的头像图片！"),
+
+        IMG_UPLOAD_FAIL("图片上传失败");
+
+
 
         private final String message;
     }

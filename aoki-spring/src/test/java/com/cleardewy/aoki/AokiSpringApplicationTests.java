@@ -1,11 +1,18 @@
 package com.cleardewy.aoki;
 
-import com.cleardewy.aoki.manager.User.UserManager;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.crypto.digest.DigestUtil;
+import cn.hutool.crypto.digest.Digester;
+import cn.hutool.crypto.digest.MD5;
+import com.cleardewy.aoki.constant.Constants;
+import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.mapper.UserMapper;
 import com.cleardewy.aoki.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.File;
 
 @SpringBootTest
 class AokiSpringApplicationTests {
@@ -14,11 +21,14 @@ class AokiSpringApplicationTests {
     RedisUtils redisUtils;
 
     @Autowired
-    UserMapper userMapper;
+    UserEntityManager userEntityManager;
 
     @Test
     void test() {
-        System.out.println(userMapper.getRoleIdByRole("my"));
+        String fileName="1fd1cb48cee84920b56fd393f972afdf.png";
+        File file = FileUtil.file(Constants.FileConstants.AVATAR_PATH + File.separator + fileName);
+        System.out.println(file.length());
+        System.out.println(DigestUtil.md5Hex(file));
     }
 
 }

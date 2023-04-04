@@ -1,10 +1,11 @@
-package com.cleardewy.aoki.entity.vo;
+package com.cleardewy.aoki.entity.vo.user;
 
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
 /**
  * @ Author: ClearDewy
  * @ @Description: 前后端交互的用户信息类
@@ -13,18 +14,19 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserVo {
 
-    @NotBlank(message = "用户名不能为空")
+    @NotBlank(message = "学工号不能为空")
     private String username;
     @NotBlank(message = "密码不能为空")
+    @Length(min = 6,max = 20,message = "密码最少6位，最多20位")
     private String password;
     @NotBlank(message = "姓名不能为空")
     private String name;
-    @NotBlank(message = "学工号不能为空")
-    private String number;
     @Email(message = "邮箱不能为空")
     private String email;
 
     private String major;
-    @NotBlank(message = "角色不能为空")
-    private String role;
+    @NotNull(message = "角色不能为空")
+    private Integer role;
+
+    private String avatarURL;
 }

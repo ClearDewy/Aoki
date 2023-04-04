@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.FileMapper">
+    <insert id="addFile" parameterType="FileDto">
+        INSERT INTO file(`name`, `suffix`, `md5`, `size`,`path`,`url`,`isDelete`)
+        VALUES (#{name}, #{suffix}, #{md5}, #{size}, #{path}, #{url},#{isDelete})
+    </insert>
+
+    <select id="getFileByMd5" parameterType="String" resultType="FileDto">
+        SELECT * FROM file WHERE md5=#{md5}
+    </select>
+
+    <update id="setFileDeleted" parameterType="String">
+        UPDATE file set `isDelete`=true WHERE `name`=#{name}
+    </update>
+
+    <delete id="deleteFile" parameterType="String">
+        DELETE FROM file WHERE `name`=#{name}
+    </delete>
+
+
+</mapper>
+
