@@ -2,6 +2,7 @@ package com.cleardewy.aoki.config;
 
 import cn.hutool.core.io.FileUtil;
 import com.cleardewy.aoki.constant.Constants;
+import com.cleardewy.aoki.constant.FileConstants;
 import com.cleardewy.aoki.filter.JwtFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.io.File;
 public class AuthInterceptorConfig implements WebMvcConfigurer {
 
     private static final String[] EXCLUDE_PATH_PATTERNS=new String[]{
-            Constants.FileConstants.AVATAR_PATH+"**",Constants.FileConstants.IMG_PATH+"**"
+            FileConstants.AVATAR_PATH+"**",FileConstants.IMG_PATH+"**"
     };
 
     @Autowired
@@ -42,10 +43,10 @@ public class AuthInterceptorConfig implements WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(Constants.FileConstants.AVATAR_API+"**",Constants.FileConstants.IMG_API+"**")
+        registry.addResourceHandler(FileConstants.AVATAR_API+"**",FileConstants.IMG_API+"**")
                 .addResourceLocations(
-                        "file:"+ FileUtil.getAbsolutePath(Constants.FileConstants.AVATAR_PATH) + File.separator,
-                                        "file:"+FileUtil.getAbsolutePath(Constants.FileConstants.IMG_PATH)+File.separator
+                        "file:"+ FileUtil.getAbsolutePath(FileConstants.AVATAR_PATH) + File.separator,
+                                        "file:"+FileUtil.getAbsolutePath(FileConstants.IMG_PATH)+File.separator
                         );
 
         WebMvcConfigurer.super.addResourceHandlers(registry);

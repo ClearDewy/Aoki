@@ -22,19 +22,5 @@ public final class Constants {
 
         private final String data;
     }
-    @Getter
-
-    public static final class FileConstants{
-
-        public final static String AVATAR_API="/api/public/avatar/";
-
-        public final static String AVATAR_PATH="aoki/file/avatar";
-
-        public final static String IMG_API="/api/public/img/";
-
-        public final static String IMG_PATH="aoki/file/img";
-
-    }
-
 
 }

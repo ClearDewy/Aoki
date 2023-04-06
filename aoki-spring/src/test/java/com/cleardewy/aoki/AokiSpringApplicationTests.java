@@ -5,6 +5,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
 import cn.hutool.crypto.digest.MD5;
 import com.cleardewy.aoki.constant.Constants;
+import com.cleardewy.aoki.constant.FileConstants;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.mapper.UserMapper;
 import com.cleardewy.aoki.utils.RedisUtils;
@@ -26,7 +27,7 @@ class AokiSpringApplicationTests {
     @Test
     void test() {
         String fileName="1fd1cb48cee84920b56fd393f972afdf.png";
-        File file = FileUtil.file(Constants.FileConstants.AVATAR_PATH + File.separator + fileName);
+        File file = FileUtil.file(FileConstants.AVATAR_PATH + File.separator + fileName);
         System.out.println(file.length());
         System.out.println(DigestUtil.md5Hex(file));
     }

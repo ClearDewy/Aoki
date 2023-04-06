@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class UpdateEmailVo {
     @NotBlank(message = "密码不能为空")
-    @Length(min = 6,max = 20,message = "密码最少6位，最多20位")
+    @Length(min = 6,max = 31,message = "密码最少6位，最多31位")
     String password;
     @Email
     String email;

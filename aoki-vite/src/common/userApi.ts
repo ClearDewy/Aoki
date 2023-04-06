@@ -1,14 +1,15 @@
 import {GET, POST, POST_FILE} from "./api"
-import {Account, EmailLogin, UserRegister,User} from "./constans";
 import router, {routerPath} from "../router";
 import {storage} from "./storage";
 import {alertsuccess} from "./alert";
 import {AxiosResponse} from "axios";
 import {apiUrl} from "./api";
+import {AccountType, EmailLoginType, UpdateEmailType, UpdatePasswordType, UserRegisterType} from "./typeClass";
+import {User} from "./gloableData";
 
 
 export const userApi={
-    login:(account:typeof Account)=>{
+    login:(account:AccountType)=>{
         POST(apiUrl.login,account).then(res=>{
             loginSuccess(res)
         })
@@ -26,7 +27,7 @@ export const userApi={
     verifyCode(email:string,code:string){
         return POST(apiUrl.verifyCode,{email:email,code:code})
     },
-    register(user:typeof UserRegister){
+    register(user:UserRegisterType){
         POST(apiUrl.register,user).then(res=>{
             alertsuccess("注册成功")
             router.replace(routerPath.Login)
@@ -35,13 +36,19 @@ export const userApi={
     getAllMajor(){
         return GET(apiUrl.getAllMajor)
     },
-    emaillogin(emailLogin:typeof EmailLogin){
+    emaillogin(emailLogin:EmailLoginType){
         POST(apiUrl.emailLogin,emailLogin).then(res=>{
             loginSuccess(res)
         })
     },
     uploadAvatar(avatar:File){
         return POST_FILE(apiUrl.uploadAvatar,{avatar:avatar})
+    },
+    updatePassword(uPassword:UpdatePasswordType){
+        return POST(apiUrl.updatePassword,uPassword)
+    },
+    updateEmail(uEmail:UpdateEmailType){
+        return POST(apiUrl.updateEmail,uEmail)
     }
 }
 

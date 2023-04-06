@@ -52,8 +52,10 @@
 <script setup lang="ts">
 import {reactive, ref} from 'vue'
 import {FormRules} from "element-plus";
-import {User} from "../../common/constans";
+import {User} from "../../common/gloableData";
 import {userApi} from "../../common/userApi";
+import {alertsuccess} from "../../common/alert";
+import {UpdateEmailType, UpdatePasswordType} from "../../common/typeClass";
 
 const startGrab=ref(false)
 const endTime=ref(Date.now())
@@ -66,9 +68,8 @@ const getVerifyCode=()=>{
 }
 
 // do not use same name with ref
-const updatePasswordForm = reactive({
-  oldPassword:"",
-  newPassword:""
+const updatePasswordForm = reactive<UpdatePasswordType>({
+  newPassword: "", oldPassword: ""
 })
 
 const updatePasswordRule=reactive<FormRules>(
@@ -85,17 +86,21 @@ const updatePasswordRule=reactive<FormRules>(
 )
 
 const updatePassword = () => {
-  console.log('submit!')
+  userApi.updatePassword(updatePasswordForm).then(res=>{
+    alertsuccess("密码修改成功")
+  })
 }
 
 const updateEmail=()=>{
-
+  userApi.updateEmail(updateEmailForm).then(res=>{
+        User.email=updateEmailForm.email
+        alertsuccess("邮箱修改成功")
+      }
+  )
 }
 
-const updateEmailForm = reactive({
-  password:"",
-  email:"",
-  code:""
+const updateEmailForm = reactive<UpdateEmailType>({
+  code: "", email: "", password: ""
 })
 
 const updateEmailRule=reactive<FormRules>(

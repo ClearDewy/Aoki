@@ -3,7 +3,9 @@ package com.cleardewy.aoki.manager.file;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import com.cleardewy.aoki.constant.Constants;
+import com.cleardewy.aoki.constant.FileConstants;
 import com.cleardewy.aoki.constant.ResultStatus;
+import com.cleardewy.aoki.entity.dto.FileDto;
 import com.cleardewy.aoki.entity.dto.UserDto;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
@@ -38,6 +40,9 @@ public class ImageManager {
     @Autowired
     UserEntityManager userEntityManager;
 
+    @Autowired
+    FileUtils fileUtils;
+
     public UserDto uploadAvatar(MultipartFile avatar) {
         if (avatar.isEmpty())
             throw AokiException.fail(ResultStatus.Message.AVATAR_IS_EMPTY);
@@ -46,17 +51,17 @@ public class ImageManager {
         String suffix=avatar.getOriginalFilename().substring(avatar.getOriginalFilename().lastIndexOf('.')+1).toLowerCase();
         if (!ArrayUtils.contains(IMG_SUFFIX,suffix))
             throw AokiException.fail(ResultStatus.Message.IMG_SUFFIX_ERROR);
-        FileUtil.mkdir(Constants.FileConstants.AVATAR_PATH);
 
-        String fileName= IdUtil.fastSimpleUUID()+"."+suffix;
+
+        FileDto fileDto;
         try {
-            avatar.transferTo(FileUtil.file(Constants.FileConstants.AVATAR_PATH+File.separator+fileName));
+            fileDto = fileUtils.addFile(avatar, FileConstants.AVATAR_TYPE);
         } catch (IOException e) {
             throw AokiException.systemError(ResultStatus.Message.IMG_UPLOAD_FAIL);
         }
 
         UserDto user=threadLocalUtils.getCurrentUser();
-        user.setAvatarURL(Constants.FileConstants.AVATAR_API+fileName);
+        user.setAvatarURL(fileDto.getAllUrl());
 
         userEntityManager.updateUserById(user);
 

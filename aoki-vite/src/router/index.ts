@@ -5,8 +5,6 @@ export const routerPath={
     Login:"/login",
     Home:"/home",
     Register:"/register",
-    EmailLogin:"/emaillogin",
-    Certification:"/certification",
     Setting:"/setting",
 }
 
@@ -18,7 +16,7 @@ const routes:Array<RouteRecordRaw>=[
     {
         path:routerPath.Login,
         name:"Login",
-        component:()=>import("../views/Login/Login.vue"),
+        component:()=>import("../views/common/Login.vue"),
         meta:{
             title:"登录",
             requiresAuth:false,     // 是否需要登录
@@ -41,31 +39,9 @@ const routes:Array<RouteRecordRaw>=[
     {
         path:routerPath.Register,
         name:"Register",
-        component:()=>import("../views/Register/Register.vue"),
+        component:()=>import("../views/common/Register.vue"),
         meta:{
             title:"注册",
-            requiresAuth:false,
-            showHeader:false,
-            showAside:false
-        }
-    },
-    {
-        path:routerPath.EmailLogin,
-        name:"EmailLogin",
-        component:()=>import("../views/Login/EmailLogin.vue"),
-        meta:{
-            title:"邮箱登录",
-            requiresAuth:false,
-            showHeader:false,
-            showAside:false
-        }
-    },
-    {
-        path:routerPath.Certification,
-        name:"Certification",
-        component:()=>import("../views/Register/Certification.vue"),
-        meta:{
-            title:"完善信息",
             requiresAuth:false,
             showHeader:false,
             showAside:false

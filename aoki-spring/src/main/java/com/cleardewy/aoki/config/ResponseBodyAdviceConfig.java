@@ -24,10 +24,6 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.info("==================BEGAN================");
-        log.info("RequestUrl->{}",request.getURI());
-        log.info("RequestAddress->{}",request.getRemoteAddress());
-        log.info("RequestType->{}",request.getMethod());
         log.info("ResponseBody->{}",body);
         log.info("==================END================");
         return body;

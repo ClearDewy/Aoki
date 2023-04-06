@@ -1,5 +1,7 @@
 package com.cleardewy.aoki.entity.dto;
 
+import com.cleardewy.aoki.constant.Constants;
+import com.cleardewy.aoki.constant.FileConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,16 +18,23 @@ public class FileDto {
     private  String name;
     private String suffix;
     private String md5;
-    private Integer size;
-    private String path;
-    private String url;
+    private long size;
+    private String type;
     private boolean isDelete;
 
     public String getAllPath(){
-        return path+ File.separator+name+"."+suffix;
+        return switch (type){
+            case FileConstants.AVATAR_TYPE -> FileConstants.AVATAR_PATH;
+            case FileConstants.IMG_TYPE -> FileConstants.IMG_PATH;
+            default -> "";
+        }+File.separator+name+"."+suffix;
     }
 
     public String getAllUrl(){
-        return url+name+"."+suffix;
+        return switch (type){
+            case FileConstants.AVATAR_TYPE -> FileConstants.AVATAR_API;
+            case FileConstants.IMG_TYPE -> FileConstants.IMG_API;
+            default -> "";
+        }+name+"."+suffix;
     }
 }

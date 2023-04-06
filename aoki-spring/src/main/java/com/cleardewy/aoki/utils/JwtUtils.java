@@ -49,7 +49,6 @@ public class JwtUtils {
     }
     public DecodedJWT getDecodedJWTByToken(String token) {
         try {
-            log.info("获取到了token:"+token);
             return JWT.require(Algorithm.HMAC256(JwtConstant.TOKEN_SECRET)).withIssuer(JwtConstant.ISSUER).build().verify(token);
         } catch (Exception e) {
             throw new AokiException(ResultStatus.Status.OVERDUE,ResultStatus.Message.INVALID_TOKEN);

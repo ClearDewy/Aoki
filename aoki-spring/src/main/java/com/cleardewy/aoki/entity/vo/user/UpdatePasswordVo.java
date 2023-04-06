@@ -13,10 +13,10 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class UpdatePasswordVo {
     @NotBlank(message = "当前密码不能为空")
-    @Length(min = 6,max = 20,message = "当前密码最少6位，最多20位")
+    @Length(min = 6,max = 31,message = "当前密码最少6位，最多31位")
     String oldPassword;
 
     @NotBlank(message = "新密码不能为空")
-    @Length(min = 6,max = 20,message = "新密码最少6位，最多20位")
+    @Length(min = 6,max = 31,message = "新密码最少6位，最多31位")
     String newPassword;
 }

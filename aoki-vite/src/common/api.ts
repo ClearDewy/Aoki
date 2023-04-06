@@ -94,5 +94,7 @@ export const apiUrl={
 
 
 
-    uploadAvatar:"/api/file/upload-avatar"
+    uploadAvatar:"/api/file/upload-avatar",
+    updatePassword:"/api/update-password",
+    updateEmail:"/api//update-email"
 }

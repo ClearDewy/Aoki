@@ -28,7 +28,7 @@
 import Logo from "../assets/logo.png"
 import {userApi} from "../common/userApi"
 import {ArrowDown } from '@element-plus/icons-vue'
-import {User} from "../common/constans";
+import {User} from "../common/gloableData";
 import router from "../router";
 
 import {onMounted, ref} from 'vue'

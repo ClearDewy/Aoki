@@ -108,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import {User} from "../../common/constans";
+import {User} from "../../common/gloableData";
 import {UploadFilled} from '@element-plus/icons-vue'
 import {reactive, ref} from "vue";
 import {UploadFile,UploadFiles} from "element-plus";
