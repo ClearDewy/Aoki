@@ -40,8 +40,14 @@ public final class ResultStatus {
 
         IMG_SUFFIX_ERROR("请选择jpg,jpeg,gif,png,webp格式的头像图片！"),
 
-        IMG_UPLOAD_FAIL("图片上传失败");
+        IMG_UPLOAD_FAIL("图片上传失败"),
 
+        FILE_IS_EMPTY("文件不能为空"),
+
+        FILE_SIZE_LIMIT("文件大小不能超过1 GB"),
+        FILE_SUFFIX_ERROR("请选择正确格式的文件！"),
+
+        FILE_UPLOAD_FAIL("文件上传失败");
 
 
         private final String message;

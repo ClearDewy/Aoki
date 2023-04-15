@@ -63,7 +63,7 @@ public class UserEntityManager{
 
 
     public UserDto getUserByUsername(String username) {
-         UserDto userDto = userMapper.getUserByUsername(username);
+        UserDto userDto = userMapper.getUserByUsername(username);
         if (userDto==null)throw new AokiException(ResultStatus.Status.FAIL);
         return userDto;
     }
@@ -76,6 +76,8 @@ public class UserEntityManager{
         if (userDto==null)throw new AokiException(ResultStatus.Status.FAIL);
         return userDto;
     }
+
+
 
     public void addUser(UserDto userDto){
         if (userMapper.addUser(userDto)==0){

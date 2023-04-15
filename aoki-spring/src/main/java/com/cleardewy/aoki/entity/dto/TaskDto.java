@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 public class TaskDto {
     private Integer id;
     private String name;
+    private boolean publish;
     private Integer topicId;
     private Integer ownerId;
     private Timestamp beginTime;

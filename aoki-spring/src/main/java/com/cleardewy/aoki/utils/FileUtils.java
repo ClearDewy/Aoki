@@ -30,11 +30,10 @@ public class FileUtils {
 
     public FileDto addFile(MultipartFile multipartFile,String type) throws IOException {
         String md5;
-        FileDto fileDto;
         md5 = DigestUtil.md5Hex(multipartFile.getInputStream());
-        fileDto = fileEntityManager.getFileByMd5(md5);
+        FileDto fileDto = fileEntityManager.getFileByMd5(md5);
         if (fileDto==null){
-            fileDto=new FileDto(-1,
+            fileDto=new FileDto(null,
                     IdUtil.fastSimpleUUID(),
                     multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf('.')+1).toLowerCase(),
                     md5,

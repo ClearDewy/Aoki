@@ -34,8 +34,9 @@ public class EmailVerifyManager {
     }
 
     public String getVerifyCode(String email){
-        if (redisUtils.hasKey("email_verify_code_time:"+email))throw new AokiException(ResultStatus.Status.FAIL, ResultStatus.Message.VERIFY_CODE_FREQUENT);
-        redisUtils.set("email_verify_code_time:"+email,1,60);
+        if (redisUtils.hasKey("email_verify_code_lock:"+email))
+            throw new AokiException(ResultStatus.Status.FAIL, ResultStatus.Message.VERIFY_CODE_FREQUENT);
+        redisUtils.set("email_verify_code_lock:"+email,1,60);
         Random random=new Random();
         return String.format("%06d",random.nextInt(1000000));
     }

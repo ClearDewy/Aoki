@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cleardewy.aoki.mapper.FileMapper">
-    <insert id="addFile" parameterType="FileDto">
+    <insert id="addFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO file(`name`, `suffix`, `md5`, `size`,`type`,`isDelete`)
         VALUES (#{name}, #{suffix}, #{md5}, #{size}, #{type},#{isDelete})
     </insert>

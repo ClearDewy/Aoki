@@ -33,7 +33,7 @@ public class JwtUtils {
     public String generateToken(Integer userId) {
         Date nowDate = new Date();
         //过期时间
-        Date expireDate = new Date(nowDate.getTime() + JwtConstant.EXPIRE);
+        Date expireDate = new Date(nowDate.getTime() + JwtConstant.EXPIRE*1000);
 
         String token = JWT.create()
                         .withIssuer(JwtConstant.ISSUER)

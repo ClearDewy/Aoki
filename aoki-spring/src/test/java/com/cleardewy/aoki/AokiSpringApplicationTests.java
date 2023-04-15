@@ -6,8 +6,14 @@ import cn.hutool.crypto.digest.Digester;
 import cn.hutool.crypto.digest.MD5;
 import com.cleardewy.aoki.constant.Constants;
 import com.cleardewy.aoki.constant.FileConstants;
+import com.cleardewy.aoki.manager.entity.LessonEntityManager;
+import com.cleardewy.aoki.manager.entity.LessonMemberEntityManager;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
+import com.cleardewy.aoki.manager.user.UserManager;
+import com.cleardewy.aoki.mapper.LessonMapper;
+import com.cleardewy.aoki.mapper.LessonMemberMapper;
 import com.cleardewy.aoki.mapper.UserMapper;
+import com.cleardewy.aoki.service.user.UserService;
 import com.cleardewy.aoki.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +30,21 @@ class AokiSpringApplicationTests {
     @Autowired
     UserEntityManager userEntityManager;
 
+    @Autowired
+    LessonEntityManager lessonEntityManager;
+
+    @Autowired
+    LessonMapper lessonMapper;
+
+    @Autowired
+    LessonMemberEntityManager lessonMemberEntityManager;
+    @Autowired
+    LessonMemberMapper lessonMemberMapper;
+
     @Test
     void test() {
-        String fileName="1fd1cb48cee84920b56fd393f972afdf.png";
-        File file = FileUtil.file(FileConstants.AVATAR_PATH + File.separator + fileName);
-        System.out.println(file.length());
-        System.out.println(DigestUtil.md5Hex(file));
+//        System.out.println(lessonEntityManager.getLessonList(3));
+        System.out.println(lessonMemberMapper.getLessonMember(3));
     }
 
 }

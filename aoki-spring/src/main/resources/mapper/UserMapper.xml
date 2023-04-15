@@ -28,7 +28,7 @@
         SELECT * FROM `user` WHERE `email`=#{email}
     </select>
 
-    <insert id="addUser" parameterType="UserDto">
+    <insert id="addUser" parameterType="UserDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user(`username`, `password`, `name`, `email`,`majorId`,`role`)
         VALUES (#{username}, #{password}, #{name}, #{email}, #{majorId}, #{role})
     </insert>
@@ -59,7 +59,7 @@
     <delete id="deleteMajorByName" parameterType="String">
         DELETE FROM `role` WHERE `majorName`=#{majorName}
     </delete>
-    <insert id="addMajor" parameterType="String">
+    <insert id="addMajor" parameterType="String" useGeneratedKeys="true" keyProperty="id">
         insert INTO `major`(`majorName`) values (#{majorName})
     </insert>
 

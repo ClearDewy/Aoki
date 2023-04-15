@@ -9,9 +9,8 @@ import lombok.Data;
  **/
 @Data
 @AllArgsConstructor
-public class scoreRecordDto {
+public class TopicMemberDto {
     private Integer id;
-    private Integer scoreRuleId;
-    private Integer answerId;
-    private Double score;
+    private Integer topicId;
+    private Integer memberId;
 }

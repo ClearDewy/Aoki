@@ -39,7 +39,7 @@ public class AccountManager {
 
     public UserVo login(AccountVo accountVo){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletResponse response = servletRequestAttributes.getResponse();      // 过去响应
+        HttpServletResponse response = servletRequestAttributes.getResponse();      // 获取响应
         String key= Constants.Account.ACCOUNT_TRY_TIME+accountVo.getUsername();
         Integer tryLoginCount = (Integer) redisUtils.get(key);
 
@@ -90,6 +90,7 @@ public class AccountManager {
         if (userEntityManager.countEmail(userVo.getEmail())!=0)
             throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.EMAIL_EXIST);
         emailVerifyManager.verifyCode(new EmailVerifyVo(userVo.getEmail(),code));
+        redisUtils.del("email_verify_code:"+userVo.getEmail());
         // 添加用户
         userEntityManager.addUser(userManager.userVoToUserDto(userVo));
     }

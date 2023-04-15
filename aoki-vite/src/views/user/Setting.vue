@@ -21,6 +21,8 @@
 <script setup lang="ts">
 import Account from "../../components/setting/Account.vue"
 import UserInfo from "../../components/setting/UserInfo.vue"
+import {ref} from "vue";
+const activeName=ref("Account")
 </script>
 <style scoped>
 @media screen and (min-width: 1200px) {

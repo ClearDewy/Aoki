@@ -8,6 +8,7 @@ import com.cleardewy.aoki.service.user.UserService;
 import com.cleardewy.aoki.utils.Result;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,22 @@ public class UserController {
         return userService.updateEmail(updateEmailVo);
     }
 
+    @PostMapping("/update-avatar")
+    Result updateAvatar(String avatarURL){
+        return userService.updateAvatar(avatarURL);
+    }
 
+    @GetMapping("/get-lesson-list")
+    Result getLessonList(){
+        return userService.getLessonList();
+    }
+
+    @PostMapping("/get-lesson")
+    Result getLesson(Integer id){
+        return userService.getLesson(id);
+    }
+    @PostMapping("/get-lesson-member")
+    Result getLessonMember(Integer id){
+        return userService.getLessonMember(id);
+    }
 }

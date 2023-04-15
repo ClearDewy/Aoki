@@ -4,7 +4,7 @@
 
       <div>
         <h2 style="text-align: left">用户注册</h2>
-        <el-form ref="form" :model="UserRegisterForm" label-width="" :rules="ruleR">
+        <el-form ref="ruleFormRef1" :model="UserRegisterForm" label-width="" :rules="ruleR">
           <el-form-item prop="email">
             <el-input v-model="UserRegisterForm.email" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入邮箱">
               <template #prefix>
@@ -30,7 +30,7 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="nextStep"
+            <el-button type="primary" @click="nextStep(ruleFormRef1)"
                        style="width: 280px;height:40px;margin-top: 20px">下一步
             </el-button>
           </el-form-item>
@@ -43,7 +43,7 @@
     <div class="certification2">
       <div>
         <h2 style="text-align: left">完善信息</h2>
-        <el-form ref="form" :model="UserRegisterForm" :rules="ruleC">
+        <el-form ref="ruleFormRef2" :model="UserRegisterForm" :rules="ruleC">
           <el-form-item prop="name">
             <el-input v-model="UserRegisterForm.name" style="width: 280px;height:40px;margin-top: 20px" placeholder="请输入真实姓名"></el-input>
           </el-form-item>
@@ -64,7 +64,7 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="userApi.register(UserRegisterForm)"
+            <el-button type="primary" @click="register(ruleFormRef2)"
                        style="width: 280px;height:40px;margin-top: 20px">完成
             </el-button>
           </el-form-item>
@@ -76,10 +76,12 @@
 
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import {userApi} from "../../common/userApi"
+import {userApi} from "../../api/userApi"
 import {onMounted, reactive, ref} from "vue";
 import {Message,Lock,Loading} from "@element-plus/icons-vue";
 import {UserRegisterType} from "../../common/typeClass";
+import {teacherApi} from "../../api/teacherApi";
+import {alerterror, alertsuccess} from "../../common/alert";
 
 // 验证成功显示完善信息页面
 const emailVarified=ref(false)
@@ -88,6 +90,7 @@ const UserRegisterForm=reactive<UserRegisterType>({
   code: "", email: "", major: "", name: "", password: "", role: 2, username: ""
 })
 // 表单检验
+const ruleFormRef1 = ref<FormInstance>()
 const ruleR=reactive<FormRules>(
     {
       email:[
@@ -106,10 +109,15 @@ const ruleR=reactive<FormRules>(
 )
 
 // 验证验证码，验证码正确则跳转到完善信息页面
-const nextStep=()=>{
-    userApi.verifyCode(UserRegisterForm.email,UserRegisterForm.code).then(res=>{
-      emailVarified.value=true
-    })
+const nextStep=async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.verifyCode(UserRegisterForm.email,UserRegisterForm.code).then(res=>{
+        emailVarified.value=true
+      })
+    }
+  })
 }
 
 const startGrab=ref(false)
@@ -128,6 +136,7 @@ const resetGetVerifyCode=()=>{
 const majorList=ref([])   // 专业列表
 
 // 表单检验
+const ruleFormRef2 = ref<FormInstance>()
 const ruleC=reactive<FormRules>(
     {
       name:[
@@ -144,6 +153,16 @@ const ruleC=reactive<FormRules>(
       ]
     }
 )
+
+const register=async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.register(UserRegisterForm)
+    }
+  })
+}
+
 
 // 组件挂载时运行
 onMounted(()=>{

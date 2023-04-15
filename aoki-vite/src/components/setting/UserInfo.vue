@@ -25,23 +25,18 @@
             :auto-upload="false"
             :show-file-list="false"
             :on-change="handleChangeUpload"
+            accept="image/*"
         >
           <el-icon :size="67"><upload-filled /></el-icon>
           <div class="el-upload__text">
             把图像拖放到此处 <em>单击此处</em>
           </div>
-          <!--      <template #tip>-->
-          <!--        <div class="el-upload__tip">-->
-          <!--          jpg/png files with a size less than 500kb-->
-          <!--        </div>-->
-          <!--      </template>-->
         </el-upload>
         <div v-else style="width: 200px;height: 200px;display: inline-block">
           <VueCropper
               ref="cropper"
               :options="avatarOption"
               :img="avatarSrc"
-              :preset-mode="presetMode"
           />
           <el-space>
             <el-tooltip
@@ -109,14 +104,15 @@
 
 <script setup lang="ts">
 import {User} from "../../common/gloableData";
-import {UploadFilled} from '@element-plus/icons-vue'
 import {reactive, ref} from "vue";
 import {UploadFile,UploadFiles} from "element-plus";
 import {alerterror, alertsuccess} from "../../common/alert";
 import VueCropper,{cropper} from "vue-picture-cropper"
-import {RefreshLeft,RefreshRight,Refresh,Check} from "@element-plus/icons-vue";
+import {RefreshLeft,RefreshRight,Refresh,Check,UploadFilled} from "@element-plus/icons-vue";
 import {build} from "vite";
-import {userApi} from "../../common/userApi";
+import {userApi} from "../../api/userApi";
+import {storage} from "../../common/storage";
+import {FileApi} from "../../api/fileApi";
 
 // 裁剪组件的基础配置option
 const avatarSrc=ref("")
@@ -126,11 +122,7 @@ const avatarOption={
   aspectRatio:1,
   cropBoxResizable: false,
 }
-const presetMode={
-  mode: 'round',
-  width: 200,
-  height: 200,
-}
+
 // 防止重复提交
 const loading=ref(false)
 
@@ -157,22 +149,32 @@ const reselect = () => {
 }
 const finishCrop = () => {
   loading.value=true
-  cropper?.getFile().then((avatar)=>{
-    if (!avatar){
+  cropper?.getBlob().then((avatarBlob)=>{
+    if (!avatarBlob){
       alerterror("图片获取为空")
       return
     }
-    userApi.uploadAvatar(avatar).then((res)=>{
-      alertsuccess("头像上传成功")
-      res && (User.avatarURL=res.data.avatarURL)
-      // User.avatarURL="https://scmzu-acm.com/api/public/img/c77bcfed17e846ffa6c1e415550d9d8c.png"
-      reselect()
+    console.log(avatarBlob.type)
+    let file = new window.File(
+        [avatarBlob],
+        'avatar.png'
+    );
+    FileApi.uploadAvatar(file).then((res)=>{
+      if (res)
+        userApi.updateAvatar(res.data).then(re=>{
+          alertsuccess("头像上传成功")
+          User.value.avatarURL=res.data
+          storage.setItem("User",User)
+          reselect()
+        }).catch(e=>{
+          alerterror(e.toString())
+          alerterror("图片加载失败")
+        })
     })
   }).catch(e=>{
     alerterror(e.toString())
     alerterror("图片加载失败")
   })
-
   loading.value=false
 }
 

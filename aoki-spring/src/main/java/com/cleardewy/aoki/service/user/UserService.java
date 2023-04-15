@@ -13,4 +13,12 @@ public interface UserService {
     Result updatePassword(UpdatePasswordVo updatePasswordVo);
 
     Result updateEmail(UpdateEmailVo updateEmailVo);
+
+    Result updateAvatar(String avatarURL);
+
+    Result getLessonList();
+
+    Result getLesson(Integer id);
+
+    Result getLessonMember(Integer id);
 }

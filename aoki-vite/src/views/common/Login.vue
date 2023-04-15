@@ -4,7 +4,7 @@
       <el-space :size="100">
         <div>
           <h2 style="text-align: left">用户登录</h2>
-          <el-form ref="form" :model="accountForm" :rules="rule">
+          <el-form ref="ruleFormRef" :model="accountForm" :rules="rule">
             <el-form-item prop="username">
               <el-input v-model="accountForm.username" style="width: 280px;height:40px;margin-top: 20px" placeholder="用户名" >
                 <template #prefix>
@@ -20,7 +20,7 @@
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="userApi.login(accountForm)" style="width: 280px;height:40px;margin-top: 20px">登录
+              <el-button type="primary" @click="login(ruleFormRef)" style="width: 280px;height:40px;margin-top: 20px">登录
               </el-button>
             </el-form-item>
           </el-form>
@@ -41,7 +41,7 @@
       <el-space :size="100">
         <div>
           <h2 style="text-align: left;">用户登录</h2>
-          <el-form ref="form" :model="emailLoginForm" :rules="ruleE">
+          <el-form ref="ruleFormRefE" :model="emailLoginForm" :rules="ruleE">
             <el-form-item prop="email">
               <el-input v-model="emailLoginForm.email" style="width: 280px;height: 40px;margin-top: 20px" placeholder="请输入邮箱">
                 <template #prefix>
@@ -60,7 +60,7 @@
               </el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" style="width: 280px;height: 40px;margin-top: 20px" @click="userApi.emaillogin(emailLoginForm)">登录</el-button>
+              <el-button type="primary" style="width: 280px;height: 40px;margin-top: 20px" @click="emailLogin(ruleFormRefE)">登录</el-button>
             </el-form-item>
           </el-form>
           <el-button @click="eLogin=false" type="primary" link style="float: left">返回</el-button>
@@ -78,11 +78,13 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import {userApi} from "../../common/userApi"
+import {userApi} from "../../api/userApi"
 import {User,Lock,Loading,Message} from "@element-plus/icons-vue";
 import {AccountType, EmailLoginType} from "../../common/typeClass";
 import router from "../../router";
 import {routerPath} from "../../router";
+import {teacherApi} from "../../api/teacherApi";
+import {alerterror, alertsuccess} from "../../common/alert";
 
 const eLogin=ref(false)
 
@@ -90,6 +92,7 @@ const accountForm=reactive<AccountType>({
   password: "", username: ""
 })
 
+const ruleFormRef = ref<FormInstance>()
 const rule=reactive<FormRules>(
     {
       username:[
@@ -108,6 +111,7 @@ const emailLoginForm=reactive<EmailLoginType>({
 const startGrab=ref(false)
 const endTime=ref(Date.now())
 
+const ruleFormRefE = ref<FormInstance>()
 const ruleE=reactive<FormRules>(
     {
       email:[
@@ -129,6 +133,25 @@ const getVerifyCode=()=>{
 const resetGetVerifyCode=()=>{
   startGrab.value=false
 }
+
+const login=async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.login(accountForm)
+    }
+  })
+}
+
+const emailLogin=async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.emailLogin(emailLoginForm)
+    }
+  })
+}
+
 </script>
 
 <style scoped>

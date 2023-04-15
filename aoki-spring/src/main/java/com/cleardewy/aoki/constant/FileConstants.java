@@ -21,4 +21,9 @@ public final class FileConstants{
 
     public final static String IMG_PATH="aoki/file/img";
 
+    public final static String FILE_TYPE="file";
+
+    public final static String FILE_API="/api/file/download/";
+
+    public final static String FILE_PATH="aoki/file/file";
 }

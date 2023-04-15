@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.LessonMemberMapper">
+    <insert id="addLessonMember" parameterType="LessonMemberDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO lessonmember(`lessonId`,`memberId`) values(#{lessonId},#{memberId})
+    </insert>
+    <select id="verifyLessonMember" resultType="Integer" parameterType="Integer">
+        SELECT count(*) FROM `lessonmember` WHERE memberId=#{memberId} and lessonId=#{lessonId}
+    </select>
+    <select id="getLessonMember" parameterType="Integer" resultType="UserListVo">
+        SELECT u.id,u.username,u.name, u.email,m.majorName as major,u.role
+        FROM lessonMember lm
+        LEFT JOIN user u ON lm.memberId = u.id
+        LEFT JOIN major m ON u.majorId = m.id
+        WHERE lm.lessonId = #{id};
+    </select>
+</mapper>
+

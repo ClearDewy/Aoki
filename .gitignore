@@ -9,3 +9,5 @@
 
 /aoki-vite/node_modules/
 /aoki-vite/package-lock.json
+/aoki-vite/dist/
+/aoki-vite/src/Test.vue

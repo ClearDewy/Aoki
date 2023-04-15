@@ -3,7 +3,7 @@
     <el-col :span="11">
       <div>
         <p class="section-title">更改密码</p>
-        <el-form :model="updatePasswordForm" :rules="updatePasswordRule" :label-position="'top'">
+        <el-form ref="ruleFormRefU" :model="updatePasswordForm" :rules="updatePasswordRule" :label-position="'top'">
           <el-form-item label="当前密码" prop="oldPassword">
             <el-input v-model="updatePasswordForm.oldPassword" />
           </el-form-item>
@@ -11,7 +11,7 @@
             <el-input v-model="updatePasswordForm.newPassword" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="updatePassword">更新密码</el-button>
+            <el-button type="primary" @click="updatePassword(ruleFormRefU)">更新密码</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -23,7 +23,7 @@
     <el-col :span="11">
       <div>
         <p class="section-title">更改邮箱</p>
-        <el-form :model="updateEmailForm" :rules="updateEmailRule" :label-position="'top'">
+        <el-form ref="ruleFormRefE" :model="updateEmailForm" :rules="updateEmailRule" :label-position="'top'">
           <el-form-item label="当前密码" prop="password">
             <el-input v-model="updateEmailForm.password" />
           </el-form-item>
@@ -32,7 +32,7 @@
           </el-form-item>
           <el-form-item label="新邮箱" prop="email">
             <el-input v-model="updateEmailForm.email" />
-            <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
+            <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px" value-style="color:#409eff;font-size: 14px" @finish="startGrab=false"/>
             <el-button v-else style="position: absolute;right: 10px" type="text" @click="getVerifyCode">获取验证码
             </el-button>
           </el-form-item>
@@ -40,7 +40,7 @@
             <el-input v-model="updateEmailForm.code" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="updateEmail">更新邮箱</el-button>
+            <el-button type="primary" @click="updateEmail(ruleFormRefE)">更新邮箱</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -51,11 +51,12 @@
 
 <script setup lang="ts">
 import {reactive, ref} from 'vue'
-import {FormRules} from "element-plus";
+import {FormInstance, FormRules} from "element-plus";
 import {User} from "../../common/gloableData";
-import {userApi} from "../../common/userApi";
-import {alertsuccess} from "../../common/alert";
+import {userApi} from "../../api/userApi";
+import {alerterror, alertsuccess} from "../../common/alert";
 import {UpdateEmailType, UpdatePasswordType} from "../../common/typeClass";
+import {teacherApi} from "../../api/teacherApi";
 
 const startGrab=ref(false)
 const endTime=ref(Date.now())
@@ -72,6 +73,7 @@ const updatePasswordForm = reactive<UpdatePasswordType>({
   newPassword: "", oldPassword: ""
 })
 
+const ruleFormRefU = ref<FormInstance>()
 const updatePasswordRule=reactive<FormRules>(
     {
       oldPassword:[
@@ -85,24 +87,36 @@ const updatePasswordRule=reactive<FormRules>(
     }
 )
 
-const updatePassword = () => {
-  userApi.updatePassword(updatePasswordForm).then(res=>{
-    alertsuccess("密码修改成功")
+const updatePassword = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.updatePassword(updatePasswordForm).then(res=>{
+        alertsuccess("密码修改成功")
+      })
+    }
   })
 }
 
-const updateEmail=()=>{
-  userApi.updateEmail(updateEmailForm).then(res=>{
-        User.email=updateEmailForm.email
-        alertsuccess("邮箱修改成功")
-      }
-  )
+
+const updateEmail=async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      userApi.updateEmail(updateEmailForm).then(res=>{
+            User.email=updateEmailForm.email
+            alertsuccess("邮箱修改成功")
+          }
+      )
+    }
+  })
 }
 
 const updateEmailForm = reactive<UpdateEmailType>({
   code: "", email: "", password: ""
 })
 
+const ruleFormRefE = ref<FormInstance>()
 const updateEmailRule=reactive<FormRules>(
     {
       password:[

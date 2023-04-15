@@ -23,7 +23,7 @@ export type UserRegisterType={
     name:string,
     email:string,
     major:string,
-    role:number,
+    role:number|null,
     code:string
 }
 
@@ -44,4 +44,40 @@ export type UpdateEmailType={
     password:string,
     email:string,
     code:string
+}
+
+// 新建课程
+export type CreateLessonType={
+    name:string,
+    introduction:string,
+    teamMemberLimit:number|null,
+    topicMod:boolean,
+    avatarURL:string
+}
+
+// 课程列表
+export type LessonListType={
+    id:number|null
+    name:string,
+    ownerName:string,
+    avatarURL:string
+}
+
+export type LessonType={
+    id:number|null
+    name:string,
+    introduction:string,
+    teamMemberLimit:number|null,
+    topicMod:boolean,
+    avatarURL:string,
+    ownerName:string,
+}
+
+export type UserListType={
+    id:number
+    username:string
+    name:string
+    email:string
+    major:string
+    role:number
 }

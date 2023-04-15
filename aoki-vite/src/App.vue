@@ -1,25 +1,28 @@
 
 
 <template>
-  <div id="app">
-    <el-backtop :right="30" :bottom="20" />
-    <el-container style="height: 100%">
-      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);" ><navbar/></el-header>
-      <el-container>
-        <el-aside v-if="router.currentRoute.value.meta.showAside"></el-aside>
-        <el-main><router-view/></el-main>
-      </el-container>
-    </el-container>
+<!--  <div id="app">-->
+<!--    <el-backtop :right="30" :bottom="20" />-->
+<!--    <el-container style="height: 100%">-->
+<!--      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(&#45;&#45;el-box-shadow-lighter);" ><NavBar/></el-header>-->
+<!--      <el-container>-->
+<!--        <SideBar v-if="router.currentRoute.value.meta.showAside"/>-->
+<!--        <el-main><router-view/></el-main>-->
+<!--      </el-container>-->
+<!--    </el-container>-->
 
-  </div>
-<!--  <account/>-->
+<!--  </div>-->
+  <Test/>
 
 </template>
 
 <script setup lang="ts">
-import navbar from "./components/NavBar.vue"
+import NavBar from "./components/bar/NavBar.vue"
+import SideBar from "./components/bar/SideBar.vue"
 import router from "./router";
 import account from "./components/setting/Account.vue"
+import Test from "./Test.vue";
+import Setting from "./views/user/Setting.vue"
 
 
 
@@ -40,6 +43,4 @@ if(Loading) Loading.remove()
   justify-content: center;
   align-items: center;
 }
-
-
 </style>

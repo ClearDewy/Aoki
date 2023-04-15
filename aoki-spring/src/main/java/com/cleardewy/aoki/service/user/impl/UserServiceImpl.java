@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserManager userManager;
+
     @Override
     public Result updatePassword(UpdatePasswordVo updatePasswordVo) {
         userManager.updatePassword(updatePasswordVo);
@@ -26,5 +27,26 @@ public class UserServiceImpl implements UserService {
     public Result updateEmail(UpdateEmailVo updateEmailVo) {
         userManager.updateEmail(updateEmailVo);
         return Result.success();
+    }
+
+    @Override
+    public Result updateAvatar(String avatarURL) {
+        userManager.updateAvatar(avatarURL);
+        return Result.success();
+    }
+
+    @Override
+    public Result getLessonList() {
+        return Result.success(userManager.getLessonList());
+    }
+
+    @Override
+    public Result getLesson(Integer id) {
+        return Result.success(userManager.getLesson(id));
+    }
+
+    @Override
+    public Result getLessonMember(Integer id) {
+        return Result.success(userManager.getLessonMember(id));
     }
 }

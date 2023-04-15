@@ -1,8 +1,8 @@
 import axios, {AxiosHeaders, AxiosRequestConfig} from "axios";
 import Vue from 'vue'
-import {storage} from "./storage";
-import {constans} from "./constans";
-import {alerterror} from "./alert";
+import {storage} from "../common/storage";
+import {constans} from "../common/constans";
+import {alerterror} from "../common/alert";
 import formData from "form-data";
 import router from "../router";
 
@@ -24,7 +24,7 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response =>{
-        if (response.headers["refresh-authorization"]){
+        if (response?.headers?.["refresh-authorization"]){
             storage.setItem("authorization",response.headers["authorization"])      // 刷新token
         }
         if (response.data.status===200){
@@ -41,12 +41,14 @@ axios.interceptors.response.use(
     }
 )
 
-const eroorHandel = (error:any) => {
+const errorHandel = (error:any) => {
     switch (error.status){
         case 402:
-            storage.remove("authorization")
+        case 403:
+            console.log(error.status)
+            storage.clear()
             storage.setItem("redirectPath",router.currentRoute.value.fullPath)
-            router.push('/')
+            router.replace('/login')
             break
         default:
             break
@@ -56,21 +58,21 @@ const eroorHandel = (error:any) => {
 export const GET=(url:string)=>{
     return axios.get(url).catch(error=>{
         alerterror(error.message)
-        eroorHandel(error)
+        errorHandel(error)
     })
 }
 
 export const POST=(url:string, data:object)=>{
     return axios.post(url,objectToFormData(data)).catch(error=>{
         alerterror(error.message)
-        eroorHandel(error)
+        errorHandel(error)
     })
 }
 
 export const POST_FILE=(url:string, data:object)=>{
     return axios.post(url,objectToFormData(data),{headers:{ 'content-type': 'multipart/form-data' }}).catch(error=>{
         alerterror(error.message)
-        eroorHandel(error)
+        errorHandel(error)
     })
 }
 
@@ -95,6 +97,18 @@ export const apiUrl={
 
 
     uploadAvatar:"/api/file/upload-avatar",
+    uploadImage:"/api/file/upload-image",
+    uploadFile:"/api/file/upload-file",
+
     updatePassword:"/api/update-password",
-    updateEmail:"/api//update-email"
+    updateEmail:"/api//update-email",
+    updateAvatar:"/api//update-avatar",
+
+
+    createLesson:"/api/create-lesson",
+    getLessonList:"/api/get-lesson-list",
+    getLesson:"/api/get-lesson",
+    getLessonMember:"/api/get-lesson-member",
+    addLessonMember:"/api/add-lesson-member",
+
 }

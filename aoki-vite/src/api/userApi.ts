@@ -1,11 +1,18 @@
 import {GET, POST, POST_FILE} from "./api"
 import router, {routerPath} from "../router";
-import {storage} from "./storage";
-import {alertsuccess} from "./alert";
+import {storage} from "../common/storage";
+import {alertsuccess} from "../common/alert";
 import {AxiosResponse} from "axios";
 import {apiUrl} from "./api";
-import {AccountType, EmailLoginType, UpdateEmailType, UpdatePasswordType, UserRegisterType} from "./typeClass";
-import {User} from "./gloableData";
+import {
+    AccountType,
+    EmailLoginType,
+    UpdateEmailType,
+    UpdatePasswordType,
+    UserRegisterType,
+    UserType
+} from "../common/typeClass";
+import {User} from "../common/gloableData";
 
 
 export const userApi={
@@ -36,29 +43,35 @@ export const userApi={
     getAllMajor(){
         return GET(apiUrl.getAllMajor)
     },
-    emaillogin(emailLogin:EmailLoginType){
+    emailLogin(emailLogin:EmailLoginType){
         POST(apiUrl.emailLogin,emailLogin).then(res=>{
             loginSuccess(res)
         })
-    },
-    uploadAvatar(avatar:File){
-        return POST_FILE(apiUrl.uploadAvatar,{avatar:avatar})
     },
     updatePassword(uPassword:UpdatePasswordType){
         return POST(apiUrl.updatePassword,uPassword)
     },
     updateEmail(uEmail:UpdateEmailType){
         return POST(apiUrl.updateEmail,uEmail)
+    },
+    updateAvatar(avatarURL:string){
+        return POST(apiUrl.updateAvatar, {avatarURL:avatarURL})
+    },
+    getLessonList(){
+        return GET(apiUrl.getLessonList)
+    },
+    getLesson(id:number){
+        return POST(apiUrl.getLesson,{id:id})
+    },
+    getLessonMember(id:number){
+        return POST(apiUrl.getLessonMember,{id:id})
     }
 }
 
 // 将返回的结果赋值给User
 const loginSuccess=(res:AxiosResponse|void)=>{
-    if (res){
-        Object.keys(User).forEach(key=>{
-            User[key as keyof typeof User]=res.data[key] as never
-        })
-    }
+    res&&(User.value= res.data)&& storage.setItem("User",res.data)
+
     const redirect= storage.getItem("redirectPath")
     if (redirect) { //如果存在参数
         storage.remove("redirectPath")

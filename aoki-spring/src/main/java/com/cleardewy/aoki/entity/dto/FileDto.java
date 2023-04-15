@@ -26,6 +26,7 @@ public class FileDto {
         return switch (type){
             case FileConstants.AVATAR_TYPE -> FileConstants.AVATAR_PATH;
             case FileConstants.IMG_TYPE -> FileConstants.IMG_PATH;
+            case FileConstants.FILE_TYPE -> FileConstants.FILE_PATH;
             default -> "";
         }+File.separator+name+"."+suffix;
     }
@@ -34,6 +35,7 @@ public class FileDto {
         return switch (type){
             case FileConstants.AVATAR_TYPE -> FileConstants.AVATAR_API;
             case FileConstants.IMG_TYPE -> FileConstants.IMG_API;
+            case FileConstants.FILE_TYPE -> FileConstants.FILE_API;
             default -> "";
         }+name+"."+suffix;
     }

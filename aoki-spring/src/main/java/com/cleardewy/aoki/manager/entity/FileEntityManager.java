@@ -15,8 +15,8 @@ public class FileEntityManager {
     @Autowired
     FileMapper fileMapper;
 
-    public boolean addFile(FileDto file){
-        return fileMapper.addFile(file)==1;
+    public Integer addFile(FileDto file){
+        return fileMapper.addFile(file);
     }
 
     public FileDto getFileByMd5(String md5){
