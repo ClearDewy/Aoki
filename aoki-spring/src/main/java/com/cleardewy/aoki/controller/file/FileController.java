@@ -14,7 +14,7 @@ import static com.cleardewy.aoki.constant.RoleConstans.*;
  * @ Description:
  **/
 @RestController
-@AokiRole({ROOT, TEACHER, STUDENT})
+//@AokiRole({ROOT, TEACHER, STUDENT})
 @RequestMapping("/api/file")
 public class FileController {
     @Autowired

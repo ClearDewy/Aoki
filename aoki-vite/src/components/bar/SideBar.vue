@@ -36,10 +36,6 @@
       <el-icon><setting /></el-icon>
       <template #title>设置</template>
     </el-menu-item>
-    <el-menu-item index="/home" style="float: bottom">
-      <el-icon><icon-menu /></el-icon>
-      <template #title>返回</template>
-    </el-menu-item>
   </el-menu>
 
 </template>

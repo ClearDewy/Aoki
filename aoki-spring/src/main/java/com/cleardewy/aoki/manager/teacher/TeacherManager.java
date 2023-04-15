@@ -13,6 +13,10 @@ import com.cleardewy.aoki.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @ Author: ClearDewy
  * @ Description:
@@ -47,5 +51,11 @@ public class TeacherManager {
         UserDto user = userEntityManager.getUserByUsername(username);
         lessonMemberEntityManager.addLessonMember(new LessonMemberDto(null,user.getId(),id));
         return new UserListVo(user.getId(),user.getUsername(),user.getName(),user.getEmail(),userEntityManager.getMajorByMajorId(user.getMajorId()),user.getRole());
+    }
+
+    public void removeLessonMembers(Integer id, Integer[] idList) {
+        lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),id);
+        if (idList.length!=0)
+            lessonMemberEntityManager.deleteLessonMembers(id, Arrays.asList(idList));
     }
 }

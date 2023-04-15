@@ -4,15 +4,17 @@
       title="新建课程"
       :before-close="handleClose"
       align-center
+      center
+      width="1005px"
   >
-    <el-form ref="ruleFormRef" :model="createLessonForm" label-width="120px" :rules="rule">
+    <el-form ref="ruleFormRef" :model="createLessonForm" label-width="120px" :rules="rule" label-position="top" :inline="true">
       <el-form-item label="课程名" prop="name">
         <el-input v-model="createLessonForm.name" placeholder="请输入课程名"/>
       </el-form-item>
       <el-form-item label="团队功能" prop="teamMemberLimit">
         <el-select v-model="createLessonForm.teamMemberLimit" placeholder="请选择团队功能">
-          <el-option label="不开启" value="null" />
-          <el-option v-for="x in 19" label="{{x+1}}人" :value="x+1"/>
+          <el-option label="不开启" :value="0" />
+          <el-option v-for="x in 19" :label="`${x+1}人`" :value="x+1"/>
         </el-select>
       </el-form-item>
 
@@ -25,7 +27,7 @@
         />
       </el-form-item>
       <el-form-item label="课程描述">
-        <el-input v-model="createLessonForm.introduction" type="textarea" />
+        <Editor v-model="createLessonForm.introduction"/>
       </el-form-item>
       <el-form-item label="课程头像">
         <el-switch
@@ -149,6 +151,7 @@ import {RefreshLeft,RefreshRight,Refresh,Check,UploadFilled,Picture} from "@elem
 import VueCropper,{cropper} from "vue-picture-cropper"
 import {emitter} from "../../common/gloableData";
 import {FileApi} from "../../api/fileApi";
+import Editor from "../sample/Editor.vue";
 
 const showDialog=()=>{
   showCreateLesson.value=true
@@ -194,7 +197,9 @@ const finish = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      createLessonForm.teamMemberLimit===null &&(createLessonForm.teamMemberLimit=0)
+      if (createLessonForm.teamMemberLimit==null)
+        createLessonForm.teamMemberLimit=0
+      console.log(createLessonForm.teamMemberLimit)
       teacherApi.createLesson(createLessonForm).then(res=>{
         emitter.emit("refreshLessonList")
         alertsuccess("课程创建成功")

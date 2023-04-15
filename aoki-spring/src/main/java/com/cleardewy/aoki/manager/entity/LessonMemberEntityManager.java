@@ -8,6 +8,7 @@ import com.cleardewy.aoki.mapper.LessonMemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,5 +32,9 @@ public class LessonMemberEntityManager {
     }
     public List<UserListVo> getLessonMember(Integer id) {
         return lessonMemberMapper.getLessonMember(id);
+    }
+
+    public void deleteLessonMembers(Integer id, List<Integer> idList){
+        lessonMemberMapper.deleteLessonMembers(id,idList);
     }
 }

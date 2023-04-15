@@ -1,19 +1,19 @@
 
 
 <template>
-<!--  <div id="app">-->
-<!--    <el-backtop :right="30" :bottom="20" />-->
-<!--    <el-container style="height: 100%">-->
-<!--      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(&#45;&#45;el-box-shadow-lighter);" ><NavBar/></el-header>-->
-<!--      <el-container>-->
-<!--        <SideBar v-if="router.currentRoute.value.meta.showAside"/>-->
-<!--        <el-main><router-view/></el-main>-->
-<!--      </el-container>-->
-<!--    </el-container>-->
+  <div id="app">
+    <el-backtop :right="30" :bottom="20" />
+    <el-container style="height: 100%">
+      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);" ><NavBar/></el-header>
+      <el-container>
+        <SideBar v-if="router.currentRoute.value.meta.showAside"/>
+        <el-main><router-view/></el-main>
+      </el-container>
+    </el-container>
 
-<!--  </div>-->
-  <Test/>
-
+  </div>
+<!--  <Test/>-->
+<!--<CreateLesson/>-->
 </template>
 
 <script setup lang="ts">
@@ -23,6 +23,7 @@ import router from "./router";
 import account from "./components/setting/Account.vue"
 import Test from "./Test.vue";
 import Setting from "./views/user/Setting.vue"
+import CreateLesson from "./components/lesson/CreateLesson.vue";
 
 
 

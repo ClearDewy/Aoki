@@ -28,15 +28,16 @@ axios.interceptors.response.use(
             storage.setItem("authorization",response.headers["authorization"])      // 刷新token
         }
         if (response.data.status===200){
-            return Promise.resolve(response.data)
+            return response.data
         }else {
             return Promise.reject(response.data)
         }
     },
     error => {
-        if ("refresh-authorization" in error.headers && error.headers["refresh-authorization"]){
-            storage.setItem("authorization",error.headers["authorization"])
+        if (error?.headers?.["refresh-authorization"]){
+            storage.setItem("authorization",error.headers["authorization"])      // 刷新token
         }
+        errorHandel(error)
         return Promise.reject(error)
     }
 )
@@ -56,24 +57,15 @@ const errorHandel = (error:any) => {
 }
 
 export const GET=(url:string)=>{
-    return axios.get(url).catch(error=>{
-        alerterror(error.message)
-        errorHandel(error)
-    })
+    return axios.get(url)
 }
 
 export const POST=(url:string, data:object)=>{
-    return axios.post(url,objectToFormData(data)).catch(error=>{
-        alerterror(error.message)
-        errorHandel(error)
-    })
+    return axios.post(url,objectToFormData(data))
 }
 
 export const POST_FILE=(url:string, data:object)=>{
-    return axios.post(url,objectToFormData(data),{headers:{ 'content-type': 'multipart/form-data' }}).catch(error=>{
-        alerterror(error.message)
-        errorHandel(error)
-    })
+    return axios.post(url,objectToFormData(data),{headers:{ 'content-type': 'multipart/form-data' }})
 }
 
 // 将对象转化为formData用于传参
@@ -110,5 +102,5 @@ export const apiUrl={
     getLesson:"/api/get-lesson",
     getLessonMember:"/api/get-lesson-member",
     addLessonMember:"/api/add-lesson-member",
-
+    removeLessonMembers:"/api/remove-lesson-member"
 }

@@ -7,6 +7,9 @@ import com.cleardewy.aoki.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ Author: ClearDewy
  * @ Description:
@@ -26,5 +29,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Result addLessonMember(Integer id, String username) {
         return Result.success(teacherManager.addLessonMember(id,username));
+    }
+
+    @Override
+    public Result removeLessonMembers(Integer id, Integer[] idList) {
+        teacherManager.removeLessonMembers(id,idList);
+        return Result.success();
     }
 }

@@ -8,7 +8,7 @@
             <span style="font-size: var(--el-font-size-small);">{{Lesson.ownerName}}</span>
           </div>
         </template>
-        <p>{{Lesson.introduction}}</p>
+        <Editor v-model="Lesson.introduction" :preview-only="true"  style="padding-left: 8px;padding-right: 8px"/>
       </el-card>
     </el-col>
     <el-col :span="12">
@@ -16,10 +16,15 @@
         <template #header>
           <div class="card-header">
             <span>老师联系方式</span>
-            <el-button v-if="Lesson.ownerName===User.name" class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
+            <div v-if="Lesson.ownerName===User.name" ><el-button class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
+              <el-button type="danger" :icon="Delete" circle :disabled="teacherMultipleSelection.length===0"  @click="removeUsers(teacherMultipleSelection)"/></div>
           </div>
         </template>
-        <el-table :data="teachersData" style="width: 100%;height: 100%">
+        <el-table
+            :data="teachersData"
+            @selection-change="teacherTableSelectionChange"
+            style="width: 100%;height: 100%">
+          <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
           <el-table-column prop="name" label="姓名" style="width: 50%" />
           <el-table-column prop="email" label="邮箱" style="width: 50%" />
         </el-table>
@@ -43,10 +48,15 @@
         <template #header>
           <div class="card-header">
             <span>学生列表</span>
-            <el-button class="button" v-if="Lesson.ownerName===User.name" text @click="showAddMemberDialog=true">添加学生</el-button>
+            <div v-if="Lesson.ownerName===User.name"><el-button class="button" text @click="showAddMemberDialog=true">添加学生</el-button>
+              <el-button type="danger" :icon="Delete" circle :disabled="studentMultipleSelection.length===0" @click="removeUsers(studentMultipleSelection)"/></div>
           </div>
         </template>
-        <el-table :data="studentsData" style="width: 100%;height: 100%">
+        <el-table
+            :data="studentsData"
+            style="width: 100%;height: 100%"
+            @selection-change="studentTableSelectionChange">
+          <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
           <el-table-column prop="name" label="姓名" style="width: 25%" />
           <el-table-column prop="username" label="学号" style="width: 25%" />
           <el-table-column prop="email" label="邮箱" style="width: 25%" />
@@ -84,16 +94,19 @@
 import {Lesson,User} from "../../common/gloableData";
 import {reactive, ref} from "vue";
 import {userApi} from "../../api/userApi";
-import {alerterror, alertsuccess} from "../../common/alert";
-import {UserListType} from "../../common/typeClass";
-import {FormInstance, FormRules} from "element-plus";
+import {alerterror, alertinfo, alertsuccess} from "../../common/alert";
+import {UserListType, UserType} from "../../common/typeClass";
+import {ElTable, FormInstance, FormRules} from "element-plus";
 import {teacherApi} from "../../api/teacherApi";
+import Editor from "../../components/sample/Editor.vue";
+import {Delete} from '@element-plus/icons-vue'
 
 const teachersData=ref<UserListType[]>([])
 const studentsData=ref<UserListType[]>([])
 
 const refreshMemberList = () => {
   userApi.getLessonMember(Lesson.value.id as number).then(res=>{
+    teachersData.value.length=studentsData.value.length=0
     res?.data.forEach((u:UserListType) =>{
       switch (u.role){
         case 1:
@@ -155,6 +168,24 @@ const addLessonMember = async (formEl: FormInstance | undefined) => {
   })
 }
 
+const teacherMultipleSelection = ref<UserListType[]>([])
+const studentMultipleSelection = ref<UserListType[]>([])
+
+const teacherTableSelectionChange=(val:UserListType[])=>{
+  teacherMultipleSelection.value=val
+}
+const studentTableSelectionChange=(val:UserListType[])=>{
+  studentMultipleSelection.value=val
+}
+
+
+const removeUsers = (userMultipleSelection:UserListType[]) => {
+  teacherApi.removeLessonMembers(Lesson.value.id as number,userMultipleSelection.map(ul=>ul.id)).then(res=>{
+    refreshMemberList()
+  }).catch(e=>{
+    alerterror("删除用户失败:"+e.message)
+  })
+}
 </script>
 
 <style scoped>

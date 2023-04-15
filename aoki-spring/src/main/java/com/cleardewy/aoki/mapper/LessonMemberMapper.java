@@ -17,4 +17,6 @@ public interface LessonMemberMapper {
     Integer verifyLessonMember(Integer lessonId,Integer memberId);
 
     List<UserListVo> getLessonMember(Integer id);
+
+    Integer deleteLessonMembers(Integer id,List<Integer> idList);
 }

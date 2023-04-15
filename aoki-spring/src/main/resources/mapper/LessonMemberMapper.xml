@@ -16,5 +16,12 @@
         LEFT JOIN major m ON u.majorId = m.id
         WHERE lm.lessonId = #{id};
     </select>
+
+    <delete id="deleteLessonMembers">
+        delete from lessonmember where memberId in
+        <foreach item="uid" collection="idList" open="(" separator="," close=")">
+            #{uid}
+        </foreach> and lessonId=#{id}
+    </delete>
 </mapper>
 

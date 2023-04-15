@@ -8,20 +8,21 @@
       autoDetectCode
       @onUploadImg="uploadImg"
       :previewOnly="previewOnly"
+      @update:modelValue="handleModelValueUpdate"
   >
     <template #defToolbars>
       <NormalToolbar title="上传文件" >
         <template #trigger>
-          <el-icon style="height: 100%">
+          <el-icon :size="18">
             <el-upload
-              action=""
-              :auto-upload="false"
-              :show-file-list="false"
-              :on-change="onUploadFile"
-              style="height: 100%;width: 100%;display: flex;align-items: center"
-          >
-            <UploadFilled />
-          </el-upload>
+                action=""
+                :auto-upload="false"
+                :show-file-list="false"
+                :on-change="onUploadFile"
+                style="height: 100%;width: 100%;display: flex;align-items: center"
+            >
+              <UploadFilled />
+            </el-upload>
           </el-icon>
         </template>
       </NormalToolbar>
@@ -31,26 +32,30 @@
 
 <script setup lang="ts">
 import MdEditorV3 from "md-editor-v3"
-import {reactive, ref, toRefs} from 'vue'
-import type { ExposeParam, InsertContentGenerator } from 'md-editor-v3';
+import { ref } from 'vue'
+import type { ExposeParam } from 'md-editor-v3';
 import {UploadFilled} from "@element-plus/icons-vue";
-import {alerterror, alertinfo} from "../../common/alert";
+import {alerterror} from "../../common/alert";
 import {FileApi} from "../../api/fileApi";
-import {UploadFile, UploadFiles} from "element-plus";
+import {UploadFile} from "element-plus";
 const props=defineProps({
   editorId:{
     type:String,
     default:"md-editor"
   },
-  value:String,
+  modelValue:String,
   previewOnly:{
     type:Boolean,
     default:false
   }
 })
+const emits=defineEmits(['update:modelValue'])
 
-const value=ref(props.value)
+const value=ref(props.modelValue)
 
+const handleModelValueUpdate = (newValue:any) => {
+  emits('update:modelValue',newValue)
+}
 
 const NormalToolbar=MdEditorV3.NormalToolbar
 
@@ -168,6 +173,12 @@ const toolbars = [
 ];
 </script>
 
-<style>
-
+<style scoped>
+.md-editor-toolbar-item{
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
