@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.MilestonesMapper">
+    <insert id="addMilestones" parameterType="MilestonesDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO milestones(`name`,`beginTime`,`endTime`,`introduction`,`lessonId`) values(#{name},#{beginTime},#{endTime},#{introduction},#{lessonId})
+    </insert>
+
+    <select id="gerMilestones" parameterType="Integer" resultType="MilestonesDto">
+        SELECT * FROM milestones WHERE `lessonId`=#{id} ORDER BY beginTime,endTime,id
+    </select>
+    <delete id="deleteMilestones">
+        delete from milestones where `id` in
+        <foreach item="id" collection="idList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND `lessonId`=#{lessonId}
+    </delete>
+    <update id="updateMilestones" parameterType="MilestonesDto">
+        UPDATE milestones
+        SET `name` = #{name},
+            `beginTime` = #{beginTime},
+            `endTime` = #{endTime},
+            `introduction` = #{introduction}
+        WHERE `id`=#{id}
+    </update>
+</mapper>
+

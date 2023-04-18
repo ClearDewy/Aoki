@@ -197,8 +197,6 @@ const finish = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (createLessonForm.teamMemberLimit==null)
-        createLessonForm.teamMemberLimit=0
       console.log(createLessonForm.teamMemberLimit)
       teacherApi.createLesson(createLessonForm).then(res=>{
         emitter.emit("refreshLessonList")

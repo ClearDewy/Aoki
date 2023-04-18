@@ -37,10 +37,39 @@
         <template #header>
           <div class="card-header">
             <span>阶段任务</span>
-            <el-button class="button" v-if="Lesson.ownerName===User.name" text>添加任务</el-button>
+            <div v-if="Lesson.ownerName===User.name" >
+              <el-button class="button" v-if="Lesson.ownerName===User.name" text @click="milestonesEditRef.showCreateDialog()">添加任务</el-button>
+              <el-button type="danger" :icon="Delete" circle :disabled="milestonesMultipleSelection.length===0"  @click="deleteMilestones(milestonesMultipleSelection)"/></div>
           </div>
         </template>
-        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+        <el-table
+            :data="milestonesData"
+            style="width: 100%;height: 100%"
+            @selection-change="milestonesTableSelectionChange"
+            @row-click="showMilestonesIntroduction"
+        >
+          <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
+          <el-table-column prop="name" label="任务名" style="width: 25%" />
+          <el-table-column prop="beginTime" label="开始时间" style="width: 25%" />
+          <el-table-column prop="endTime" label="结束时间" style="width: 25%" />
+          <el-table-column label="状态" style="width: 25%" >
+            <template #default="scope">
+              <span :style="{
+                color: new Date(scope.row.beginTime) > new Date() ? 'gray' :
+                       new Date(scope.row.endTime) < new Date() ? 'red' : 'green'
+              }">
+                {{ new Date(scope.row.beginTime) > new Date() ? '未开始' :
+                  new Date(scope.row.endTime) < new Date() ? '已结束' : '进行中'
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column v-if="Lesson.ownerName===User.name" label="编辑" width="60" >
+            <template #default="scope">
+              <el-button :icon="Edit" circle @click="milestonesEditRef.showUpdateDialog(scope.row)"/>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-card>
     </el-col>
     <el-col :span="12">
@@ -88,6 +117,13 @@
       </span>
     </template>
   </el-dialog>
+  <MilestonesEdit ref="milestonesEditRef" @refreshMilestonesList="refreshMilestonesList"/>
+  <el-drawer
+      v-model="showDrawer"
+      :title="drawerTitle"
+  >
+    <Editor :preview-only="true" v-model="milestonesIntroduction"/>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
@@ -95,11 +131,13 @@ import {Lesson,User} from "../../common/gloableData";
 import {reactive, ref} from "vue";
 import {userApi} from "../../api/userApi";
 import {alerterror, alertinfo, alertsuccess} from "../../common/alert";
-import {UserListType, UserType} from "../../common/typeClass";
+import {MilestonesType, UserListType, UserType} from "../../common/typeClass";
 import {ElTable, FormInstance, FormRules} from "element-plus";
 import {teacherApi} from "../../api/teacherApi";
 import Editor from "../../components/sample/Editor.vue";
 import {Delete} from '@element-plus/icons-vue'
+import MilestonesEdit from "../../components/lesson/MilestonesEdit.vue";
+import {Edit} from "@element-plus/icons-vue"
 
 const teachersData=ref<UserListType[]>([])
 const studentsData=ref<UserListType[]>([])
@@ -124,6 +162,17 @@ const refreshMemberList = () => {
   })
 }
 refreshMemberList()
+
+const milestonesData=ref<MilestonesType[]>([])
+const refreshMilestonesList=()=>{
+  userApi.getMilestones(Lesson.value.id as number).then(res=>{
+    milestonesData.value=res?.data
+  }).catch(e=>{
+    alerterror("获取阶段任务失败")
+  })
+}
+refreshMilestonesList()
+
 
 const showAddMemberDialog=ref(false)
 
@@ -170,6 +219,7 @@ const addLessonMember = async (formEl: FormInstance | undefined) => {
 
 const teacherMultipleSelection = ref<UserListType[]>([])
 const studentMultipleSelection = ref<UserListType[]>([])
+const milestonesMultipleSelection=ref<MilestonesType[]>([])
 
 const teacherTableSelectionChange=(val:UserListType[])=>{
   teacherMultipleSelection.value=val
@@ -178,6 +228,9 @@ const studentTableSelectionChange=(val:UserListType[])=>{
   studentMultipleSelection.value=val
 }
 
+const milestonesTableSelectionChange = (val:MilestonesType[]) => {
+  milestonesMultipleSelection.value=val
+}
 
 const removeUsers = (userMultipleSelection:UserListType[]) => {
   teacherApi.removeLessonMembers(Lesson.value.id as number,userMultipleSelection.map(ul=>ul.id)).then(res=>{
@@ -185,6 +238,27 @@ const removeUsers = (userMultipleSelection:UserListType[]) => {
   }).catch(e=>{
     alerterror("删除用户失败:"+e.message)
   })
+}
+
+const deleteMilestones=(milestonesMultipleSelection:MilestonesType[])=>{
+  teacherApi.deleteMilestones(Lesson.value.id as number,milestonesMultipleSelection.map(ul=>ul.id)).then(res=>{
+    refreshMilestonesList()
+  }).catch(e=>{
+    alerterror("删除阶段任务失败:"+e.message)
+  })
+}
+
+// 绑定到上方绑定子组件
+const milestonesEditRef=ref(null)
+
+const showDrawer=ref(false)
+const drawerTitle=ref('')
+const milestonesIntroduction=ref('')
+
+const showMilestonesIntroduction = (row:MilestonesType) => {
+  drawerTitle.value=row.name
+  milestonesIntroduction.value=row.introduction
+  showDrawer.value=true
 }
 </script>
 

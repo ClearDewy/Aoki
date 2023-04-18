@@ -10,10 +10,9 @@
         <el-main><router-view/></el-main>
       </el-container>
     </el-container>
-
   </div>
-<!--  <Test/>-->
-<!--<CreateLesson/>-->
+<!--    <el-button @click="milestonesEditRef.showCreateDialog()">show</el-button>-->
+<!--    <MilestonesEdit ref="milestonesEditRef" @refreshMilestonesList="refreshMilestonesList"/>-->
 </template>
 
 <script setup lang="ts">
@@ -24,8 +23,14 @@ import account from "./components/setting/Account.vue"
 import Test from "./Test.vue";
 import Setting from "./views/user/Setting.vue"
 import CreateLesson from "./components/lesson/CreateLesson.vue";
+import MilestonesEdit from "./components/lesson/MilestonesEdit.vue";
+import {ref} from "vue";
+import {alertsuccess} from "./common/alert";
 
-
+// const milestonesEditRef=ref(null)
+// const refreshMilestonesList=()=>{
+//   alertsuccess("refresh")
+// }
 
 const Loading=document.getElementById("loading")
 

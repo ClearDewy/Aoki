@@ -1,6 +1,7 @@
 package com.cleardewy.aoki.controller.teacher;
 
 import com.cleardewy.aoki.annotation.AokiRole;
+import com.cleardewy.aoki.entity.dto.MilestonesDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
@@ -36,5 +37,22 @@ public class TeacherController {
     @PostMapping("/remove-lesson-member")
     Result removeLessonMembers(Integer id, Integer[] idList){
         return teacherService.removeLessonMembers(id,idList);
+    }
+
+    @PostMapping("/add-milestones")
+    Result addMilestones(MilestonesDto milestonesDto){
+        return teacherService.addMilestones(milestonesDto);
+    }
+    @PostMapping("/get-milestones")
+    Result addMilestones(Integer id){
+        return teacherService.getMilestones(id);
+    }
+    @PostMapping("/delete-milestones")
+    Result deleteMilestones(Integer lessonId,Integer[] idList){
+        return teacherService.deleteMilestones(lessonId,idList);
+    }
+    @PostMapping("/update-milestones")
+    Result updateMilestones(MilestonesDto milestonesDto){
+        return teacherService.updateMilestones(milestonesDto);
     }
 }

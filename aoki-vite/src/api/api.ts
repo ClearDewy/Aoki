@@ -27,7 +27,7 @@ axios.interceptors.response.use(
         if (response?.headers?.["refresh-authorization"]){
             storage.setItem("authorization",response.headers["authorization"])      // 刷新token
         }
-        if (response.data.status===200){
+        if (response.data?.status===200){
             return response.data
         }else {
             return Promise.reject(response.data)
@@ -102,5 +102,10 @@ export const apiUrl={
     getLesson:"/api/get-lesson",
     getLessonMember:"/api/get-lesson-member",
     addLessonMember:"/api/add-lesson-member",
-    removeLessonMembers:"/api/remove-lesson-member"
+    removeLessonMembers:"/api/remove-lesson-member",
+
+    addMilestones:"/api/add-milestones",
+    getMilestones:"/api//get-milestones",
+    deleteMilestones:"/api/delete-milestones",
+    updateMilestones:"/api//update-milestones"
 }

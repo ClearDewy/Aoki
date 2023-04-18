@@ -1,7 +1,7 @@
 <template>
   <MdEditorV3
       ref="editorRef"
-      v-model="value"
+      :modelValue="modelValue"
       :editorId="editorId"
       :toolbars="toolbars"
       showCodeRowNumber
@@ -50,8 +50,6 @@ const props=defineProps({
   }
 })
 const emits=defineEmits(['update:modelValue'])
-
-const value=ref(props.modelValue)
 
 const handleModelValueUpdate = (newValue:any) => {
   emits('update:modelValue',newValue)

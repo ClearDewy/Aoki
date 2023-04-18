@@ -81,3 +81,12 @@ export type UserListType={
     major:string
     role:number
 }
+
+export type MilestonesType={
+    id:number
+    name:string
+    beginTime:string
+    endTime:string
+    introduction:string
+    lessonId:number
+}

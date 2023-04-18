@@ -65,7 +65,10 @@ export const userApi={
     },
     getLessonMember(id:number){
         return POST(apiUrl.getLessonMember,{id:id})
-    }
+    },
+    getMilestones(id:number){
+        return POST(apiUrl.getMilestones,{id:id})
+    },
 }
 
 // 将返回的结果赋值给User

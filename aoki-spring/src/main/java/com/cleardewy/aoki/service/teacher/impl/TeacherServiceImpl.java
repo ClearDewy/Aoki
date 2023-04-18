@@ -1,14 +1,12 @@
 package com.cleardewy.aoki.service.teacher.impl;
 
+import com.cleardewy.aoki.entity.dto.MilestonesDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.manager.teacher.TeacherManager;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @ Author: ClearDewy
@@ -34,6 +32,29 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Result removeLessonMembers(Integer id, Integer[] idList) {
         teacherManager.removeLessonMembers(id,idList);
+        return Result.success();
+    }
+
+    @Override
+    public Result addMilestones(MilestonesDto milestonesDto) {
+        teacherManager.addMilestones(milestonesDto);
+        return Result.success();
+    }
+
+    @Override
+    public Result getMilestones(Integer id) {
+        return Result.success(teacherManager.getMilestones(id));
+    }
+
+    @Override
+    public Result deleteMilestones(Integer lessonId, Integer[] idList) {
+        teacherManager.deleteMilestones(lessonId,idList);
+        return Result.success();
+    }
+
+    @Override
+    public Result updateMilestones(MilestonesDto milestonesDto) {
+        teacherManager.updateMilestones(milestonesDto);
         return Result.success();
     }
 }
