@@ -47,8 +47,12 @@ public final class ResultStatus {
         FILE_SIZE_LIMIT("文件大小不能超过1 GB"),
         FILE_SUFFIX_ERROR("请选择正确格式的文件！"),
 
-        FILE_UPLOAD_FAIL("文件上传失败");
+        FILE_UPLOAD_FAIL("文件上传失败"),
 
+        HAVE_TEAM("已有团队"),
+
+        DATE_ANOMALIES("日期异常")
+        ;
 
         private final String message;
     }

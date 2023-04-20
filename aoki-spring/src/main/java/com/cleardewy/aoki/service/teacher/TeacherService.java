@@ -1,7 +1,9 @@
 package com.cleardewy.aoki.service.teacher;
 
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
+import com.cleardewy.aoki.entity.dto.TopicDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.utils.Result;
 
 /**
@@ -17,9 +19,18 @@ public interface TeacherService {
 
     Result addMilestones(MilestonesDto milestonesDto);
 
-    Result getMilestones(Integer id);
+
 
     Result deleteMilestones(Integer lessonId, Integer[] idList);
 
     Result updateMilestones(MilestonesDto milestonesDto);
+
+    Result updateTopicTime(TopicTimeVo topicTimeVo);
+
+    Result createTopic(TopicDto topicVo);
+
+
+    Result updateTopic(TopicDto topicDto);
+
+    Result deleteTopic(Integer id);
 }

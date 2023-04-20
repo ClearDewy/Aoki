@@ -107,5 +107,11 @@ export const apiUrl={
     addMilestones:"/api/add-milestones",
     getMilestones:"/api//get-milestones",
     deleteMilestones:"/api/delete-milestones",
-    updateMilestones:"/api//update-milestones"
+    updateMilestones:"/api//update-milestones",
+
+    createTeam:"/api/create-team",
+    getTeams:"/api/get-teams",
+    getNoTeamMembers:"/api/get-no-team-members",
+    addTeamMember:"/api/add-team-member",
+    removeTeamMember:"/api/remove-team-member"
 }

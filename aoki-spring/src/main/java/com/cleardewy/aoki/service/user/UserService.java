@@ -21,4 +21,19 @@ public interface UserService {
     Result getLesson(Integer id);
 
     Result getLessonMember(Integer id);
+
+    Result getMilestones(Integer id);
+
+    Result createTeam(String name, Integer lessonId);
+
+    Result getTeams(Integer lessonId);
+
+    Result getNoTeamMembers(Integer lessonId);
+
+    Result addTeamMember(String username, Integer teamId);
+
+    Result removeTeamMember(Integer teamId, String username);
+
+    Result getTopicTime(Integer id);
+    Result getTopics(Integer lessonId);
 }

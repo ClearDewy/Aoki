@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.TeamMapper">
+    <insert id="createTeam" parameterType="TeamDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO team(`name`,`lessonId`,`ownerId`) VALUES (#{name},#{lessonId},#{ownerId})
+    </insert>
+
+<!--    SELECT t.id, t.name, u.name AS ownerName,-->
+<!--    (SELECT GROUP_CONCAT(CONCAT(m.username, ':', m.name, ':', m.avatarURL) SEPARATOR ';')-->
+<!--    FROM teammember tm JOIN user m ON tm.memberId = m.id-->
+<!--    WHERE tm.teamId = t.id) AS memberList-->
+<!--    FROM team t JOIN user u ON t.ownerId = u.id-->
+<!--    WHERE t.lessonId = #{lessonId}-->
+    <select id="getTeams" parameterType="Integer" resultType="TeamVo">
+        SELECT team.id as id,team.name as name,user.name as ownerName
+        FROM team,user
+        WHERE ownerId=user.id and lessonId=#{lessonId}
+    </select>
+
+    <select id="getTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
+        SELECT user.username,user.name,user.avatarURL
+        FROM teammember,user
+        WHERE `teamId`=#{teamId} AND teammember.memberId=user.id
+    </select>
+
+    <select id="getNoTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
+        SELECT user.username, user.name, user.avatarURL
+        FROM user
+                 INNER JOIN lessonmember ON user.id = lessonmember.memberId
+                 LEFT JOIN teammember ON user.id = teammember.memberId
+        WHERE lessonmember.lessonId = #{lessonId} AND teammember.memberId IS NULL
+    </select>
+
+    <select id="getTeam" resultType="TeamDto">
+        SELECT * FROM team where id=#{id}
+    </select>
+    <select id="getTeamId" resultType="Integer">
+        select teamId from team,teammember
+        WHERE memberId=#{id} AND teamId=team.id AND team.lessonId=#{lessonId}
+    </select>
+
+    <select id="getTeamLessonId" resultType="Integer">
+        select lessonId from team
+        WHERE id=#{id}
+    </select>
+
+    <insert id="addTeamMember" parameterType="TeamMemberDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO teammember(`teamId`,`memberId`) VALUES (#{teamId},#{memberId})
+    </insert>
+    <delete id="removeTeamMember">
+        DELETE FROM teammember WHERE memberId=#{memberId} AND teamId=#{teamId}
+    </delete>
+</mapper>
+

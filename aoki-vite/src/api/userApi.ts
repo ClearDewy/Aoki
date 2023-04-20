@@ -69,6 +69,21 @@ export const userApi={
     getMilestones(id:number){
         return POST(apiUrl.getMilestones,{id:id})
     },
+    createTeam(name:string,lessonId:number){
+        return POST(apiUrl.createTeam,{name:name,lessonId:lessonId})
+    },
+    getTeams(lessonId:number){
+        return POST(apiUrl.getTeams,{lessonId:lessonId})
+    },
+    getNoTeamMembers(lessonId:number){
+        return POST(apiUrl.getNoTeamMembers,{lessonId:lessonId})
+    },
+    addTeamMember(teamId:number,username:string){
+        return POST(apiUrl.addTeamMember,{teamId:teamId,username:username})
+    },
+    removeTeamMember(teamId:number,username:string){
+        return POST(apiUrl.removeTeamMember,{teamId:teamId,username:username})
+    }
 }
 
 // 将返回的结果赋值给User

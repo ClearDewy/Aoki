@@ -2,16 +2,15 @@ package com.cleardewy.aoki.controller.teacher;
 
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
+import com.cleardewy.aoki.entity.dto.TopicDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.cleardewy.aoki.constant.RoleConstans.*;
 
@@ -43,10 +42,7 @@ public class TeacherController {
     Result addMilestones(MilestonesDto milestonesDto){
         return teacherService.addMilestones(milestonesDto);
     }
-    @PostMapping("/get-milestones")
-    Result addMilestones(Integer id){
-        return teacherService.getMilestones(id);
-    }
+
     @PostMapping("/delete-milestones")
     Result deleteMilestones(Integer lessonId,Integer[] idList){
         return teacherService.deleteMilestones(lessonId,idList);
@@ -54,5 +50,25 @@ public class TeacherController {
     @PostMapping("/update-milestones")
     Result updateMilestones(MilestonesDto milestonesDto){
         return teacherService.updateMilestones(milestonesDto);
+    }
+
+    @PostMapping("update-topic-time")
+    Result updateTopicTime(TopicTimeVo topicTimeVo){
+        return teacherService.updateTopicTime(topicTimeVo);
+    }
+
+    @PostMapping("create-topic")
+    Result createTopic(TopicDto topicDto){
+        return teacherService.createTopic(topicDto);
+    }
+
+    @PostMapping("update-topic")
+    Result updateTopic(TopicDto topicDto){
+        return teacherService.updateTopic(topicDto);
+    }
+
+    @PostMapping("delete-topic")
+    Result deleteTopic(Integer id){
+        return teacherService.deleteTopic(id);
     }
 }

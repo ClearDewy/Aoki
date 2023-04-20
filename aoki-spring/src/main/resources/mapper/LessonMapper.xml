@@ -27,5 +27,54 @@
         SELECT count(*) FROM `lesson` WHERE ownerId=#{ownerId} and id=#{id}
     </select>
 
+
+    <insert id="addLessonMember" parameterType="LessonMemberDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO lessonmember(`lessonId`,`memberId`) values(#{lessonId},#{memberId})
+    </insert>
+    <select id="verifyLessonMember" resultType="Integer" parameterType="Integer">
+        SELECT count(*) FROM `lessonmember` WHERE memberId=#{memberId} and lessonId=#{lessonId}
+    </select>
+    <select id="getLessonMember" parameterType="Integer" resultType="UserListVo">
+        SELECT u.id,u.username,u.name, u.email,m.majorName as major,u.role
+        FROM lessonMember lm
+                 LEFT JOIN user u ON lm.memberId = u.id
+                 LEFT JOIN major m ON u.majorId = m.id
+        WHERE lm.lessonId = #{id};
+    </select>
+
+    <delete id="deleteLessonMembers">
+        delete from lessonmember where memberId in
+        <foreach item="uid" collection="idList" open="(" separator="," close=")">
+            #{uid}
+        </foreach> and lessonId=#{id}
+    </delete>
+    
+    <insert id="addTopicTime" parameterType="TopicTimeDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO topictime(`beginTime`,`endTime`,`lessonId`) VALUES(#{beginTime},#{endTime},#{lessonId})
+    </insert>
+    <update id="updateTopicTime" parameterType="TopicTimeDto">
+        UPDATE topictime SET `beginTime`=#{beginTime},
+                             `endTime`=#{endTime}
+        WHERE `lessonId`=#{lessonId}
+    </update>
+    <select id="getTopicTime" parameterType="Integer" resultType="TopicTimeDto">
+        SELECT * FROM topictime WHERE `lessonId`=#{id}
+    </select>
+    
+    <insert id="createTopic" parameterType="TopicDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO topic(`name`,`limit`,`difficult`,`ownerId`,`lessonId`) VALUES (#{name},#{limit},#{difficult},#{ownerId},#{lessonId})
+    </insert>
+    <select id="getTopics" resultType="TopicDto">
+        SELECT * FROM topic WHERE lessonId=#{lessonId}
+    </select>
+    <update id="updateTopic" parameterType="TopicDto">
+        UPDATE topic SET `name`=#{name},
+                         `limit`#{limit},
+                         `difficult`=#{difficult}
+        WHERE `id` =#{id}
+    </update>
+    <delete id="deleteTopic">
+        DELETE FROM topic WHERE `id`=#{id}
+    </delete>
 </mapper>
 

@@ -6,13 +6,11 @@
     <el-container style="height: 100%">
       <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);" ><NavBar/></el-header>
       <el-container>
-        <SideBar v-if="router.currentRoute.value.meta.showAside"/>
         <el-main><router-view/></el-main>
       </el-container>
     </el-container>
   </div>
-<!--    <el-button @click="milestonesEditRef.showCreateDialog()">show</el-button>-->
-<!--    <MilestonesEdit ref="milestonesEditRef" @refreshMilestonesList="refreshMilestonesList"/>-->
+<!--<Team/>-->
 </template>
 
 <script setup lang="ts">
@@ -26,11 +24,9 @@ import CreateLesson from "./components/lesson/CreateLesson.vue";
 import MilestonesEdit from "./components/lesson/MilestonesEdit.vue";
 import {ref} from "vue";
 import {alertsuccess} from "./common/alert";
+import Team from "./views/lesson/Team.vue";
 
-// const milestonesEditRef=ref(null)
-// const refreshMilestonesList=()=>{
-//   alertsuccess("refresh")
-// }
+
 
 const Loading=document.getElementById("loading")
 

@@ -22,7 +22,6 @@ const routes:Array<RouteRecordRaw>=[
         meta:{
             requiresAuth:false,     // 是否需要登录
             showHeader:false,
-            showAside:false
         }
     },
 
@@ -33,7 +32,6 @@ const routes:Array<RouteRecordRaw>=[
         meta:{
             requiresAuth:false,
             showHeader:true,
-            showAside:false
         }
     },
     {
@@ -43,7 +41,6 @@ const routes:Array<RouteRecordRaw>=[
         meta:{
             requiresAuth:false,
             showHeader:false,
-            showAside:false
         }
     },
     {
@@ -53,7 +50,6 @@ const routes:Array<RouteRecordRaw>=[
         meta:{
             requiresAuth:false,
             showHeader:true,
-            showAside:false
         }
     },
     {
@@ -62,14 +58,19 @@ const routes:Array<RouteRecordRaw>=[
         component:()=>import("../views/lesson/Lesson.vue"),
         children:[
             {
+                path:"",
+                name:"主页",
+                component:()=>import("../views/lesson/LessonHome.vue"),
+            },
+            {
                 path:"task",
                 name:"作业",
                 component:()=>import("../views/lesson/Task.vue"),
             },
             {
-                path:"select-topic",
+                path:"topic",
                 name:"选题",
-                component:()=>import("../views/lesson/SelectTopic.vue"),
+                component:()=>import("../views/lesson/Topic.vue"),
             },
             {
                 path:"team",
@@ -85,7 +86,6 @@ const routes:Array<RouteRecordRaw>=[
         meta:{
             requiresAuth:false,
             showHeader:true,
-            showAside:true
         }
     }
 ]

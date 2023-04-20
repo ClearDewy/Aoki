@@ -12,10 +12,12 @@
         <el-input v-model="createLessonForm.name" placeholder="请输入课程名"/>
       </el-form-item>
       <el-form-item label="团队功能" prop="teamMemberLimit">
-        <el-select v-model="createLessonForm.teamMemberLimit" placeholder="请选择团队功能">
-          <el-option label="不开启" :value="0" />
-          <el-option v-for="x in 19" :label="`${x+1}人`" :value="x+1"/>
-        </el-select>
+        <el-switch
+            v-model="createLessonForm.teamMemberLimit"
+            class="mb-2"
+            active-text="开启"
+            inactive-text="关闭"
+        />
       </el-form-item>
 
       <el-form-item label="选题模式">
@@ -176,7 +178,7 @@ const handleClose = (done: () => void) => {
 const createLessonForm = reactive<CreateLessonType>({
   name: '',
   introduction: '',
-  teamMemberLimit: null,
+  teamMemberLimit: false,
   topicMod: false,
   avatarURL: '',
 })
@@ -197,7 +199,6 @@ const finish = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(createLessonForm.teamMemberLimit)
       teacherApi.createLesson(createLessonForm).then(res=>{
         emitter.emit("refreshLessonList")
         alertsuccess("课程创建成功")

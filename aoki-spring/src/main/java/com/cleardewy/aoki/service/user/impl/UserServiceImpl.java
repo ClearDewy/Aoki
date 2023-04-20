@@ -49,4 +49,46 @@ public class UserServiceImpl implements UserService {
     public Result getLessonMember(Integer id) {
         return Result.success(userManager.getLessonMember(id));
     }
+
+    @Override
+    public Result getMilestones(Integer id) {
+        return Result.success(userManager.getMilestones(id));
+    }
+
+    @Override
+    public Result createTeam(String name, Integer lessonId) {
+        userManager.createTeam(name,lessonId);
+        return Result.success();
+    }
+
+    @Override
+    public Result getTeams(Integer lessonId) {
+        return Result.success(userManager.getTeams(lessonId));
+    }
+
+    @Override
+    public Result getNoTeamMembers(Integer lessonId) {
+        return Result.success(userManager.getNoTeamMembers(lessonId));
+    }
+
+    @Override
+    public Result addTeamMember(String username, Integer teamId) {
+        userManager.addTeamMember(teamId,username);
+        return Result.success();
+    }
+
+    @Override
+    public Result removeTeamMember(Integer teamId, String username) {
+        userManager.removeTeamMember(teamId,username);
+        return Result.success();
+    }
+
+    @Override
+    public Result getTopicTime(Integer id) {
+        return Result.success(userManager.getTopicTime(id));
+    }
+    @Override
+    public Result getTopics(Integer lessonId) {
+        return Result.success(userManager.getTopics(lessonId));
+    }
 }

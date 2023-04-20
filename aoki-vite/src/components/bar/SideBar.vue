@@ -28,7 +28,7 @@
       <el-icon><setting /></el-icon>
       <template #title>选题</template>
     </el-menu-item>
-    <el-menu-item index="/lesson/team" v-if="Lesson.teamMemberLimit!==null">
+    <el-menu-item index="/lesson/team" v-if="Lesson.teamMemberLimit">
       <el-icon><setting /></el-icon>
       <template #title>团队</template>
     </el-menu-item>

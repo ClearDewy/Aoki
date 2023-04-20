@@ -2,7 +2,6 @@ package com.cleardewy.aoki.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ Author: ClearDewy
@@ -10,13 +9,9 @@ import lombok.NoArgsConstructor;
  **/
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class LessonDto {
+public class TeamDto {
     private Integer id;
     private String name;
-    private String introduction;
+    private Integer lessonId;
     private Integer ownerId;
-    private boolean teamMemberLimit;
-    private boolean topicMod;
-    private String avatarURL;
 }

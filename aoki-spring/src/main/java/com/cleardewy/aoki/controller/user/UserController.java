@@ -55,4 +55,38 @@ public class UserController {
     Result getLessonMember(Integer id){
         return userService.getLessonMember(id);
     }
+
+    @PostMapping("/get-milestones")
+    Result getMilestones(Integer id){
+        return userService.getMilestones(id);
+    }
+    @PostMapping("/create-team")
+    Result createTeam(String name,Integer lessonId){
+        return userService.createTeam(name,lessonId);
+    }
+
+    @PostMapping("/get-teams")
+    Result getTeams(Integer lessonId){
+        return userService.getTeams(lessonId);
+    }
+    @PostMapping("/get-no-team-members")
+    Result getNoTeamMembers(Integer lessonId){
+        return userService.getNoTeamMembers(lessonId);
+    }
+    @PostMapping("/add-team-member")
+    Result addTeamMember(String username,Integer teamId){
+        return userService.addTeamMember(username,teamId);
+    }
+    @PostMapping("/remove-team-member")
+    Result removeTeamMember(Integer teamId,String username){
+        return userService.removeTeamMember(teamId,username);
+    }
+    @PostMapping("/get-topic-time")
+    Result getTopicTime(Integer id){
+        return userService.getTopicTime(id);
+    }
+    @PostMapping("get-topics")
+    Result getTopics(Integer lessonId){
+        return userService.getTopics(lessonId);
+    }
 }
