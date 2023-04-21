@@ -9,11 +9,11 @@ import lombok.Data;
  **/
 @Data
 @AllArgsConstructor
-public class LessonVo {
+public class TopicListVo {
     private Integer id;
     private String name;
-    private String introduction;
-    private Integer teamMode;
-    private Integer topicMode;
-    private String avatarURL;
+    private String number;
+    private Integer limit;
+    private Double difficult;
+    private String ownerName;
 }

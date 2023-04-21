@@ -13,10 +13,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CreateLessonVo {
-    @NotBlank(message = "课程明不能为空")
+    @NotBlank(message = "课程名不能为空")
     private String name;
     private String introduction;
-    private boolean teamMemberLimit;
-    private boolean topicMod;
+    private boolean teamMode;
+    private boolean topicMode;
     private String avatarURL;
 }

@@ -1,4 +1,4 @@
-import {CreateLessonType, LessonType, MilestonesType} from "../common/typeClass";
+import {CreateLessonType, EditTopicType, LessonType, MilestonesType} from "../common/typeClass";
 import {apiUrl, POST} from "./api";
 
 export const teacherApi={
@@ -19,5 +19,29 @@ export const teacherApi={
     },
     deleteMilestones(lessonId:number,idList:number[]){
         return POST(apiUrl.deleteMilestones,{lessonId:lessonId,idList:idList})
+    },
+    createTopic(createTopic:EditTopicType){
+        return POST(apiUrl.createTopic,createTopic)
+    },
+    updateTopic(updateTopic:EditTopicType){
+        return POST(apiUrl.updateTopic,updateTopic)
+    },
+    deleteTopic(id:number){
+        return POST(apiUrl.deleteTopic,{id:id})
+    },
+    getMyTopics(lessonId:number){
+        return POST(apiUrl.getMyTopics,{lessonId:lessonId})
+    },
+    getTopicMembers(id:number){
+        return POST(apiUrl.getTopicMembers,{id:id})
+    },
+    getNoTopicMembers(lessonId:number){
+        return POST(apiUrl.getNoTopicMembers,{lessonId:lessonId})
+    },
+    addTopicMemberTeacher(topicId:number,memberId:number){
+        return POST(apiUrl.addTopicMemberTeacher,{topicId:topicId,memberId:memberId})
+    },
+    removeTopicMemberTeacher(topicId:number,memberId:number){
+        return POST(apiUrl.removeTopicMemberTeacher,{topicId:topicId,memberId:memberId})
     }
 }

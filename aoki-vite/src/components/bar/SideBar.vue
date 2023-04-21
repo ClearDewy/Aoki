@@ -24,11 +24,11 @@
       <el-icon><document /></el-icon>
       <template #title>作业</template>
     </el-menu-item>
-    <el-menu-item index="/lesson/select-topic">
+    <el-menu-item index="/lesson/topic">
       <el-icon><setting /></el-icon>
       <template #title>选题</template>
     </el-menu-item>
-    <el-menu-item index="/lesson/team" v-if="Lesson.teamMemberLimit">
+    <el-menu-item index="/lesson/team" v-if="Lesson.teamMode">
       <el-icon><setting /></el-icon>
       <template #title>团队</template>
     </el-menu-item>

@@ -1,8 +1,8 @@
 package com.cleardewy.aoki.service.teacher.impl;
 
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
-import com.cleardewy.aoki.entity.dto.TopicDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
 import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.manager.teacher.TeacherManager;
 import com.cleardewy.aoki.service.teacher.TeacherService;
@@ -64,14 +64,14 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Result createTopic(TopicDto topicDto) {
-        teacherManager.createTopic(topicDto);
+    public Result createTopic(EditTopicVo editTopicVo) {
+        teacherManager.createTopic(editTopicVo);
         return Result.success();
     }
 
     @Override
-    public Result updateTopic(TopicDto topicDto) {
-        teacherManager.updateTopic(topicDto);
+    public Result updateTopic(EditTopicVo editTopicVo) {
+        teacherManager.updateTopic(editTopicVo);
         return Result.success();
     }
 
@@ -81,5 +81,30 @@ public class TeacherServiceImpl implements TeacherService {
         return Result.success();
     }
 
+    @Override
+    public Result getMyTopics(Integer lessonId) {
+        return Result.success(teacherManager.getMyTopics(lessonId));
+    }
 
+    @Override
+    public Result getTopicMembers(Integer id) {
+        return Result.success(teacherManager.getTopicMembers(id));
+    }
+
+    @Override
+    public Result getNoTopicMembers(Integer lessonId) {
+        return Result.success(teacherManager.getNoTopicMembers(lessonId));
+    }
+
+    @Override
+    public Result addTopicMember(Integer topicId, Integer memberId) {
+        teacherManager.addTopicMember(topicId,memberId);
+        return Result.success();
+    }
+
+    @Override
+    public Result removeTopicMember(Integer topicId, Integer memberId) {
+        teacherManager.removeTopicMember(topicId,memberId);
+        return Result.success();
+    }
 }

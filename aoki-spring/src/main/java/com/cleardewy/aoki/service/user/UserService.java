@@ -34,6 +34,12 @@ public interface UserService {
 
     Result removeTeamMember(Integer teamId, String username);
 
-    Result getTopicTime(Integer id);
+    Result getTopicTime(Integer lessonId);
     Result getTopics(Integer lessonId);
+
+    Result getMyTopic(Integer lessonId);
+
+    Result addTopicMember(Integer topicId);
+
+    Result removeTopicMember(Integer topicId);
 }

@@ -2,8 +2,10 @@ package com.cleardewy.aoki.mapper;
 
 import com.cleardewy.aoki.entity.dto.TeamDto;
 import com.cleardewy.aoki.entity.dto.TeamMemberDto;
+import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
 import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
 import com.cleardewy.aoki.entity.vo.lesson.TeamVo;
+import com.cleardewy.aoki.entity.vo.lesson.TopicListVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  **/
 @Mapper
 public interface TeamMapper {
+
     Integer createTeam(TeamDto teamDto);
 
     Integer addTeamMember(TeamMemberDto teamMemberDto);
@@ -31,4 +34,8 @@ public interface TeamMapper {
     Integer getTeamLessonId(Integer id);
 
     Integer removeTeamMember(Integer teamId,Integer memberId);
+
+    List<TeamVo> getTopicTeams(Integer topicId);
+
+    List<NoTopicMemberList> getNoTopicTeams(Integer lessonId);
 }

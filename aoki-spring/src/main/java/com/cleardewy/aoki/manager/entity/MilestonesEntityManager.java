@@ -19,7 +19,7 @@ public class MilestonesEntityManager {
 
     public void addMilestones(MilestonesDto milestonesDto){
         if (milestonesMapper.addMilestones(milestonesDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
     public List<MilestonesDto> gerMilestones(Integer id){
@@ -32,6 +32,6 @@ public class MilestonesEntityManager {
 
     public void updateMilestones(MilestonesDto milestonesDto){
         if (milestonesMapper.updateMilestones(milestonesDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 }

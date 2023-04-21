@@ -5,7 +5,7 @@ import {alertsuccess} from "../common/alert";
 import {AxiosResponse} from "axios";
 import {apiUrl} from "./api";
 import {
-    AccountType,
+    AccountType, EditTopicType,
     EmailLoginType,
     UpdateEmailType,
     UpdatePasswordType,
@@ -83,6 +83,21 @@ export const userApi={
     },
     removeTeamMember(teamId:number,username:string){
         return POST(apiUrl.removeTeamMember,{teamId:teamId,username:username})
+    },
+    getTopicTime(lessonId:number){
+        return POST(apiUrl.getTopicTime,{lessonId:lessonId})
+    },
+    getTopics(lessonId:number){
+        return POST(apiUrl.getTopics,{lessonId:lessonId})
+    },
+    getMyTopic(lessonId:number){
+        return POST(apiUrl.getMyTopic,{lessonId:lessonId})
+    },
+    addTopicMember(topicId:number){
+        return POST(apiUrl.addTopicMember,{topicId:topicId})
+    },
+    removeTopicMember(topicId:number){
+        return POST(apiUrl.removeTopicMember,{topicId:topicId})
     }
 }
 

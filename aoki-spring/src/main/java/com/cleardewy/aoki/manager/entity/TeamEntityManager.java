@@ -3,10 +3,12 @@ package com.cleardewy.aoki.manager.entity;
 import com.cleardewy.aoki.entity.dto.TeamDto;
 import com.cleardewy.aoki.entity.dto.TeamMemberDto;
 import com.cleardewy.aoki.entity.dto.TopicTimeDto;
+import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
 import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
 import com.cleardewy.aoki.entity.vo.lesson.TeamVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.TeamMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import java.util.List;
  * @ Author: ClearDewy
  * @ Description:
  **/
+@Slf4j
 @Component
 public class TeamEntityManager {
     @Autowired
@@ -24,12 +27,12 @@ public class TeamEntityManager {
 
     public void createTeam(TeamDto teamDto) {
         if (teamMapper.createTeam(teamDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
     public void addTeamMember(TeamMemberDto teamMemberDto) {
         if (teamMapper.addTeamMember(teamMemberDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
     public List<TeamVo> getTeams(Integer lessonId){
@@ -47,7 +50,7 @@ public class TeamEntityManager {
     public TeamDto getTeam(Integer id){
         TeamDto teamDto=teamMapper.getTeam(id);
         if (teamDto==null)
-            throw AokiException.fail();
+            throw AokiException.notFound();
         return teamDto;
     }
 
@@ -63,14 +66,20 @@ public class TeamEntityManager {
     public Integer getTeamLessonId(Integer id){
         Integer lessonId=teamMapper.getTeamLessonId(id);
         if (lessonId==null)
-            throw AokiException.fail();
+            throw AokiException.notFound();
         return lessonId;
     }
 
     public void removeTeamMember(Integer teamId,Integer memberId){
         if (teamMapper.removeTeamMember(teamId,memberId)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
+    public List<TeamVo> getTopicTeams(Integer topicId){
+        return teamMapper.getTopicTeams(topicId);
+    }
 
+    public List<NoTopicMemberList> getNoTopicTeams(Integer lessonId) {
+        return teamMapper.getNoTopicTeams(lessonId);
+    }
 }

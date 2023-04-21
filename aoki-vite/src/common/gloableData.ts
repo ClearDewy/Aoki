@@ -24,6 +24,6 @@ export const User=ref<UserType>(storage.getItem("User")||{
 })
 
 export const Lesson=ref<LessonType>(storage.getItem("Lesson")||{
-    introduction: "", teamMemberLimit: false, topicMod: false,
+    introduction: "", teamMode: false, topicMod: false,
     avatarURL: "", id: null, name: "", ownerName: ""
 })

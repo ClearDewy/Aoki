@@ -50,7 +50,7 @@ export type UpdateEmailType={
 export type CreateLessonType={
     name:string,
     introduction:string,
-    teamMemberLimit:boolean,
+    teamMode:boolean,
     topicMod:boolean,
     avatarURL:string
 }
@@ -67,7 +67,7 @@ export type LessonType={
     id:number|null
     name:string,
     introduction:string,
-    teamMemberLimit:boolean
+    teamMode:boolean
     topicMod:boolean,
     avatarURL:string,
     ownerName:string,
@@ -104,6 +104,7 @@ export type TeamListType={
     memberList:TeamMemberListType[]
 }
 
+
 export type TopicType={
     id:number|null,
     name:string,
@@ -111,4 +112,32 @@ export type TopicType={
     difficult:number|null,
     ownerId:number|null,
     lessonId:number
+}
+
+export type TopicListType={
+    id:number,
+    name:string,
+    number:number,
+    limit:number,
+    difficult:number,
+    ownerName:string
+}
+
+export type TopicTimeType={
+    beginTime:string,
+    endTime:string,
+    lessonId:number
+}
+
+export type EditTopicType={
+    id:number
+    name:string,
+    limit:number,
+    difficult:number,
+    lessonId:number
+}
+
+export type NoTopicMemberListType={
+    id:number,
+    name:string
 }

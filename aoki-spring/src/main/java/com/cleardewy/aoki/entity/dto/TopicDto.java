@@ -12,6 +12,7 @@ import lombok.Data;
 public class TopicDto {
     private Integer id;
     private String name;
+    private Integer number;
     private Integer limit;
     private Double difficult;
     private Integer ownerId;

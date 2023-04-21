@@ -2,20 +2,22 @@ package com.cleardewy.aoki.manager.teacher;
 
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.entity.LessonEntityManager;
 import com.cleardewy.aoki.manager.entity.MilestonesEntityManager;
+import com.cleardewy.aoki.manager.entity.TeamEntityManager;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.utils.ThreadLocalUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class TeacherManager {
     ThreadLocalUtils threadLocalUtils;
     @Autowired
     MilestonesEntityManager milestonesEntityManager;
+    @Autowired
+    TeamEntityManager teamEntityManager;
 
     public void createLesson(CreateLessonVo createLessonVo) {
         LessonDto lessonDto= new LessonDto(
@@ -41,14 +45,14 @@ public class TeacherManager {
                 createLessonVo.getName(),
                 createLessonVo.getIntroduction(),
                 threadLocalUtils.getCurrentUser().getId(),
-                createLessonVo.isTeamMemberLimit(),
-                createLessonVo.isTopicMod(),
+                createLessonVo.isTeamMode(),
+                createLessonVo.isTopicMode(),
                 createLessonVo.getAvatarURL()
         );
 
         lessonEntityManager.addLesson(lessonDto);
         lessonEntityManager.addLessonMember(new LessonMemberDto(null,lessonDto.getOwnerId(),lessonDto.getId()));
-        if (!lessonDto.isTopicMod())
+        if (!lessonDto.isTopicMode())
             lessonEntityManager.addTopicTime(new TopicTimeDto(null,null,null,lessonDto.getId()));
     }
 
@@ -104,17 +108,80 @@ public class TeacherManager {
         }
     }
 
-    public void createTopic(TopicDto topicDto) {
-        topicDto.setOwnerId(threadLocalUtils.getCurrentUser().getId());
-        lessonEntityManager.createTopic(topicDto);
+    public void createTopic(EditTopicVo editTopicVo) {
+        lessonEntityManager.createTopic(new TopicDto(
+                null,
+                editTopicVo.getName(),
+                0,
+                editTopicVo.getLimit(),
+                editTopicVo.getDifficult(),
+                threadLocalUtils.getCurrentUser().getId(),
+                editTopicVo.getLessonId()
+        ));
     }
 
 
-    public void updateTopic(TopicDto topicDto) {
-        lessonEntityManager.updateTopic(topicDto);
+    public void updateTopic(EditTopicVo editTopicVo) {
+        lessonEntityManager.updateTopic(new TopicDto(
+                editTopicVo.getId(),
+                editTopicVo.getName(),
+                0,
+                editTopicVo.getLimit(),
+                editTopicVo.getDifficult(),
+                threadLocalUtils.getCurrentUser().getId(),
+                editTopicVo.getLessonId()
+        ));
     }
 
     public void deleteTopic(Integer id) {
         lessonEntityManager.deleteTopic(id);
+    }
+
+    public List<TopicListVo> getMyTopics(Integer lessonId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyLessonMember(lessonId,id))
+            throw AokiException.forbidden();
+        return lessonEntityManager.getMyTopics(lessonId,id);
+    }
+
+    public Object getTopicMembers(Integer id) {
+        Integer uid=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyTopicOwner(id,uid))
+            throw AokiException.forbidden();
+        LessonDto lesson = lessonEntityManager.getTopicLesson(id);
+        if (lesson.isTeamMode()){
+            List<TeamVo> topicTeams = teamEntityManager.getTopicTeams(id);
+            topicTeams.forEach(team -> {
+                team.setMemberList(teamEntityManager.getTeamMembers(team.getId()));
+            });
+
+            return topicTeams;
+        }else{
+            return lessonEntityManager.getTopicMembers(id);
+        }
+    }
+
+    public List<NoTopicMemberList> getNoTopicMembers(Integer lessonId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyLessonMember(lessonId,id))
+            throw AokiException.forbidden();
+        LessonDto lesson = lessonEntityManager.getLesson(lessonId);
+        if (lesson.isTeamMode()){
+            return teamEntityManager.getNoTopicTeams(lessonId);
+        }else{
+            return lessonEntityManager.getNoTopicMembers(lessonId);
+        }
+    }
+
+    public void addTopicMember(Integer topicId, Integer memberId) {
+        if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        lessonEntityManager.addTopicMember(new TopicMemberDto(null,topicId,memberId));
+    }
+
+    public void removeTopicMember(Integer topicId, Integer memberId) {
+        if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,memberId));
     }
 }

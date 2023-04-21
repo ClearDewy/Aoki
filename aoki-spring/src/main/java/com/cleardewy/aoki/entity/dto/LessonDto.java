@@ -16,7 +16,7 @@ public class LessonDto {
     private String name;
     private String introduction;
     private Integer ownerId;
-    private boolean teamMemberLimit;
-    private boolean topicMod;
+    private boolean teamMode;
+    private boolean topicMode;
     private String avatarURL;
 }

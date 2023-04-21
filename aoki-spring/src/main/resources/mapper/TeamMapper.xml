@@ -16,7 +16,14 @@
     <select id="getTeams" parameterType="Integer" resultType="TeamVo">
         SELECT team.id as id,team.name as name,user.name as ownerName
         FROM team,user
-        WHERE ownerId=user.id and lessonId=#{lessonId}
+        WHERE ownerId=user.id AND lessonId=#{lessonId}
+    </select>
+    <select id="getTopicTeams" parameterType="Integer" resultType="TeamVo">
+        SELECT team.id AS id, team.name AS name, user.name AS ownerName
+        FROM topicmember
+                 INNER JOIN team ON topicmember.memberId = team.id
+                 INNER JOIN user ON team.ownerId = user.id
+        WHERE topicmember.topicId = #{topicId}
     </select>
 
     <select id="getTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
@@ -30,7 +37,7 @@
         FROM user
                  INNER JOIN lessonmember ON user.id = lessonmember.memberId
                  LEFT JOIN teammember ON user.id = teammember.memberId
-        WHERE lessonmember.lessonId = #{lessonId} AND teammember.memberId IS NULL
+        WHERE lessonmember.lessonId = #{lessonId} AND user.role=2 AND teammember.memberId IS NULL
     </select>
 
     <select id="getTeam" resultType="TeamDto">
@@ -52,5 +59,13 @@
     <delete id="removeTeamMember">
         DELETE FROM teammember WHERE memberId=#{memberId} AND teamId=#{teamId}
     </delete>
+
+    <select id="getNoTopicTeams" parameterType="Integer" resultType="NoTopicMemberList">
+        SELECT team.id as id, team.name as name
+        FROM team
+                 LEFT JOIN topicmember ON team.id = topicmember.memberId
+                 LEFT JOIN topic ON topicmember.topicId = topic.id AND topic.lessonId = #{lessonId}
+        WHERE team.lessonId = #{lessonId} AND topic.id IS NULL
+    </select>
 </mapper>
 

@@ -84,11 +84,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result getTopicTime(Integer id) {
-        return Result.success(userManager.getTopicTime(id));
+    public Result getTopicTime(Integer lessonId) {
+        return Result.success(userManager.getTopicTime(lessonId));
     }
     @Override
     public Result getTopics(Integer lessonId) {
         return Result.success(userManager.getTopics(lessonId));
+    }
+
+    @Override
+    public Result getMyTopic(Integer lessonId) {
+        return Result.success(userManager.getMyTopic(lessonId));
+    }
+
+    @Override
+    public Result addTopicMember(Integer topicId) {
+        userManager.addTopicMember(topicId);
+        return Result.success();
+    }
+    @Override
+    public Result removeTopicMember(Integer topicId) {
+        userManager.removeTopicMember(topicId);
+        return Result.success();
     }
 }

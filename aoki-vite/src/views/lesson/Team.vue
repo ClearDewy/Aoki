@@ -42,7 +42,7 @@
         </el-table>
       </el-card>
     </div>
-    <el-card class="box-card" style="padding-left: 1%" :body-style="el_card__body">
+    <el-card class="box-card" :body-style="el_card__body">
       <template #header>
         <div class="card-header">
           <span>团队列表</span>

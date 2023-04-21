@@ -11,9 +11,9 @@
       <el-form-item label="课程名" prop="name">
         <el-input v-model="createLessonForm.name" placeholder="请输入课程名"/>
       </el-form-item>
-      <el-form-item label="团队功能" prop="teamMemberLimit">
+      <el-form-item label="团队功能" prop="teamMode">
         <el-switch
-            v-model="createLessonForm.teamMemberLimit"
+            v-model="createLessonForm.teamMode"
             class="mb-2"
             active-text="开启"
             inactive-text="关闭"
@@ -178,7 +178,7 @@ const handleClose = (done: () => void) => {
 const createLessonForm = reactive<CreateLessonType>({
   name: '',
   introduction: '',
-  teamMemberLimit: false,
+  teamMode: false,
   topicMod: false,
   avatarURL: '',
 })
@@ -189,7 +189,7 @@ const rule=reactive<FormRules>(
       name:[
         {required: true, message: '请输入课程名', trigger: 'blur'}
       ],
-      teamMemberLimit:[
+      teamMode:[
         {required: true, message: '请选择团队模式', trigger: 'blur'}
       ]
     }

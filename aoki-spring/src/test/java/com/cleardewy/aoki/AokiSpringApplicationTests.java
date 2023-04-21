@@ -30,8 +30,7 @@ class AokiSpringApplicationTests {
 
     @Test
     void test() {
-        System.out.println(teamMapper.getTeams(10));
-        System.out.println(teamMapper.getTeamMembers(1));
+        System.out.println(teamMapper.getNoTopicTeams(1));
     }
 
 }

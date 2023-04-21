@@ -82,11 +82,24 @@ public class UserController {
         return userService.removeTeamMember(teamId,username);
     }
     @PostMapping("/get-topic-time")
-    Result getTopicTime(Integer id){
-        return userService.getTopicTime(id);
+    Result getTopicTime(Integer lessonId){
+        return userService.getTopicTime(lessonId);
     }
-    @PostMapping("get-topics")
+    @PostMapping("/get-topics")
     Result getTopics(Integer lessonId){
         return userService.getTopics(lessonId);
+    }
+    @PostMapping("/get-my-topic")
+    Result getMyTopic(Integer lessonId){
+        return userService.getMyTopic(lessonId);
+    }
+
+    @PostMapping("/add-topic-member")
+    Result addTopicMember(Integer topicId){
+        return userService.addTopicMember(topicId);
+    }
+    @PostMapping("/remove-topic-member")
+    Result removeTopicMember(Integer topicId){
+        return userService.removeTopicMember(topicId);
     }
 }

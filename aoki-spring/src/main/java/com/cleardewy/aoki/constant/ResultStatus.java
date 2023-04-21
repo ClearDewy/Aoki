@@ -51,7 +51,13 @@ public final class ResultStatus {
 
         HAVE_TEAM("已有团队"),
 
-        DATE_ANOMALIES("日期异常")
+        HAVE_NO_TEAM("无团队"),
+
+        DATE_ANOMALIES("日期异常"),
+
+        TOPIC_MEMBER_FULL("选题人数已满"),
+
+        NOT_WITHIN_TIME_RANGE("不在时间范围内")
         ;
 
         private final String message;

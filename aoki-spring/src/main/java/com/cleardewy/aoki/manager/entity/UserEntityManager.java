@@ -27,7 +27,7 @@ public class UserEntityManager{
 
     public UserDto getUserById(Integer id){
         UserDto user = userMapper.getUserById(id);
-        if (user==null)throw new AokiException(ResultStatus.Status.FAIL);
+        if (user==null)throw AokiException.notFound();
         return user;
     }
 
@@ -36,7 +36,7 @@ public class UserEntityManager{
 
     public String getMajorByMajorId(Integer majorId){
         String major = userMapper.getMajorByMajorId(majorId);
-        if (major.isEmpty())throw new AokiException(ResultStatus.Status.FAIL);
+        if (major.isEmpty())throw AokiException.notFound();
         return major;
     }
 
@@ -45,17 +45,14 @@ public class UserEntityManager{
 
     public Integer getRoleById(Integer id){
         Integer role=userMapper.getRoleById(id);
-        if (role==null)throw new AokiException(ResultStatus.Status.FAIL);
+        if (role==null)throw AokiException.notFound();
         return role;
     }
 
 
-
-
-
     public Integer getMajorIdByMajor(String majorName) {
         Integer id= userMapper.getMajorIdByMajor(majorName);
-        if (id==null)throw  new AokiException(ResultStatus.Status.FAIL);
+        if (id==null)throw AokiException.notFound();
         return id;
     }
 
@@ -64,7 +61,7 @@ public class UserEntityManager{
 
     public UserDto getUserByUsername(String username) {
         UserDto userDto = userMapper.getUserByUsername(username);
-        if (userDto==null)throw new AokiException(ResultStatus.Status.FAIL);
+        if (userDto==null)throw AokiException.notFound();
         return userDto;
     }
 
@@ -73,7 +70,7 @@ public class UserEntityManager{
 
     public UserDto getUserByEmail(String email){
         UserDto userDto = userMapper.getUserByEmail(email);
-        if (userDto==null)throw new AokiException(ResultStatus.Status.FAIL);
+        if (userDto==null)throw AokiException.notFound();
         return userDto;
     }
 
@@ -81,7 +78,7 @@ public class UserEntityManager{
 
     public void addUser(UserDto userDto){
         if (userMapper.addUser(userDto)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
+            throw AokiException.notFound();
         }
     }
 
@@ -89,14 +86,14 @@ public class UserEntityManager{
 
     public void updateUserById(UserDto userDto){
         if (userMapper.updateUserById(userDto)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
+            throw AokiException.notFound();
         }
     }
 
 
     public void deleteUserById(Integer id){
         if (userMapper.deleteUserById(id)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
+            throw AokiException.notFound();
         }
     }
 
@@ -109,13 +106,13 @@ public class UserEntityManager{
 
     public void deleteMajorByName(String majorName){
         if (userMapper.deleteMajorByName(majorName)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
+            throw AokiException.notFound();
         }
     }
 
     public void addMajor(String majorName){
         if (userMapper.addMajor(majorName)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
+            throw AokiException.notFound();
         }
     }
 

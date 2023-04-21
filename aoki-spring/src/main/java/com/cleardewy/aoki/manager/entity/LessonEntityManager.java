@@ -1,11 +1,11 @@
 package com.cleardewy.aoki.manager.entity;
 
 import com.cleardewy.aoki.constant.ResultStatus;
-import com.cleardewy.aoki.entity.dto.LessonDto;
-import com.cleardewy.aoki.entity.dto.LessonMemberDto;
-import com.cleardewy.aoki.entity.dto.TopicDto;
-import com.cleardewy.aoki.entity.dto.TopicTimeDto;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.LessonListVo;
+import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
+import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
+import com.cleardewy.aoki.entity.vo.lesson.TopicListVo;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.LessonMapper;
@@ -64,33 +64,67 @@ public class LessonEntityManager {
 
     public void addTopicTime(TopicTimeDto topicTimeDto){
         if (lessonMapper.addTopicTime(topicTimeDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
     public void updateTopicTime(TopicTimeDto topicTimeDto){
         if (lessonMapper.updateTopicTime(topicTimeDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
-    public TopicTimeDto getTopicTime(Integer id){
-        return lessonMapper.getTopicTime(id);
+    public TopicTimeDto getTopicTime(Integer lessonId){
+        return lessonMapper.getTopicTime(lessonId);
     }
 
     public void createTopic(TopicDto topicDto){
         if (lessonMapper.createTopic(topicDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
 
-    public List<TopicDto> getTopics(Integer lessonId){
+    public List<TopicListVo> getTopics(Integer lessonId){
         return lessonMapper.getTopics(lessonId);
     }
 
     public void updateTopic(TopicDto topicDto){
         if (lessonMapper.updateTopic(topicDto)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
     public void deleteTopic(Integer id){
         if (lessonMapper.deleteTopic(id)==0)
-            throw AokiException.fail();
+            throw AokiException.notFound();
     }
+
+    public TopicListVo getMyTopic(Integer lessonId, Integer id) {
+        return lessonMapper.getMyTopic(lessonId,id);
+    }
+    public List<TopicListVo> getMyTopics(Integer lessonId, Integer id) {
+        return lessonMapper.getMyTopics(lessonId,id);
+    }
+    public Boolean verifyTopicOwner(Integer topicId,Integer id){
+        return lessonMapper.verifyTopicOwner(topicId,id)!=0;
+    }
+
+    public LessonDto getTopicLesson(Integer id){
+        return lessonMapper.getTopicLesson(id);
+    }
+
+    public void addTopicMember(TopicMemberDto topicMemberDto){
+        if (lessonMapper.addTopicMember(topicMemberDto)==0)
+            throw AokiException.notFound();
+    }
+
+    public void removeTopicMember(TopicMemberDto topicMemberDto){
+        if (lessonMapper.removeTopicMember(topicMemberDto)==0)
+            throw AokiException.notFound();
+    }
+
+
+    public List<TeamMemberVo> getTopicMembers(Integer id) {
+        return lessonMapper.getTopicMembers(id);
+    }
+
+    public List<NoTopicMemberList> getNoTopicMembers(Integer lessonId) {
+        return lessonMapper.getNoTopicMembers(lessonId);
+    }
+
 }

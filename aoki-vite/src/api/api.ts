@@ -113,5 +113,21 @@ export const apiUrl={
     getTeams:"/api/get-teams",
     getNoTeamMembers:"/api/get-no-team-members",
     addTeamMember:"/api/add-team-member",
-    removeTeamMember:"/api/remove-team-member"
+    removeTeamMember:"/api/remove-team-member",
+
+    createTopic:"/api/create-topic",
+    updateTopic:"/api/update-topic",
+    deleteTopic:"/api/delete-topic",
+    getMyTopics:"/api/get-my-topics",
+    getTopicMembers:"/api/get-topic-members",
+
+    getNoTopicMembers:"/api/get-no-topic-members",
+    addTopicMemberTeacher:"/api/add-topic-member-teacher",
+    removeTopicMemberTeacher:"/api/remove-topic-member-teacher",
+
+    getTopicTime:"/api/get-topic-time",
+    getTopics:"/api/get-topics",
+    getMyTopic:"/api/get-my-topic",
+    addTopicMember:"/api/add-topic-member",
+    removeTopicMember:"/api/remove-topic-member"
 }

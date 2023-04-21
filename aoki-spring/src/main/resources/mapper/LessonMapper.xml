@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cleardewy.aoki.mapper.LessonMapper">
     <insert id="addLesson" parameterType="LessonDto" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO lesson(`name`,`introduction`,`ownerId`,`teamMemberLimit`,`topicMod`,`avatarURL`) values(#{name},#{introduction},#{ownerId},#{teamMemberLimit},#{topicMod},#{avatarURL})
+        INSERT INTO lesson(`name`,`introduction`,`ownerId`,`teamMode`,`topicMode`,`avatarURL`) values(#{name},#{introduction},#{ownerId},#{teamMode},#{topicMode},#{avatarURL})
     </insert>
 
     <select id="getLessonList" parameterType="Integer" resultType="LessonListVo">
@@ -58,23 +58,72 @@
         WHERE `lessonId`=#{lessonId}
     </update>
     <select id="getTopicTime" parameterType="Integer" resultType="TopicTimeDto">
-        SELECT * FROM topictime WHERE `lessonId`=#{id}
+        SELECT * FROM topictime WHERE `lessonId`=#{lessonId}
     </select>
     
     <insert id="createTopic" parameterType="TopicDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO topic(`name`,`limit`,`difficult`,`ownerId`,`lessonId`) VALUES (#{name},#{limit},#{difficult},#{ownerId},#{lessonId})
     </insert>
-    <select id="getTopics" resultType="TopicDto">
-        SELECT * FROM topic WHERE lessonId=#{lessonId}
+    <select id="getTopics" resultType="TopicListVo">
+        SELECT topic.id, topic.name, `number`, topic.limit, topic.difficult, user.name AS ownerName
+        FROM topic
+                 JOIN user ON topic.ownerId = user.id
+        WHERE topic.lessonId = #{lessonId}
     </select>
+
+    <select id="getMyTopic" resultType="TopicListVo">
+        SELECT topic.id, topic.name, `number`, topic.limit, topic.difficult, user.name AS ownerName
+        FROM topic
+                 JOIN user ON topic.ownerId = user.id
+                JOIN topicmember ON topic.id = topicmember.topicId
+        WHERE topic.lessonId = #{lessonId} AND topicmember.memberId=#{id}
+    </select>
+    <select id="getMyTopics" resultType="TopicListVo">
+        SELECT topic.id, topic.name, `number`, topic.limit, topic.difficult, user.name AS ownerName
+        FROM topic
+                 JOIN user ON topic.ownerId = user.id
+        WHERE topic.lessonId = #{lessonId} AND topic.ownerId=#{id}
+    </select>
+
     <update id="updateTopic" parameterType="TopicDto">
         UPDATE topic SET `name`=#{name},
-                         `limit`#{limit},
+                         `limit`=#{limit},
                          `difficult`=#{difficult}
         WHERE `id` =#{id}
     </update>
     <delete id="deleteTopic">
         DELETE FROM topic WHERE `id`=#{id}
     </delete>
+
+    <select id="verifyTopicOwner" resultType="Integer">
+        SELECT count(*) FROM topic WHERE `id`=#{topicId} AND `ownerId`=#{id}
+    </select>
+
+    <select id="getTopicLesson" resultType="LessonDto">
+        SELECT lesson.id,lesson.name,lesson.introduction,lesson.ownerId,teamMode,topicMode,avatarURL from topic,lesson WHERE topic.id=#{id} AND lesson.id=topic.lessonId
+    </select>
+
+
+    <insert id="addTopicMember" parameterType="TopicMemberDto"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO topicmember(`topicId`, `memberId`) VALUES (#{topicId},#{memberId})
+    </insert>
+    <delete id="removeTopicMember" parameterType="TopicMemberDto">
+        DELETE FROM topicmember WHERE `topicId`=#{topicId} AND `memberId`=#{memberId}
+    </delete>
+
+    <select id="getTopicMember" parameterType="Integer" resultType="UserListVo">
+        SELECT user.username,user.name,user.avatarURL
+        FROM topicmember,user
+        WHERE `topicId`=#{topicId} AND `memberId`=user.id
+    </select>
+
+    <select id="getNoTopicMembers" parameterType="Integer" resultType="NoTopicMemberList">
+        SELECT user.id, user.name
+        FROM user
+                 JOIN lessonmember ON user.id = lessonmember.memberId AND lessonmember.lessonId = #{lessonId}
+                 LEFT JOIN topicmember ON user.id = topicmember.memberId
+                 LEFT JOIN topic ON topicmember.topicId = topic.id AND topic.lessonId = #{lessonId}
+        WHERE topicmember.memberId IS NULL
+    </select>
 </mapper>
 
