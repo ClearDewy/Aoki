@@ -32,7 +32,7 @@
       <el-icon><setting /></el-icon>
       <template #title>团队</template>
     </el-menu-item>
-    <el-menu-item index="/lesson/lesson-setting">
+    <el-menu-item v-if="Lesson.ownerName===User.name" index="/lesson/lesson-setting">
       <el-icon><setting /></el-icon>
       <template #title>设置</template>
     </el-menu-item>
@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {Lesson} from "../../common/gloableData";
+import {Lesson,User} from "../../common/gloableData";
 import router from "../../router";
 import {
   Document,

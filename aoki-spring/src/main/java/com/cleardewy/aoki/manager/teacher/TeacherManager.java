@@ -3,8 +3,10 @@ package com.cleardewy.aoki.manager.teacher;
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
+import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
+import com.cleardewy.aoki.manager.account.EmailVerifyManager;
 import com.cleardewy.aoki.manager.entity.LessonEntityManager;
 import com.cleardewy.aoki.manager.entity.MilestonesEntityManager;
 import com.cleardewy.aoki.manager.entity.TeamEntityManager;
@@ -38,6 +40,8 @@ public class TeacherManager {
     MilestonesEntityManager milestonesEntityManager;
     @Autowired
     TeamEntityManager teamEntityManager;
+    @Autowired
+    EmailVerifyManager emailVerifyManager;
 
     public void createLesson(CreateLessonVo createLessonVo) {
         LessonDto lessonDto= new LessonDto(
@@ -54,6 +58,11 @@ public class TeacherManager {
         lessonEntityManager.addLessonMember(new LessonMemberDto(null,lessonDto.getOwnerId(),lessonDto.getId()));
         if (!lessonDto.isTopicMode())
             lessonEntityManager.addTopicTime(new TopicTimeDto(null,null,null,lessonDto.getId()));
+    }
+    public void updateLesson(EditLessonVo editLessonVo) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        lessonEntityManager.verifyLessonOwner(id,editLessonVo.getId());
+        lessonEntityManager.updateLesson(editLessonVo);
     }
 
     public UserListVo addLessonMember(Integer id, String username) {
@@ -93,7 +102,9 @@ public class TeacherManager {
         if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),topicTimeVo.getLessonId())){
             throw AokiException.forbidden();
         }
-
+        LessonDto lesson = lessonEntityManager.getLesson(topicTimeVo.getLessonId());
+        if (lesson.isTopicMode())
+            throw AokiException.fail();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             TopicTimeDto topicTimeDto=new TopicTimeDto(
@@ -183,5 +194,13 @@ public class TeacherManager {
         if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
         lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,memberId));
+    }
+
+    public void deleteLesson(Integer lessonId, String code) {
+        UserDto user = threadLocalUtils.getCurrentUser();
+        if (!lessonEntityManager.verifyLessonOwner(lessonId,user.getId()))
+            throw AokiException.forbidden();
+        emailVerifyManager.verifyCode(new EmailVerifyVo(user.getEmail(),code));
+        lessonEntityManager.deleteLesson(lessonId);
     }
 }

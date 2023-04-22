@@ -2,6 +2,7 @@ package com.cleardewy.aoki.service.teacher.impl;
 
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
 import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.manager.teacher.TeacherManager;
@@ -23,6 +24,18 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Result createLesson(CreateLessonVo createLessonVo) {
         teacherManager.createLesson(createLessonVo);
+        return Result.success();
+    }
+
+    @Override
+    public Result updateLesson(EditLessonVo editLessonVo) {
+        teacherManager.updateLesson(editLessonVo);
+        return Result.success();
+    }
+
+    @Override
+    public Result deleteLesson(Integer lessonId, String code) {
+        teacherManager.deleteLesson(lessonId,code);
         return Result.success();
     }
 
@@ -107,4 +120,6 @@ public class TeacherServiceImpl implements TeacherService {
         teacherManager.removeTopicMember(topicId,memberId);
         return Result.success();
     }
+
+
 }

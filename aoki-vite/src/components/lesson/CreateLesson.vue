@@ -22,7 +22,7 @@
 
       <el-form-item label="选题模式">
         <el-switch
-            v-model="createLessonForm.topicMod"
+            v-model="createLessonForm.topicMode"
             class="mb-2"
             active-text="自建课题"
             inactive-text="选择课题"
@@ -179,7 +179,7 @@ const createLessonForm = reactive<CreateLessonType>({
   name: '',
   introduction: '',
   teamMode: false,
-  topicMod: false,
+  topicMode: false,
   avatarURL: '',
 })
 

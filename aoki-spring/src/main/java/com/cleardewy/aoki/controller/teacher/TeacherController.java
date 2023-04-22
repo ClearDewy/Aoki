@@ -3,6 +3,7 @@ package com.cleardewy.aoki.controller.teacher;
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
 import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.service.teacher.TeacherService;
@@ -28,8 +29,15 @@ public class TeacherController {
     TeacherService teacherService;
     @PostMapping("/create-lesson")
     Result createLesson(CreateLessonVo createLessonVo){
-        log.warn(createLessonVo.toString());
         return teacherService.createLesson(createLessonVo);
+    }
+    @PostMapping("/update-lesson")
+    Result updateLesson(EditLessonVo editLessonVo){
+        return teacherService.updateLesson(editLessonVo);
+    }
+    @PostMapping("/delete-lesson")
+    Result deleteLesson(Integer lessonId,String code){
+        return teacherService.deleteLesson(lessonId,code);
     }
     @PostMapping("/add-lesson-member")
     Result addLessonMember(Integer id,String username){

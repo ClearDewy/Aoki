@@ -1,15 +1,15 @@
 <template>
-  <el-card v-if="myTopic" class="box-card" :body-style="el_card__body">
+  <el-card v-if="Lesson.topicMode||myTopic" class="box-card" :body-style="el_card__body">
     <template #header>
       <div class="card-header">
         <span style="margin: auto">我的选题</span>
-        <el-button  type="danger" @click="removeTopicMember(myTopic.id)">退选</el-button>
+        <el-button v-if="!Lesson.topicMode" type="danger" @click="removeTopicMember(myTopic?.id)">退选</el-button>
       </div>
     </template>
     <div style="display: flex;justify-content: center;align-items: center;height: 100%;width: 100%;flex-direction: column">
-      <h1 style="font-size:100px;margin: 0">{{myTopic.name}}</h1>
-      <el-rate :size="'large'" v-model="myTopic.difficult" :colors="colors" :disabled="true"/>
-      <h3>{{myTopic.ownerName}}</h3>
+      <h1 style="font-size:100px;margin: 0">{{myTopic?.name || '暂无课题'}}</h1>
+      <el-rate :size="'large'" v-model="myTopic?.difficult || 0" :colors="colors" :disabled="true"/>
+      <h3>{{myTopic?.ownerName}}</h3>
     </div>
   </el-card>
   <el-card v-else class="box-card" :body-style="el_card__body">

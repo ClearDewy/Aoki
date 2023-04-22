@@ -51,7 +51,14 @@ export type CreateLessonType={
     name:string,
     introduction:string,
     teamMode:boolean,
-    topicMod:boolean,
+    topicMode:boolean,
+    avatarURL:string
+}
+
+export type EditLessonType={
+    id:number
+    name:string,
+    introduction:string,
     avatarURL:string
 }
 
@@ -68,7 +75,7 @@ export type LessonType={
     name:string,
     introduction:string,
     teamMode:boolean
-    topicMod:boolean,
+    topicMode:boolean,
     avatarURL:string,
     ownerName:string,
 }
@@ -141,3 +148,5 @@ export type NoTopicMemberListType={
     id:number,
     name:string
 }
+
+

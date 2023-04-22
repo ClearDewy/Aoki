@@ -2,10 +2,7 @@ package com.cleardewy.aoki.manager.entity;
 
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.LessonListVo;
-import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
-import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicListVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.LessonMapper;
@@ -27,7 +24,15 @@ public class LessonEntityManager {
         if (lessonMapper.addLesson(lessonDto)==0){
             throw new AokiException(ResultStatus.Status.FAIL);
         }
-
+    }
+    public void updateLesson(EditLessonVo editLessonVo) {
+        if (lessonMapper.updateLesson(editLessonVo)==0){
+            throw new AokiException(ResultStatus.Status.FAIL);
+        }
+    }
+    public void deleteLesson(Integer lessonId) {
+        if (lessonMapper.deleteLesson(lessonId)==0)
+            throw AokiException.notFound();
     }
 
     public List<LessonListVo> getLessonList(Integer id) {

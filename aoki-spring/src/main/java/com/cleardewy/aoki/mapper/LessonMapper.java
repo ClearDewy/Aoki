@@ -1,10 +1,7 @@
 package com.cleardewy.aoki.mapper;
 
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.LessonListVo;
-import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
-import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicListVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,6 +14,8 @@ import java.util.List;
 @Mapper
 public interface LessonMapper {
     Integer addLesson(LessonDto lessonDto);
+    Integer updateLesson(EditLessonVo editLessonVo);
+    Integer deleteLesson(Integer id);
 
     List<LessonListVo> getLessonList(Integer id);
 
@@ -58,4 +57,6 @@ public interface LessonMapper {
     List<TeamMemberVo> getTopicMembers(Integer id);
 
     List<NoTopicMemberList> getNoTopicMembers(Integer lessonId);
+
+
 }

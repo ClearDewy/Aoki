@@ -7,6 +7,15 @@
         INSERT INTO lesson(`name`,`introduction`,`ownerId`,`teamMode`,`topicMode`,`avatarURL`) values(#{name},#{introduction},#{ownerId},#{teamMode},#{topicMode},#{avatarURL})
     </insert>
 
+    <update id="updateLesson" parameterType="EditLessonVo">
+        UPDATE lesson SET `name`=#{name},`introduction`=#{introduction},`avatarURL`=#{avatarURL}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteLesson" parameterType="Integer">
+        DELETE FROM lesson WHERE id=#{id}
+    </delete>
+
     <select id="getLessonList" parameterType="Integer" resultType="LessonListVo">
         SELECT lesson.id as id,lesson.name as name,lesson.avatarURL as avatarURL,(
             SELECT user.name
