@@ -8,7 +8,7 @@
     </template>
     <div style="display: flex;justify-content: center;align-items: center;height: 100%;width: 100%;flex-direction: column">
       <h1 style="font-size:100px;margin: 0">{{myTopic?.name || '暂无课题'}}</h1>
-      <el-rate :size="'large'" v-model="myTopic?.difficult || 0" :colors="colors" :disabled="true"/>
+      <el-rate :size="'large'" v-model="myTopic.difficult" :colors="colors" :disabled="true"/>
       <h3>{{myTopic?.ownerName}}</h3>
     </div>
   </el-card>
@@ -28,7 +28,7 @@
       <el-table-column prop="ownerName" label="老师"/>
       <el-table-column label="人数">
         <template #default="{row}">
-          <sp>{{row.number}} / {{row.limit}}</sp>
+          <span>{{row.number}} / {{row.limit}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作">

@@ -2,6 +2,8 @@ package com.cleardewy.aoki.controller.teacher;
 
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
+import com.cleardewy.aoki.entity.dto.TaskDto;
+import com.cleardewy.aoki.entity.dto.TopicTimeDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
@@ -64,8 +66,8 @@ public class TeacherController {
     }
 
     @PostMapping("/update-topic-time")
-    Result updateTopicTime(TopicTimeVo topicTimeVo){
-        return teacherService.updateTopicTime(topicTimeVo);
+    Result updateTopicTime(TopicTimeDto topicTimeDto){
+        return teacherService.updateTopicTime(topicTimeDto);
     }
 
     @PostMapping("/create-topic")
@@ -103,5 +105,27 @@ public class TeacherController {
     @PostMapping("/remove-topic-member-teacher")
     Result removeTopicMember(Integer topicId,Integer memberId){
         return teacherService.removeTopicMember(topicId,memberId);
+    }
+
+    @PostMapping("/create-task")
+    Result createTask(TaskDto taskDto){
+        return teacherService.createTask(taskDto);
+    }
+    @PostMapping("/update-task")
+    Result updateTask(TaskDto taskDto){
+        return teacherService.updateTask(taskDto);
+    }
+    @PostMapping("/delete-task")
+    Result deleteTask(Integer taskId){
+        return teacherService.deleteTask(taskId);
+    }
+
+    @PostMapping("/get-owner-tasks")
+    Result getOwnerTasks(Integer lessonId){
+        return teacherService.getOwnerTasks(lessonId);
+    }
+    @PostMapping("/toggle-task-publish")
+    Result toggleTaskPublish(Integer taskId){
+        return teacherService.toggleTaskPublish(taskId);
     }
 }

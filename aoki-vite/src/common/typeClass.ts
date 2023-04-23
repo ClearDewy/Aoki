@@ -150,3 +150,29 @@ export type NoTopicMemberListType={
 }
 
 
+export type TaskType={
+    id:number,
+    name:string,
+    publish:boolean,
+    topicId:number,
+    beginTime:string,
+    endTime:string
+}
+
+export type OwnerTaskListVo={
+    id:number,
+    name:string,
+    publish:boolean,
+    topicId:number,
+    topicName:string
+    beginTime:string,
+    endTime:string
+}
+
+export type MemberTaskListType={
+    id:number,
+    name:string,
+    topicName:string
+    beginTime:string,
+    endTime:string
+}

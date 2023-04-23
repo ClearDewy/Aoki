@@ -7,10 +7,7 @@ import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.account.EmailVerifyManager;
-import com.cleardewy.aoki.manager.entity.LessonEntityManager;
-import com.cleardewy.aoki.manager.entity.MilestonesEntityManager;
-import com.cleardewy.aoki.manager.entity.TeamEntityManager;
-import com.cleardewy.aoki.manager.entity.UserEntityManager;
+import com.cleardewy.aoki.manager.entity.*;
 import com.cleardewy.aoki.utils.ThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +23,7 @@ import java.util.List;
  * @ Author: ClearDewy
  * @ Description:
  **/
+@Slf4j
 @Component
 public class TeacherManager {
 
@@ -42,6 +39,8 @@ public class TeacherManager {
     TeamEntityManager teamEntityManager;
     @Autowired
     EmailVerifyManager emailVerifyManager;
+    @Autowired
+    TaskEntityManager taskEntityManager;
 
     public void createLesson(CreateLessonVo createLessonVo) {
         LessonDto lessonDto= new LessonDto(
@@ -98,25 +97,14 @@ public class TeacherManager {
         milestonesEntityManager.updateMilestones(milestonesDto);
     }
 
-    public void updateTopicTime(TopicTimeVo topicTimeVo) {
-        if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),topicTimeVo.getLessonId())){
+    public void updateTopicTime(TopicTimeDto topicTimeDto) {
+        if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),topicTimeDto.getLessonId())){
             throw AokiException.forbidden();
         }
-        LessonDto lesson = lessonEntityManager.getLesson(topicTimeVo.getLessonId());
+        LessonDto lesson = lessonEntityManager.getLesson(topicTimeDto.getLessonId());
         if (lesson.isTopicMode())
             throw AokiException.fail();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            TopicTimeDto topicTimeDto=new TopicTimeDto(
-                    null,
-                    new Timestamp(sdf.parse(topicTimeVo.getBeginTime()).getTime()),
-                    new Timestamp(sdf.parse(topicTimeVo.getEndTime()).getTime()),
-                    topicTimeVo.getLessonId()
-            );
-            lessonEntityManager.updateTopicTime(topicTimeDto);
-        }catch (ParseException ignored){
-            throw AokiException.fail(ResultStatus.Message.DATE_ANOMALIES);
-        }
+        lessonEntityManager.updateTopicTime(topicTimeDto);
     }
 
     public void createTopic(EditTopicVo editTopicVo) {
@@ -202,5 +190,38 @@ public class TeacherManager {
             throw AokiException.forbidden();
         emailVerifyManager.verifyCode(new EmailVerifyVo(user.getEmail(),code));
         lessonEntityManager.deleteLesson(lessonId);
+    }
+
+    public void createTask(TaskDto taskDto) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyTopicOwner(taskDto.getTopicId(),id))
+            throw AokiException.forbidden();
+        taskEntityManager.createTask(taskDto);
+    }
+
+    public void updateTask(TaskDto taskDto) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyTopicOwner(taskDto.getTopicId(),id))
+            throw AokiException.forbidden();
+        taskEntityManager.updateTask(taskDto);
+    }
+
+    public void deleteTask(Integer taskId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!lessonEntityManager.verifyTopicOwner(taskId,id))
+            throw AokiException.forbidden();
+        taskEntityManager.deleteTask(taskId);
+    }
+
+    public List<TaskListOwnerVo> getOwnerTasks(Integer lessonId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        return taskEntityManager.getOwnerTasks(id,lessonId);
+    }
+
+    public void toggleTaskPublish(Integer taskId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!taskEntityManager.verifyTaskOwner(taskId,id))
+            throw AokiException.forbidden();
+        taskEntityManager.toggleTaskPublish(taskId);
     }
 }

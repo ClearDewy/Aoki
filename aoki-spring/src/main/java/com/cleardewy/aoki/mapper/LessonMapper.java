@@ -33,7 +33,7 @@ public interface LessonMapper {
 
     Integer addTopicTime(TopicTimeDto topicTimeDto);
     Integer updateTopicTime(TopicTimeDto topicTimeDto);
-    TopicTimeDto getTopicTime(Integer lessonId);
+    TopicTimeVo getTopicTime(Integer lessonId);
 
     Integer createTopic(TopicDto topicDto);
 

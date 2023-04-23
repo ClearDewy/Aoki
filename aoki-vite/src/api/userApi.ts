@@ -98,6 +98,9 @@ export const userApi={
     },
     removeTopicMember(topicId:number){
         return POST(apiUrl.removeTopicMember,{topicId:topicId})
+    },
+    getMemberTasks(lessonId:number){
+        return POST(apiUrl.getMemberTasks,{lessonId:lessonId})
     }
 }
 

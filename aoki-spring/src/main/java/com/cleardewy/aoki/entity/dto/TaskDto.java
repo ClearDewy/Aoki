@@ -16,7 +16,6 @@ public class TaskDto {
     private String name;
     private boolean publish;
     private Integer topicId;
-    private Integer ownerId;
     private Timestamp beginTime;
     private Timestamp endTime;
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cleardewy.aoki.mapper.TaskMapper">
+    <insert id="createTask" parameterType="TaskDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO task(`name`,`topicId`,`beginTime`,`endTime`)
+        VALUE (#{name},#{topicId},#{beginTime},#{endTime})
+    </insert>
+    <update id="updateTask" parameterType="TaskDto">
+        UPDATE task SET `name`=#{name},`publish`=#{publish},`topicId`=#{topicId},`beginTime`=#{beginTime},`endTime`=#{endTime}
+        WHERE `id`=#{id}
+    </update>
+    <delete id="deleteTask" parameterType="Integer">
+        DELETE FROM task WHERE `id`=#{id}
+    </delete>
+    <select id="getOwnerTasks" resultType="TaskListOwnerVo">
+        SELECT task.id, task.name, task.publish, topicId, topic.name as topicName, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s')
+        FROM task
+                 INNER JOIN topic ON task.topicId = topic.id
+        WHERE topic.lessonId = #{lessonId} AND topic.ownerId = #{id}
+    </select>
+    <select id="getMemberTasks" resultType="TaskListOwnerVo">
+        SELECT task.id, task.name, topic.name, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s')
+        FROM task
+                 INNER JOIN topic ON task.topicId = topic.id
+                 INNER JOIN topicmember ON topicmember.topicId = topic.id
+        WHERE topic.lessonId = #{lessonId} AND topicmember.memberId = #{id} AND task.publish=true
+    </select>
+    <select id="verifyTaskOwner" resultType="Integer">
+        SELECT count(*) FROM task
+        JOIN topic on topic.id = task.topicId
+        WHERE topic.ownerId=#{id} AND task.id=#{taskId}
+    </select>
+    <update id="toggleTaskPublish" parameterType="Integer">
+        UPDATE task SET `publish`=!publish
+        WHERE id=#{taskId}
+    </update>
+
+</mapper>
+

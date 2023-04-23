@@ -3,6 +3,7 @@ package com.cleardewy.aoki;
 import com.cleardewy.aoki.manager.entity.LessonEntityManager;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.mapper.LessonMapper;
+import com.cleardewy.aoki.mapper.TaskMapper;
 import com.cleardewy.aoki.mapper.TeamMapper;
 import com.cleardewy.aoki.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,13 @@ class AokiSpringApplicationTests {
 
     @Autowired
     TeamMapper teamMapper;
+    @Autowired
+    TaskMapper taskMapper;
 
 
     @Test
     void test() {
-        System.out.println(teamMapper.getNoTopicTeams(1));
+        System.out.println(taskMapper.getOwnerTasks(3,1));
     }
 
 }

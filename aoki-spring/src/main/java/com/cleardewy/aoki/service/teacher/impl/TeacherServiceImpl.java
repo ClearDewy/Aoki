@@ -1,6 +1,8 @@
 package com.cleardewy.aoki.service.teacher.impl;
 
 import com.cleardewy.aoki.entity.dto.MilestonesDto;
+import com.cleardewy.aoki.entity.dto.TaskDto;
+import com.cleardewy.aoki.entity.dto.TopicTimeDto;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
@@ -71,8 +73,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Result updateTopicTime(TopicTimeVo topicTimeVo) {
-        teacherManager.updateTopicTime(topicTimeVo);
+    public Result updateTopicTime(TopicTimeDto topicTimeDto) {
+        teacherManager.updateTopicTime(topicTimeDto);
         return Result.success();
     }
 
@@ -121,5 +123,32 @@ public class TeacherServiceImpl implements TeacherService {
         return Result.success();
     }
 
+    @Override
+    public Result createTask(TaskDto taskDto) {
+        teacherManager.createTask(taskDto);
+        return Result.success();
+    }
 
+    @Override
+    public Result updateTask(TaskDto taskDto) {
+        teacherManager.updateTask(taskDto);
+        return Result.success();
+    }
+
+    @Override
+    public Result deleteTask(Integer taskId) {
+        teacherManager.deleteTask(taskId);
+        return Result.success();
+    }
+
+    @Override
+    public Result getOwnerTasks(Integer lessonId) {
+        return Result.success(teacherManager.getOwnerTasks(lessonId));
+    }
+
+    @Override
+    public Result toggleTaskPublish(Integer taskId) {
+        teacherManager.toggleTaskPublish(taskId);
+        return Result.success();
+    }
 }

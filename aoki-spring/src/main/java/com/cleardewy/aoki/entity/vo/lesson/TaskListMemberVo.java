@@ -3,18 +3,18 @@ package com.cleardewy.aoki.entity.vo.lesson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 /**
  * @ Author: ClearDewy
  * @ Description:
  **/
 @Data
 @AllArgsConstructor
-public class TopicTimeVo {
+public class TaskListMemberVo {
+    private Integer id;
+    private String name;
+    private String topicName;
     private String beginTime;
     private String endTime;
-    private Integer lessonId;
-
-    TopicTimeVo(String beginTime,String endTime){
-        this.beginTime=beginTime;this.endTime=endTime;
-    }
 }

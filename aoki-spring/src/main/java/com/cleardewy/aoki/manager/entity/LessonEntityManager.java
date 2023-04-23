@@ -77,7 +77,7 @@ public class LessonEntityManager {
             throw AokiException.notFound();
     }
 
-    public TopicTimeDto getTopicTime(Integer lessonId){
+    public TopicTimeVo getTopicTime(Integer lessonId){
         return lessonMapper.getTopicTime(lessonId);
     }
 

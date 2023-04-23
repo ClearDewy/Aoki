@@ -107,4 +107,9 @@ public class UserServiceImpl implements UserService {
         userManager.removeTopicMember(topicId);
         return Result.success();
     }
+
+    @Override
+    public Result getMemberTasks(Integer lessonId) {
+        return Result.success(userManager.getMemberTasks(lessonId));
+    }
 }

@@ -10,7 +10,7 @@
       </el-container>
     </el-container>
   </div>
-<!--<Team/>-->
+<!--<TaskTeacher/>-->
 </template>
 
 <script setup lang="ts">
@@ -25,6 +25,7 @@ import MilestonesEdit from "./components/lesson/MilestonesEdit.vue";
 import {ref} from "vue";
 import {alertsuccess} from "./common/alert";
 import Team from "./views/lesson/Team.vue";
+import TaskTeacher from "./components/lesson/TaskTeacher.vue"
 
 
 

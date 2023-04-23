@@ -86,8 +86,6 @@ export const apiUrl={
     getAllMajor:"/api/get-all-major",
     emailLogin:"/api/email-login",
 
-
-
     uploadAvatar:"/api/file/upload-avatar",
     uploadImage:"/api/file/upload-image",
     uploadFile:"/api/file/upload-file",
@@ -98,6 +96,8 @@ export const apiUrl={
 
 
     createLesson:"/api/create-lesson",
+    updateLesson:"/api/update-lesson",
+    deleteLesson:"/api/delete-lesson",
     getLessonList:"/api/get-lesson-list",
     getLesson:"/api/get-lesson",
     getLessonMember:"/api/get-lesson-member",
@@ -115,6 +115,7 @@ export const apiUrl={
     addTeamMember:"/api/add-team-member",
     removeTeamMember:"/api/remove-team-member",
 
+    updateTopicTime:"/api/update-topic-time",
     createTopic:"/api/create-topic",
     updateTopic:"/api/update-topic",
     deleteTopic:"/api/delete-topic",
@@ -129,5 +130,13 @@ export const apiUrl={
     getTopics:"/api/get-topics",
     getMyTopic:"/api/get-my-topic",
     addTopicMember:"/api/add-topic-member",
-    removeTopicMember:"/api/remove-topic-member"
+    removeTopicMember:"/api/remove-topic-member",
+
+    createTask:"/api/create-task",
+    updateTask:"/api/update-task",
+    deleteTask:"/api/delete-task",
+
+    getOwnerTasks:"/api/get-owner-tasks",
+    getMemberTasks:"/api/get-member-tasks",
+    toggleTaskPublish:"/api/toggle-task-publish"
 }

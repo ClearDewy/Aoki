@@ -2,17 +2,11 @@ package com.cleardewy.aoki.manager.user;
 
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.LessonListVo;
-import com.cleardewy.aoki.entity.vo.lesson.TeamVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicListVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.*;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.account.EmailVerifyManager;
-import com.cleardewy.aoki.manager.entity.LessonEntityManager;
-import com.cleardewy.aoki.manager.entity.MilestonesEntityManager;
-import com.cleardewy.aoki.manager.entity.TeamEntityManager;
-import com.cleardewy.aoki.manager.entity.UserEntityManager;
+import com.cleardewy.aoki.manager.entity.*;
 import com.cleardewy.aoki.manager.file.FileManager;
 import com.cleardewy.aoki.utils.RedisUtils;
 import com.cleardewy.aoki.utils.ThreadLocalUtils;
@@ -20,8 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +47,8 @@ public class UserManager {
     RedisUtils redisUtils;
     @Autowired
     MilestonesEntityManager milestonesEntityManager;
+    @Autowired
+    TaskEntityManager taskEntityManager;
 
 
     public UserVo userDtoToUserVo(UserDto userDto){
@@ -152,13 +150,7 @@ public class UserManager {
     }
 
     public TopicTimeVo getTopicTime(Integer lessonId) {
-        TopicTimeDto topicTimeDto=lessonEntityManager.getTopicTime(lessonId);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return new TopicTimeVo(
-                topicTimeDto.getBeginTime()==null?"":sdf.format(topicTimeDto.getBeginTime()),
-                topicTimeDto.getEndTime()==null?"":sdf.format(topicTimeDto.getEndTime()),
-                topicTimeDto.getLessonId()
-        );
+        return lessonEntityManager.getTopicTime(lessonId);
     }
 
     public List<TopicListVo> getTopics(Integer lessonId) {
@@ -181,10 +173,15 @@ public class UserManager {
     public void addTopicMember(Integer topicId) {
         Integer id=threadLocalUtils.getCurrentUser().getId();
         LessonDto lesson = lessonEntityManager.getTopicLesson(topicId);
-        TopicTimeDto topicTime = lessonEntityManager.getTopicTime(lesson.getId());
-        LocalDateTime now = LocalDateTime.now();
-        if (topicTime.getBeginTime()==null||now.isBefore(topicTime.getBeginTime().toLocalDateTime())||now.isAfter(topicTime.getEndTime().toLocalDateTime()))
-            throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
+        TopicTimeVo topicTimeVo = lessonEntityManager.getTopicTime(lesson.getId());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        try{
+            if (now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getBeginTime())))
+                throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
+        }catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         if (!lessonEntityManager.verifyLessonMember(lesson.getId(),id))
             throw AokiException.forbidden();
         if (lesson.isTeamMode()){
@@ -197,10 +194,15 @@ public class UserManager {
     public void removeTopicMember(Integer topicId) {
         Integer id=threadLocalUtils.getCurrentUser().getId();
         LessonDto lesson = lessonEntityManager.getTopicLesson(topicId);
-        TopicTimeDto topicTime = lessonEntityManager.getTopicTime(lesson.getId());
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isBefore(topicTime.getBeginTime().toLocalDateTime())||now.isAfter(topicTime.getEndTime().toLocalDateTime()))
-            throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
+        TopicTimeVo topicTimeVo = lessonEntityManager.getTopicTime(lesson.getId());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        try{
+            if (now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getBeginTime())))
+                throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
+        }catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         if (!lessonEntityManager.verifyLessonMember(lesson.getId(),id))
             throw AokiException.forbidden();
         if (lesson.isTeamMode()){
@@ -208,5 +210,10 @@ public class UserManager {
                 throw AokiException.fail(ResultStatus.Message.HAVE_NO_TEAM);
         }
         lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,id));
+    }
+
+    public List<TaskListMemberVo> getMemberTasks(Integer lessonId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        return taskEntityManager.getMemberTasks(id,lessonId);
     }
 }

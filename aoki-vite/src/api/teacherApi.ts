@@ -1,9 +1,22 @@
-import {CreateLessonType, EditTopicType, LessonType, MilestonesType} from "../common/typeClass";
+import {
+    CreateLessonType,
+    EditLessonType,
+    EditTopicType,
+    LessonType,
+    MilestonesType, TaskType,
+    TopicTimeType
+} from "../common/typeClass";
 import {apiUrl, POST} from "./api";
 
 export const teacherApi={
     createLesson(cl:CreateLessonType){
         return POST(apiUrl.createLesson,cl)
+    },
+    updateLesson(el:EditLessonType){
+        return POST(apiUrl.updateLesson,el)
+    },
+    deleteLesson(lessonId:number,code:string){
+        return POST(apiUrl.deleteLesson,{lessonId:lessonId,code:code})
     },
     addLessonMember(username:string,id:number){
         return POST(apiUrl.addLessonMember,{username:username,id:id})
@@ -19,6 +32,9 @@ export const teacherApi={
     },
     deleteMilestones(lessonId:number,idList:number[]){
         return POST(apiUrl.deleteMilestones,{lessonId:lessonId,idList:idList})
+    },
+    updateTopicTime(topicTime:TopicTimeType){
+        return POST(apiUrl.updateTopicTime,topicTime)
     },
     createTopic(createTopic:EditTopicType){
         return POST(apiUrl.createTopic,createTopic)
@@ -43,5 +59,20 @@ export const teacherApi={
     },
     removeTopicMemberTeacher(topicId:number,memberId:number){
         return POST(apiUrl.removeTopicMemberTeacher,{topicId:topicId,memberId:memberId})
+    },
+    createTask(task:TaskType){
+        return POST(apiUrl.createTask,task)
+    },
+    updateTask(task:TaskType){
+        return POST(apiUrl.updateTask,task)
+    },
+    deleteTask(taskId:number){
+        return POST(apiUrl.deleteTask,{taskId:taskId})
+    },
+    getOwnerTasks(lessonId:number){
+        return POST(apiUrl.getOwnerTasks,{lessonId:lessonId})
+    },
+    toggleTaskPublish(taskId:number){
+        return POST(apiUrl.toggleTaskPublish,{taskId:taskId})
     }
 }

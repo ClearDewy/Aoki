@@ -102,4 +102,9 @@ public class UserController {
     Result removeTopicMember(Integer topicId){
         return userService.removeTopicMember(topicId);
     }
+
+    @PostMapping("/get-member-tasks")
+    Result getMemberTasks(Integer lessonId){
+        return userService.getMemberTasks(lessonId);
+    }
 }
