@@ -10,22 +10,13 @@
       </el-container>
     </el-container>
   </div>
-<!--<TaskTeacher/>-->
+<!--<TaskQuestionEdit/>-->
 </template>
 
 <script setup lang="ts">
-import NavBar from "./components/bar/NavBar.vue"
-import SideBar from "./components/bar/SideBar.vue"
 import router from "./router";
-import account from "./components/setting/Account.vue"
-import Test from "./Test.vue";
-import Setting from "./views/user/Setting.vue"
-import CreateLesson from "./components/lesson/CreateLesson.vue";
-import MilestonesEdit from "./components/lesson/MilestonesEdit.vue";
-import {ref} from "vue";
-import {alertsuccess} from "./common/alert";
-import Team from "./views/lesson/Team.vue";
-import TaskTeacher from "./components/lesson/TaskTeacher.vue"
+import NavBar from "./components/bar/NavBar.vue"
+import TaskQuestionEdit from "./components/lesson/TaskQuestionEdit.vue";
 
 
 

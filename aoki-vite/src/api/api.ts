@@ -60,8 +60,12 @@ export const GET=(url:string)=>{
     return axios.get(url)
 }
 
-export const POST=(url:string, data:object)=>{
+export const post=(url:string, data:object)=>{
     return axios.post(url,objectToFormData(data))
+}
+
+export const POST=(url:string, data:object)=>{
+    return axios.post(url,data)
 }
 
 export const POST_FILE=(url:string, data:object)=>{
@@ -72,7 +76,7 @@ export const POST_FILE=(url:string, data:object)=>{
 export const objectToFormData=(params:object)=>{
     const data=new formData()
     Object.keys(params).forEach(key=>{
-        data.append(key,params[key as keyof typeof params])
+        data.append(key,params[key as keyof typeof params]);
     })
     return data;
 }
@@ -138,5 +142,13 @@ export const apiUrl={
 
     getOwnerTasks:"/api/get-owner-tasks",
     getMemberTasks:"/api/get-member-tasks",
-    toggleTaskPublish:"/api/toggle-task-publish"
+    toggleTaskPublish:"/api/toggle-task-publish",
+
+    getTaskQuestion:"/api/get-task-questions",
+    editTaskQuestions:"/api/edit-task-questions",
+
+    createScoreRule:"/api/create-score-rule",
+    updateScoreRule:"/api/update-score-rule",
+    deleteScoreRule:"/api/delete-score-rule",
+    getScoreRule:"/api/get-score-rule",
 }

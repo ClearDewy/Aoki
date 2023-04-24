@@ -159,7 +159,7 @@ export type TaskType={
     endTime:string
 }
 
-export type OwnerTaskListVo={
+export type OwnerTaskListType={
     id:number,
     name:string,
     publish:boolean,
@@ -172,7 +172,20 @@ export type OwnerTaskListVo={
 export type MemberTaskListType={
     id:number,
     name:string,
-    topicName:string
     beginTime:string,
-    endTime:string
+    endTime:string,
+    submitted:boolean
+}
+
+export type QuestionType={
+    id:number,
+    taskId:number,
+    content:string
+}
+
+export type ScoreRuleType={
+    id:number,
+    name:string,
+    taskId:number,
+    limit:number
 }

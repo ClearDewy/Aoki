@@ -1,8 +1,6 @@
 package com.cleardewy.aoki.service.teacher;
 
-import com.cleardewy.aoki.entity.dto.MilestonesDto;
-import com.cleardewy.aoki.entity.dto.TaskDto;
-import com.cleardewy.aoki.entity.dto.TopicTimeDto;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
@@ -60,4 +58,15 @@ public interface TeacherService {
     Result getOwnerTasks(Integer lessonId);
 
     Result toggleTaskPublish(Integer taskId);
+
+    Result editTaskQuestions(QuestionDto[] questions);
+
+    Result getTaskQuestions(Integer taskId);
+
+    Result createScoreRule(ScoreRuleDto scoreRuleDto);
+
+    Result updateScoreRule(ScoreRuleDto scoreRuleDto);
+
+    Result deleteScoreRule(Integer srId);
+    Result getScoreRule(Integer taskId);
 }

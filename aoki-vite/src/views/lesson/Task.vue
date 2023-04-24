@@ -1,14 +1,14 @@
 <template>
   <div style="display: flex;width: 100%;height: 100%;">
-          <TopicStudent v-if="User.role===2"/>
-          <TopicTeacher v-else/>
+          <TaskStudent v-if="User.role===2"/>
+          <TaskTeacher v-else/>
   </div>
 </template>
 
 <script setup lang="ts">
 import {User} from "../../common/gloableData"
-import TopicTeacher from "../../components/lesson/TaskTeacher.vue"
-import TopicStudent from "../../components/lesson/TopicStudent.vue"
+import TaskTeacher from "../../components/lesson/TaskTeacher.vue";
+import TaskStudent from "../../components/lesson/TaskStudent.vue";
 
 
 </script>

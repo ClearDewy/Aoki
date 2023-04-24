@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class TaskListMemberVo {
     private Integer id;
     private String name;
-    private String topicName;
     private String beginTime;
     private String endTime;
+    private Boolean submitted;
 }

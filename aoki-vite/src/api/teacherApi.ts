@@ -3,76 +3,94 @@ import {
     EditLessonType,
     EditTopicType,
     LessonType,
-    MilestonesType, TaskType,
+    MilestonesType, QuestionType, ScoreRuleType, TaskType,
     TopicTimeType
 } from "../common/typeClass";
-import {apiUrl, POST} from "./api";
+import {apiUrl, POST, post} from "./api";
 
 export const teacherApi={
     createLesson(cl:CreateLessonType){
-        return POST(apiUrl.createLesson,cl)
+        return post(apiUrl.createLesson,cl)
     },
     updateLesson(el:EditLessonType){
-        return POST(apiUrl.updateLesson,el)
+        return post(apiUrl.updateLesson,el)
     },
     deleteLesson(lessonId:number,code:string){
-        return POST(apiUrl.deleteLesson,{lessonId:lessonId,code:code})
+        return post(apiUrl.deleteLesson,{lessonId:lessonId,code:code})
     },
     addLessonMember(username:string,id:number){
-        return POST(apiUrl.addLessonMember,{username:username,id:id})
+        return post(apiUrl.addLessonMember,{username:username,id:id})
     },
     removeLessonMembers(id:number,idList:number[]){
-        return POST(apiUrl.removeLessonMembers,{id:id,idList:idList})
+        return post(apiUrl.removeLessonMembers,{id:id,idList:idList})
     },
     addMilestones(milestones: MilestonesType){
-        return POST(apiUrl.addMilestones,milestones);
+        return post(apiUrl.addMilestones,milestones);
     },
     updateMilestones(milestones: MilestonesType){
-        return POST(apiUrl.updateMilestones,milestones)
+        return post(apiUrl.updateMilestones,milestones)
     },
     deleteMilestones(lessonId:number,idList:number[]){
-        return POST(apiUrl.deleteMilestones,{lessonId:lessonId,idList:idList})
+        return post(apiUrl.deleteMilestones,{lessonId:lessonId,idList:idList})
     },
     updateTopicTime(topicTime:TopicTimeType){
-        return POST(apiUrl.updateTopicTime,topicTime)
+        return post(apiUrl.updateTopicTime,topicTime)
     },
     createTopic(createTopic:EditTopicType){
-        return POST(apiUrl.createTopic,createTopic)
+        return post(apiUrl.createTopic,createTopic)
     },
     updateTopic(updateTopic:EditTopicType){
-        return POST(apiUrl.updateTopic,updateTopic)
+        return post(apiUrl.updateTopic,updateTopic)
     },
     deleteTopic(id:number){
-        return POST(apiUrl.deleteTopic,{id:id})
+        return post(apiUrl.deleteTopic,{id:id})
     },
     getMyTopics(lessonId:number){
-        return POST(apiUrl.getMyTopics,{lessonId:lessonId})
+        return post(apiUrl.getMyTopics,{lessonId:lessonId})
     },
     getTopicMembers(id:number){
-        return POST(apiUrl.getTopicMembers,{id:id})
+        return post(apiUrl.getTopicMembers,{id:id})
     },
     getNoTopicMembers(lessonId:number){
-        return POST(apiUrl.getNoTopicMembers,{lessonId:lessonId})
+        return post(apiUrl.getNoTopicMembers,{lessonId:lessonId})
     },
     addTopicMemberTeacher(topicId:number,memberId:number){
-        return POST(apiUrl.addTopicMemberTeacher,{topicId:topicId,memberId:memberId})
+        return post(apiUrl.addTopicMemberTeacher,{topicId:topicId,memberId:memberId})
     },
     removeTopicMemberTeacher(topicId:number,memberId:number){
-        return POST(apiUrl.removeTopicMemberTeacher,{topicId:topicId,memberId:memberId})
+        return post(apiUrl.removeTopicMemberTeacher,{topicId:topicId,memberId:memberId})
     },
     createTask(task:TaskType){
-        return POST(apiUrl.createTask,task)
+        return post(apiUrl.createTask,task)
     },
     updateTask(task:TaskType){
-        return POST(apiUrl.updateTask,task)
+        return post(apiUrl.updateTask,task)
     },
     deleteTask(taskId:number){
-        return POST(apiUrl.deleteTask,{taskId:taskId})
+        return post(apiUrl.deleteTask,{taskId:taskId})
     },
     getOwnerTasks(lessonId:number){
-        return POST(apiUrl.getOwnerTasks,{lessonId:lessonId})
+        return post(apiUrl.getOwnerTasks,{lessonId:lessonId})
     },
     toggleTaskPublish(taskId:number){
-        return POST(apiUrl.toggleTaskPublish,{taskId:taskId})
-    }
+        return post(apiUrl.toggleTaskPublish,{taskId:taskId})
+    },
+    getTaskQuestion(taskId:number){
+        return post(apiUrl.getTaskQuestion,{taskId:taskId})
+    },
+    editTaskQuestions(questions:QuestionType[]){
+        return POST(apiUrl.editTaskQuestions,questions)
+    },
+    createScoreRule(scoreRule: ScoreRuleType){
+        return post(apiUrl.createScoreRule,scoreRule)
+    },
+    updateScoreRule(scoreRule: ScoreRuleType){
+        return post(apiUrl.updateScoreRule,scoreRule)
+    },
+    deleteScoreRule(srId:number){
+        return post(apiUrl.deleteScoreRule,{srId:srId})
+    },
+    getScoreRule(taskId:number){
+        return post(apiUrl.getScoreRule,{taskId:taskId})
+    },
 }

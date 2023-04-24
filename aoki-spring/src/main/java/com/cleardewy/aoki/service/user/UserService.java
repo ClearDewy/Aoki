@@ -43,5 +43,7 @@ public interface UserService {
 
     Result removeTopicMember(Integer topicId);
 
-    Result getMemberTasks(Integer lessonId);
+    Result getMemberTasks(Integer topicId);
+
+
 }

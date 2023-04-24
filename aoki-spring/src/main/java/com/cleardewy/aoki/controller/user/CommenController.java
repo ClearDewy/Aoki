@@ -56,4 +56,5 @@ public class CommenController {
     Result emailLogin(@Valid EmailVerifyVo emailVerifyVo){
         return commenService.emailLogin(emailVerifyVo);
     }
+
 }

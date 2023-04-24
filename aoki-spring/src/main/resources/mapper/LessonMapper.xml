@@ -32,6 +32,10 @@
         SELECT * FROM `lesson` WHERE id=#{id}
     </select>
 
+    <select id="getLessonByTopic" parameterType="Integer" resultType="LessonDto">
+        SELECT lesson.id, lesson.name, introduction, lesson.ownerId, teamMode, topicMode, avatarURL FROM lesson,topic WHERE topic.id=#{topicId} AND topic.lessonId=lesson.id
+    </select>
+
     <select id="verifyLessonOwner" resultType="Integer" parameterType="Integer">
         SELECT count(*) FROM `lesson` WHERE ownerId=#{ownerId} and id=#{id}
     </select>

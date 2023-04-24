@@ -1,8 +1,6 @@
 package com.cleardewy.aoki.service.teacher.impl;
 
-import com.cleardewy.aoki.entity.dto.MilestonesDto;
-import com.cleardewy.aoki.entity.dto.TaskDto;
-import com.cleardewy.aoki.entity.dto.TopicTimeDto;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
@@ -150,5 +148,38 @@ public class TeacherServiceImpl implements TeacherService {
     public Result toggleTaskPublish(Integer taskId) {
         teacherManager.toggleTaskPublish(taskId);
         return Result.success();
+    }
+
+    @Override
+    public Result editTaskQuestions(QuestionDto[] questions) {
+        teacherManager.editTaskQuestions(questions);
+        return Result.success();
+    }
+
+    @Override
+    public Result getTaskQuestions(Integer taskId) {
+        return Result.success(teacherManager.getTaskQuestions(taskId));
+    }
+
+    @Override
+    public Result createScoreRule(ScoreRuleDto scoreRuleDto) {
+        teacherManager.createScoreRule(scoreRuleDto);
+        return Result.success();
+    }
+
+    @Override
+    public Result updateScoreRule(ScoreRuleDto scoreRuleDto) {
+        teacherManager.updateScoreRule(scoreRuleDto);
+        return Result.success();
+    }
+
+    @Override
+    public Result deleteScoreRule(Integer srId) {
+        teacherManager.deleteScoreRule(srId);
+        return Result.success();
+    }
+    @Override
+    public Result getScoreRule(Integer taskId) {
+        return Result.success(teacherManager.getScoreRule(taskId));
     }
 }

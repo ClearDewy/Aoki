@@ -212,8 +212,14 @@ public class UserManager {
         lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,id));
     }
 
-    public List<TaskListMemberVo> getMemberTasks(Integer lessonId) {
+    public List<TaskListMemberVo> getMemberTasks(Integer topicId) {
         Integer id=threadLocalUtils.getCurrentUser().getId();
-        return taskEntityManager.getMemberTasks(id,lessonId);
+        LessonDto lesson = lessonEntityManager.getLessonByTopic(topicId);
+        if (lesson.isTeamMode()){
+            return taskEntityManager.getMemberTasksTeam(id,topicId);
+        }
+        return taskEntityManager.getMemberTasks(id,topicId);
     }
+
+
 }

@@ -104,7 +104,8 @@ public class UserController {
     }
 
     @PostMapping("/get-member-tasks")
-    Result getMemberTasks(Integer lessonId){
-        return userService.getMemberTasks(lessonId);
+    Result getMemberTasks(Integer topicId){
+        return userService.getMemberTasks(topicId);
     }
+
 }

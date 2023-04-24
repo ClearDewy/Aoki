@@ -109,7 +109,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result getMemberTasks(Integer lessonId) {
-        return Result.success(userManager.getMemberTasks(lessonId));
+    public Result getMemberTasks(Integer topicId) {
+        return Result.success(userManager.getMemberTasks(topicId));
     }
+
+
 }

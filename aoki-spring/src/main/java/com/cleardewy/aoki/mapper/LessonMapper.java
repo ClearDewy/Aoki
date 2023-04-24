@@ -21,6 +21,8 @@ public interface LessonMapper {
 
     LessonDto getLesson(Integer id);
 
+    LessonDto getLessonByTopic(Integer topicId);
+
     Integer verifyLessonOwner(Integer ownerId,Integer id);
 
     Integer addLessonMember(LessonMemberDto lessonMemberDto);

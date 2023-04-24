@@ -20,12 +20,22 @@
                  INNER JOIN topic ON task.topicId = topic.id
         WHERE topic.lessonId = #{lessonId} AND topic.ownerId = #{id}
     </select>
-    <select id="getMemberTasks" resultType="TaskListOwnerVo">
-        SELECT task.id, task.name, topic.name, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s')
+    <select id="getMemberTasks" resultType="TaskListMemberVo">
+        SELECT task.id, task.name, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s') as beginTime, DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s') as endTime,COALESCE(tasksubmitted.submitted, false) as submitted
         FROM task
-                 INNER JOIN topic ON task.topicId = topic.id
-                 INNER JOIN topicmember ON topicmember.topicId = topic.id
-        WHERE topic.lessonId = #{lessonId} AND topicmember.memberId = #{id} AND task.publish=true
+                 INNER JOIN topicmember ON task.topicId = topicmember.topicId
+                 LEFT JOIN tasksubmitted
+                            ON task.id = tasksubmitted.taskId AND topicmember.memberId=tasksubmitted.memberId
+        WHERE topicmember.topicId=#{topicId} AND topicmember.memberId = #{id} AND task.publish=true
+    </select>
+    <select id="getMemberTasksTeam" resultType="TaskListMemberVo">
+        SELECT task.id, task.name, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s') as beginTime, DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s') as endTime,COALESCE(tasksubmitted.submitted, false) as submitted
+        FROM task
+                 INNER JOIN topicmember ON task.topicId = topicmember.topicId
+                 INNER JOIN teammember ON topicmember.memberId = teammember.id
+                 LEFT JOIN tasksubmitted
+                            ON task.id = tasksubmitted.taskId AND topicmember.memberId=tasksubmitted.memberId
+        WHERE topicmember.topicId=#{topicId} AND teammember.memberId = #{id} AND task.publish=true
     </select>
     <select id="verifyTaskOwner" resultType="Integer">
         SELECT count(*) FROM task
@@ -33,9 +43,51 @@
         WHERE topic.ownerId=#{id} AND task.id=#{taskId}
     </select>
     <update id="toggleTaskPublish" parameterType="Integer">
-        UPDATE task SET `publish`=!publish
+        UPDATE task SET publish = IF(publish = 1, 0, 1)
         WHERE id=#{taskId}
     </update>
 
+
+    <select id="getTaskQuestions" parameterType="Integer" resultType="QuestionDto">
+        SELECT id, taskId, content FROM question WHERE taskId=#{taskId}
+    </select>
+
+    <insert id="createTaskQuestions" parameterType="java.util.List">
+        INSERT INTO question (taskId, content) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.taskId}, #{item.content})
+        </foreach>
+    </insert>
+    <update id="updateTaskQuestions" parameterType="java.util.List">
+        UPDATE question
+        SET content = #{content}
+        WHERE id = #{id};
+    </update>
+    <delete id="deleteTaskQuestions" parameterType="java.util.List">
+        DELETE FROM question
+        WHERE id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="verifyScoreRuleOwner" resultType="Integer">
+        SELECT COUNT(*) FROM scorerule
+        JOIN task on task.id = scorerule.taskId
+        JOIN topic on topic.id = task.topicId
+        WHERE scorerule.id=#{srId} AND topic.ownerId=#{id}
+    </select>
+    <insert id="createScoreRule" parameterType="ScoreRuleDto">
+        INSERT INTO scorerule(`name`,`taskId`,`limit`) VALUE (#{name},#{taskId},#{limit})
+    </insert>
+    <update id="updateScoreRule" parameterType="ScoreRuleDto">
+        UPDATE scorerule SET `name`=#{name},`limit`=#{limit} WHERE `id`=#{id}
+    </update>
+    <delete id="deleteScoreRule" parameterType="Integer">
+        DELETE FROM scorerule WHERE `id`=#{id}
+    </delete>
+    <select id="getScoreRule" parameterType="Integer" resultType="ScoreRuleDto">
+        SELECT `id`, `name`, `taskId`, `limit` FROM scorerule WHERE taskId=#{taskId}
+    </select>
 </mapper>
 

@@ -1,4 +1,4 @@
-import {GET, POST, POST_FILE} from "./api"
+import {GET, post, POST_FILE} from "./api"
 import router, {routerPath} from "../router";
 import {storage} from "../common/storage";
 import {alertsuccess} from "../common/alert";
@@ -17,7 +17,7 @@ import {User} from "../common/gloableData";
 
 export const userApi={
     login:(account:AccountType)=>{
-        POST(apiUrl.login,account).then(res=>{
+        post(apiUrl.login,account).then(res=>{
             loginSuccess(res)
         })
     },
@@ -29,13 +29,13 @@ export const userApi={
     },
     // 获取验证码
     getVerifyCode:(email:string)=>{
-        return POST(apiUrl.getVerifyCode,{email:email})
+        return post(apiUrl.getVerifyCode,{email:email})
     },
     verifyCode(email:string,code:string){
-        return POST(apiUrl.verifyCode,{email:email,code:code})
+        return post(apiUrl.verifyCode,{email:email,code:code})
     },
     register(user:UserRegisterType){
-        POST(apiUrl.register,user).then(res=>{
+        post(apiUrl.register,user).then(res=>{
             alertsuccess("注册成功")
             router.replace(routerPath.Login)
         })
@@ -44,63 +44,63 @@ export const userApi={
         return GET(apiUrl.getAllMajor)
     },
     emailLogin(emailLogin:EmailLoginType){
-        POST(apiUrl.emailLogin,emailLogin).then(res=>{
+        post(apiUrl.emailLogin,emailLogin).then(res=>{
             loginSuccess(res)
         })
     },
     updatePassword(uPassword:UpdatePasswordType){
-        return POST(apiUrl.updatePassword,uPassword)
+        return post(apiUrl.updatePassword,uPassword)
     },
     updateEmail(uEmail:UpdateEmailType){
-        return POST(apiUrl.updateEmail,uEmail)
+        return post(apiUrl.updateEmail,uEmail)
     },
     updateAvatar(avatarURL:string){
-        return POST(apiUrl.updateAvatar, {avatarURL:avatarURL})
+        return post(apiUrl.updateAvatar, {avatarURL:avatarURL})
     },
     getLessonList(){
         return GET(apiUrl.getLessonList)
     },
     getLesson(id:number){
-        return POST(apiUrl.getLesson,{id:id})
+        return post(apiUrl.getLesson,{id:id})
     },
     getLessonMember(id:number){
-        return POST(apiUrl.getLessonMember,{id:id})
+        return post(apiUrl.getLessonMember,{id:id})
     },
     getMilestones(id:number){
-        return POST(apiUrl.getMilestones,{id:id})
+        return post(apiUrl.getMilestones,{id:id})
     },
     createTeam(name:string,lessonId:number){
-        return POST(apiUrl.createTeam,{name:name,lessonId:lessonId})
+        return post(apiUrl.createTeam,{name:name,lessonId:lessonId})
     },
     getTeams(lessonId:number){
-        return POST(apiUrl.getTeams,{lessonId:lessonId})
+        return post(apiUrl.getTeams,{lessonId:lessonId})
     },
     getNoTeamMembers(lessonId:number){
-        return POST(apiUrl.getNoTeamMembers,{lessonId:lessonId})
+        return post(apiUrl.getNoTeamMembers,{lessonId:lessonId})
     },
     addTeamMember(teamId:number,username:string){
-        return POST(apiUrl.addTeamMember,{teamId:teamId,username:username})
+        return post(apiUrl.addTeamMember,{teamId:teamId,username:username})
     },
     removeTeamMember(teamId:number,username:string){
-        return POST(apiUrl.removeTeamMember,{teamId:teamId,username:username})
+        return post(apiUrl.removeTeamMember,{teamId:teamId,username:username})
     },
     getTopicTime(lessonId:number){
-        return POST(apiUrl.getTopicTime,{lessonId:lessonId})
+        return post(apiUrl.getTopicTime,{lessonId:lessonId})
     },
     getTopics(lessonId:number){
-        return POST(apiUrl.getTopics,{lessonId:lessonId})
+        return post(apiUrl.getTopics,{lessonId:lessonId})
     },
     getMyTopic(lessonId:number){
-        return POST(apiUrl.getMyTopic,{lessonId:lessonId})
+        return post(apiUrl.getMyTopic,{lessonId:lessonId})
     },
     addTopicMember(topicId:number){
-        return POST(apiUrl.addTopicMember,{topicId:topicId})
+        return post(apiUrl.addTopicMember,{topicId:topicId})
     },
     removeTopicMember(topicId:number){
-        return POST(apiUrl.removeTopicMember,{topicId:topicId})
+        return post(apiUrl.removeTopicMember,{topicId:topicId})
     },
-    getMemberTasks(lessonId:number){
-        return POST(apiUrl.getMemberTasks,{lessonId:lessonId})
+    getMemberTasks(topicId:number){
+        return post(apiUrl.getMemberTasks,{topicId:topicId})
     }
 }
 

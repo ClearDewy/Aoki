@@ -2,7 +2,8 @@
   <MdEditorV3
       ref="editorRef"
       :modelValue="modelValue"
-      :editorId="editorId"
+      :editorId="props.editorId"
+      :id="props.editorId"
       :toolbars="toolbars"
       showCodeRowNumber
       autoDetectCode
@@ -39,10 +40,7 @@ import {alerterror} from "../../common/alert";
 import {FileApi} from "../../api/fileApi";
 import {UploadFile} from "element-plus";
 const props=defineProps({
-  editorId:{
-    type:String,
-    default:"md-editor"
-  },
+  editorId:String,
   modelValue:String,
   previewOnly:{
     type:Boolean,

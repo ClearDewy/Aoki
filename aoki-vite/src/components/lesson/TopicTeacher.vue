@@ -2,7 +2,7 @@
   <el-card class="box-card" style="margin-right: 10px" :body-style="el_card__body">
     <template #header>
       <div class="card-header">
-        <span>我的课题</span>
+        <h2>我的课题</h2>
         <el-button text @click="flag=true;showEditTopicDialog=true">新建课题</el-button>
       </div>
     </template>
@@ -43,12 +43,12 @@
       <el-table-column prop="ownerName" label="老师"/>
       <el-table-column label="人数">
         <template #default="{row}">
-          <sp>{{row.number}} / {{row.limit}}</sp>
+          <span>{{row.number}} / {{row.limit}}</span>
         </template>
       </el-table-column>
       <el-table-column label="人数">
         <template #default="{row}">
-          <sp>{{row.number}} / {{row.limit}}</sp>
+          <span>{{row.number}} / {{row.limit}}</span>
         </template>
       </el-table-column>
     </el-table>

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ Author: ClearDewy
@@ -223,5 +223,58 @@ public class TeacherManager {
         if (!taskEntityManager.verifyTaskOwner(taskId,id))
             throw AokiException.forbidden();
         taskEntityManager.toggleTaskPublish(taskId);
+    }
+
+    public void editTaskQuestions(QuestionDto[] questions) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        Integer taskId=questions[0].getTaskId();
+        if (!taskEntityManager.verifyTaskOwner(taskId,id))
+            throw AokiException.forbidden();
+
+        Set<Integer> oldQuestionId = taskEntityManager.getTaskQuestions(taskId).stream()
+                .map(QuestionDto::getId)
+                .collect(Collectors.toSet());
+        List<QuestionDto>createQuestionIdList=new ArrayList<>();
+        for (QuestionDto question : questions) {
+            if (oldQuestionId.contains(question.getId())) {
+                oldQuestionId.remove(question.getId());
+                taskEntityManager.updateTaskQuestions(question);
+            }else{
+                createQuestionIdList.add(question);
+            }
+        }
+        taskEntityManager.createTaskQuestions(createQuestionIdList);
+        taskEntityManager.deleteTaskQuestions(oldQuestionId.stream().toList());
+    }
+
+    public List<QuestionDto> getTaskQuestions(Integer taskId) {
+        return taskEntityManager.getTaskQuestions(taskId);
+    }
+
+    public void createScoreRule(ScoreRuleDto scoreRuleDto) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!taskEntityManager.verifyTaskOwner(scoreRuleDto.getTaskId(),id))
+            throw AokiException.forbidden();
+        taskEntityManager.createScoreRule(scoreRuleDto);
+    }
+
+    public void updateScoreRule(ScoreRuleDto scoreRuleDto) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!taskEntityManager.verifyScoreRuleOwner(scoreRuleDto.getTaskId(),id))
+            throw AokiException.forbidden();
+        taskEntityManager.updateScoreRule(scoreRuleDto);
+    }
+
+    public void deleteScoreRule(Integer srId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!taskEntityManager.verifyScoreRuleOwner(srId,id))
+            throw AokiException.forbidden();
+        taskEntityManager.deleteScoreRule(srId);
+    }
+    public List<ScoreRuleDto> getScoreRule(Integer taskId) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        if (!taskEntityManager.verifyTaskOwner(taskId,id))
+            throw AokiException.forbidden();
+        return taskEntityManager.getScoreRule(taskId);
     }
 }

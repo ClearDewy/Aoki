@@ -46,6 +46,13 @@ public class LessonEntityManager {
         return lesson;
     }
 
+    public LessonDto getLessonByTopic(Integer topicId){
+        LessonDto lesson = lessonMapper.getLessonByTopic(topicId);
+        if (lesson==null)
+            throw AokiException.notFound();
+        return lesson;
+    }
+
     public boolean verifyLessonOwner(Integer ownerId,Integer id){
         return lessonMapper.verifyLessonOwner(ownerId,id)!=0;
     }

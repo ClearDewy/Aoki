@@ -9,9 +9,10 @@ import lombok.Data;
  **/
 @Data
 @AllArgsConstructor
-public class ScoreRuleDto {
-    private Integer id;
-    private String name;
-    private Integer taskId;
-    private Double limit;
+public class TaskMemberDto {
+    Integer id;
+    Integer taskId;
+    Integer memberId;
+    Boolean saved;
+    Boolean submitted;
 }

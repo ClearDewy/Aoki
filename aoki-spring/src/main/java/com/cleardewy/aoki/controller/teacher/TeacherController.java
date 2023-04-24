@@ -1,9 +1,9 @@
 package com.cleardewy.aoki.controller.teacher;
 
+import cn.hutool.json.JSON;
 import com.cleardewy.aoki.annotation.AokiRole;
-import com.cleardewy.aoki.entity.dto.MilestonesDto;
-import com.cleardewy.aoki.entity.dto.TaskDto;
-import com.cleardewy.aoki.entity.dto.TopicTimeDto;
+import com.cleardewy.aoki.constant.ResultStatus;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
 import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
@@ -11,10 +11,9 @@ import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.cleardewy.aoki.constant.RoleConstans.*;
 
@@ -127,5 +126,30 @@ public class TeacherController {
     @PostMapping("/toggle-task-publish")
     Result toggleTaskPublish(Integer taskId){
         return teacherService.toggleTaskPublish(taskId);
+    }
+
+    @PostMapping("/get-task-questions")
+    Result getTaskQuestion(Integer taskId){
+        return teacherService.getTaskQuestions(taskId);
+    }
+    @PostMapping("/edit-task-questions")
+    Result editTaskQuestions(@RequestBody QuestionDto[] questions){
+        return teacherService.editTaskQuestions(questions);
+    }
+    @PostMapping("/create-score-rule")
+    Result createScoreRule(ScoreRuleDto scoreRuleDto){
+        return teacherService.createScoreRule(scoreRuleDto);
+    }
+    @PostMapping("/update-score-rule")
+    Result updateScoreRule(ScoreRuleDto scoreRuleDto){
+        return teacherService.updateScoreRule(scoreRuleDto);
+    }
+    @PostMapping("/delete-score-rule")
+    Result deleteScoreRule(Integer srId){
+        return teacherService.deleteScoreRule(srId);
+    }
+    @PostMapping("/get-score-rule")
+    Result getScoreRule(Integer taskId){
+        return teacherService.getScoreRule(taskId);
     }
 }

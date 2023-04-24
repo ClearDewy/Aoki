@@ -82,6 +82,11 @@ const routes:Array<RouteRecordRaw>=[
                 name:"课程设置",
                 component:()=>import("../views/lesson/LessonSetting.vue"),
             },
+            {
+                path:"question",
+                name:"题目",
+                component:()=>import("../components/lesson/TaskQuestionEdit.vue"),
+            },
         ],
         meta:{
             requiresAuth:false,

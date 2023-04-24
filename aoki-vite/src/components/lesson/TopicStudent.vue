@@ -2,7 +2,7 @@
   <el-card v-if="Lesson.topicMode||myTopic" class="box-card" :body-style="el_card__body">
     <template #header>
       <div class="card-header">
-        <span style="margin: auto">我的选题</span>
+        <h2 style="margin: auto">我的选题</h2>
         <el-button v-if="!Lesson.topicMode" type="danger" @click="removeTopicMember(myTopic?.id)">退选</el-button>
       </div>
     </template>
@@ -34,7 +34,7 @@
       <el-table-column label="操作">
         <template #default="{row}">
           <el-button type="primary" @click="addTopicMember(row.id)" plain
-                     :disabled="row.limit===row.number||((new Date().getTime())>=(new Date(topicTime.beginTime)).getTime()&&(new Date()).getTime()<=(new Date(topicTime.endTime)).getTime())"
+                     :disabled="row.number>=row.limit&&disabled"
           >选择</el-button>
         </template>
       </el-table-column>
@@ -51,17 +51,13 @@ import {TopicListType, TopicTimeType} from "../../common/typeClass";
 import {Lesson} from "../../common/gloableData";
 import {userApi} from "../../api/userApi";
 import {alerterror} from "../../common/alert";
+import {storage} from "../../common/storage";
 
-// const myTopic=ref<TopicListType>()
 const myTopic=ref<TopicListType>()
 const topicList=ref<TopicListType[]>([])
-const topicTime=ref<TopicTimeType>({
-  beginTime:'',
-  endTime:'',
-  lessonId:Lesson.value.id as number
-})
-
-
+const beginTime=ref(new Date(0))
+const endTime=ref(new Date(0))
+const disabled=ref(false)
 
 const getTopics = () => {
   userApi.getTopics(Lesson.value.id as number).then(res=>{
@@ -73,6 +69,7 @@ const getTopics = () => {
 
 const getMyTopic=()=>{
   userApi.getMyTopic(Lesson.value.id as number).then(res=>{
+    storage.setItem("topic",res.data)
     myTopic.value=res.data
   }).catch(e=>{
     alerterror(e.message)
@@ -81,7 +78,8 @@ const getMyTopic=()=>{
 
 const getTopicTime = () => {
   userApi.getTopicTime(Lesson.value.id as number).then(res=>{
-    topicTime.value=res.data as TopicTimeType
+    beginTime.value=new Date(res.data.beginTime)
+    endTime.value=new Date(res.data.endTime)
   }).catch(e=>{
     alerterror("获取选课时间失败");
   })
@@ -104,9 +102,18 @@ const removeTopicMember = (id:number) => {
 }
 
 
-getTopicTime()
+
 getMyTopic()
-if (!myTopic.value) getTopics()
+if (!myTopic.value){
+  getTopicTime()
+  getTopics()
+}
+
+// 定时检查当前时间是否在范围内
+setInterval(() => {
+  const now = new Date();
+  disabled.value = !(now >= beginTime.value && now <= endTime.value);
+}, 1000); // 每秒执行一次
 
 </script>
 

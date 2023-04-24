@@ -13,6 +13,7 @@ import com.cleardewy.aoki.utils.JwtUtils;
 import com.cleardewy.aoki.utils.RedisUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,6 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @ Description:
  **/
 @Component
+@Slf4j
 public class AccountManager {
     @Autowired
     JwtUtils jwtUtils;
