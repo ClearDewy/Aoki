@@ -21,18 +21,13 @@ public class LessonEntityManager {
     LessonMapper lessonMapper;
 
     public void addLesson(LessonDto lessonDto){
-        if (lessonMapper.addLesson(lessonDto)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
-        }
+        lessonMapper.addLesson(lessonDto);
     }
     public void updateLesson(EditLessonVo editLessonVo) {
-        if (lessonMapper.updateLesson(editLessonVo)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
-        }
+        lessonMapper.updateLesson(editLessonVo);
     }
     public void deleteLesson(Integer lessonId) {
-        if (lessonMapper.deleteLesson(lessonId)==0)
-            throw AokiException.notFound();
+        lessonMapper.deleteLesson(lessonId);
     }
 
     public List<LessonListVo> getLessonList(Integer id) {
@@ -40,17 +35,11 @@ public class LessonEntityManager {
     }
 
     public LessonDto getLesson(Integer id){
-        LessonDto lesson = lessonMapper.getLesson(id);
-        if (lesson==null)
-            throw AokiException.notFound();
-        return lesson;
+        return lessonMapper.getLesson(id);
     }
 
     public LessonDto getLessonByTopic(Integer topicId){
-        LessonDto lesson = lessonMapper.getLessonByTopic(topicId);
-        if (lesson==null)
-            throw AokiException.notFound();
-        return lesson;
+        return lessonMapper.getLessonByTopic(topicId);
     }
 
     public boolean verifyLessonOwner(Integer ownerId,Integer id){
@@ -58,9 +47,7 @@ public class LessonEntityManager {
     }
 
     public void addLessonMember(LessonMemberDto lessonMemberDto){
-        if (lessonMapper.addLessonMember(lessonMemberDto)==0){
-            throw new AokiException(ResultStatus.Status.FAIL);
-        }
+        lessonMapper.addLessonMember(lessonMemberDto);
     }
 
     public boolean verifyLessonMember(Integer lessonId,Integer memberId){
@@ -75,13 +62,11 @@ public class LessonEntityManager {
     }
 
     public void addTopicTime(TopicTimeDto topicTimeDto){
-        if (lessonMapper.addTopicTime(topicTimeDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.addTopicTime(topicTimeDto);
     }
 
     public void updateTopicTime(TopicTimeDto topicTimeDto){
-        if (lessonMapper.updateTopicTime(topicTimeDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.updateTopicTime(topicTimeDto);
     }
 
     public TopicTimeVo getTopicTime(Integer lessonId){
@@ -89,8 +74,7 @@ public class LessonEntityManager {
     }
 
     public void createTopic(TopicDto topicDto){
-        if (lessonMapper.createTopic(topicDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.createTopic(topicDto);
     }
 
     public List<TopicListVo> getTopics(Integer lessonId){
@@ -98,12 +82,10 @@ public class LessonEntityManager {
     }
 
     public void updateTopic(TopicDto topicDto){
-        if (lessonMapper.updateTopic(topicDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.updateTopic(topicDto);
     }
     public void deleteTopic(Integer id){
-        if (lessonMapper.deleteTopic(id)==0)
-            throw AokiException.notFound();
+        lessonMapper.deleteTopic(id);
     }
 
     public TopicListVo getMyTopic(Integer lessonId, Integer id) {
@@ -121,13 +103,11 @@ public class LessonEntityManager {
     }
 
     public void addTopicMember(TopicMemberDto topicMemberDto){
-        if (lessonMapper.addTopicMember(topicMemberDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.addTopicMember(topicMemberDto);
     }
 
     public void removeTopicMember(TopicMemberDto topicMemberDto){
-        if (lessonMapper.removeTopicMember(topicMemberDto)==0)
-            throw AokiException.notFound();
+        lessonMapper.removeTopicMember(topicMemberDto);
     }
 
 
@@ -139,4 +119,7 @@ public class LessonEntityManager {
         return lessonMapper.getNoTopicMembers(lessonId);
     }
 
+    public LessonDto getLessonByTaskId(Integer taskId){
+        return lessonMapper.getLessonByTaskId(taskId);
+    }
 }

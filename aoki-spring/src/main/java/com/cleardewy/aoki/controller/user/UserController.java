@@ -2,16 +2,14 @@ package com.cleardewy.aoki.controller.user;
 
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.constant.RoleConstans;
+import com.cleardewy.aoki.entity.vo.lesson.SubmitTaskVo;
 import com.cleardewy.aoki.entity.vo.user.UpdateEmailVo;
 import com.cleardewy.aoki.entity.vo.user.UpdatePasswordVo;
 import com.cleardewy.aoki.service.user.UserService;
 import com.cleardewy.aoki.utils.Result;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.cleardewy.aoki.constant.RoleConstans.*;
 
@@ -106,6 +104,20 @@ public class UserController {
     @PostMapping("/get-member-tasks")
     Result getMemberTasks(Integer topicId){
         return userService.getMemberTasks(topicId);
+    }
+
+    @PostMapping("/get-task-question-answer")
+    Result getTaskQuestionAnswer(Integer taskId){
+        return userService.getTaskQuestionAnswer(taskId);
+    }
+    @PostMapping("/submit-task")
+    Result submitTask(@RequestBody SubmitTaskVo submitTaskVo){
+        System.out.println(submitTaskVo);
+        return userService.submitTask(submitTaskVo,true);
+    }
+    @PostMapping("/save-task")
+    Result saveTask(@RequestBody SubmitTaskVo submitTaskVo){
+        return userService.submitTask(submitTaskVo,false);
     }
 
 }

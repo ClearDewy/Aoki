@@ -1,10 +1,9 @@
 package com.cleardewy.aoki.manager.entity;
 
-import com.cleardewy.aoki.entity.dto.QuestionDto;
-import com.cleardewy.aoki.entity.dto.ScoreRuleDto;
-import com.cleardewy.aoki.entity.dto.TaskDto;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.TaskListMemberVo;
 import com.cleardewy.aoki.entity.vo.lesson.TaskListOwnerVo;
+import com.cleardewy.aoki.entity.vo.lesson.TaskQuestionAnswerList;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +22,14 @@ public class TaskEntityManager {
 
 
     public void createTask(TaskDto taskDto) {
-        if (taskMapper.createTask(taskDto)==0)
-            throw AokiException.fail();
+        taskMapper.createTask(taskDto);
     }
 
     public void updateTask(TaskDto taskDto) {
-        if (taskMapper.updateTask(taskDto)==0)
-            throw AokiException.fail();
+        taskMapper.updateTask(taskDto);
     }
     public void deleteTask(Integer taskId) {
-        if (taskMapper.deleteTask(taskId)==0)
-            throw AokiException.fail();
+        taskMapper.deleteTask(taskId);
     }
 
     public List<TaskListOwnerVo> getOwnerTasks(Integer id, Integer lessonId) {
@@ -52,8 +48,7 @@ public class TaskEntityManager {
     }
 
     public void toggleTaskPublish(Integer taskId){
-        if (taskMapper.toggleTaskPublish(taskId)==0)
-            throw AokiException.notFound();
+        taskMapper.toggleTaskPublish(taskId);
     }
 
     public List<QuestionDto> getTaskQuestions(Integer taskId) {
@@ -61,19 +56,16 @@ public class TaskEntityManager {
     }
 
     public void updateTaskQuestions(QuestionDto questionDto){
-        if (taskMapper.updateTaskQuestions(questionDto)==0)
-            throw AokiException.notFound();
+        taskMapper.updateTaskQuestions(questionDto);
     }
 
     public void createTaskQuestions(List<QuestionDto> questionList){
         if (questionList.isEmpty())return;
-        if (taskMapper.createTaskQuestions(questionList)==0)
-            throw AokiException.fail();
+        taskMapper.createTaskQuestions(questionList);
     }
     public void deleteTaskQuestions(List<Integer> questionIdList){
         if (questionIdList.isEmpty())return;
-        if (taskMapper.deleteTaskQuestions(questionIdList)==0)
-            throw AokiException.notFound();
+        taskMapper.deleteTaskQuestions(questionIdList);
     }
 
     public Boolean verifyScoreRuleOwner(Integer srId,Integer id){
@@ -81,21 +73,29 @@ public class TaskEntityManager {
     }
 
     public void createScoreRule(ScoreRuleDto scoreRuleDto) {
-        if (taskMapper.createScoreRule(scoreRuleDto)==0)
-            throw AokiException.fail();
+        taskMapper.createScoreRule(scoreRuleDto);
     }
 
     public void updateScoreRule(ScoreRuleDto scoreRuleDto) {
-        if (taskMapper.updateScoreRule(scoreRuleDto)==0)
-            throw AokiException.notFound();
+        taskMapper.updateScoreRule(scoreRuleDto);
     }
 
     public void deleteScoreRule(Integer srId) {
-        if (taskMapper.deleteScoreRule(srId)==0)
-            throw AokiException.notFound();
+        taskMapper.deleteScoreRule(srId);
     }
 
     public List<ScoreRuleDto> getScoreRule(Integer taskId) {
         return taskMapper.getScoreRule(taskId);
+    }
+
+    public List<TaskQuestionAnswerList> getTaskQuestionAnswer(Integer taskId, int id) {
+        return taskMapper.getQuestionAnswerList(taskId,id);
+    }
+    public void submitAnswer(AnswerDto answerDto){
+        taskMapper.submitAnswer(answerDto);
+    }
+
+    public void updateTaskSubmitted(TaskSubmittedDto taskSubmittedDto){
+        taskMapper.updateTaskSubmitted(taskSubmittedDto);
     }
 }

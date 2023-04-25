@@ -135,7 +135,8 @@ public class UserManager {
     }
 
     public void addTeamMember(Integer id,String username) {
-        teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),id);
+        if (!teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),id))
+            throw AokiException.forbidden();
         Integer memberId=userEntityManager.getUserByUsername(username).getId();
         if (!lessonEntityManager.verifyLessonMember(teamEntityManager.getTeamLessonId(id),memberId)){
             throw AokiException.forbidden();
@@ -144,7 +145,8 @@ public class UserManager {
     }
 
     public void removeTeamMember(Integer teamId, String username) {
-        teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),teamId);
+        if (!teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),teamId))
+            throw AokiException.forbidden();
         Integer memberId=userEntityManager.getUserByUsername(username).getId();
         teamEntityManager.removeTeamMember(teamId,memberId);
     }
@@ -222,4 +224,23 @@ public class UserManager {
     }
 
 
+    public List<TaskQuestionAnswerList> getTaskQuestionAnswer(Integer taskId) {
+        int id=threadLocalUtils.getCurrentUser().getId();
+        LessonDto lesson = lessonEntityManager.getLessonByTaskId(taskId);
+        if (lesson.isTeamMode()){
+            id=teamEntityManager.getTeamId(lesson.getId(),id);
+        }
+        return taskEntityManager.getTaskQuestionAnswer(taskId,id);
+    }
+
+    public void submitTask(SubmitTaskVo submitTaskVo, Boolean submitted) {
+        Integer id=threadLocalUtils.getCurrentUser().getId();
+        LessonDto lesson = lessonEntityManager.getLessonByTaskId(submitTaskVo.getTaskId());
+        if (lesson.isTeamMode()){
+            id=teamEntityManager.getTeamId(lesson.getId(),id);
+        }
+        Integer finalId = id;
+        submitTaskVo.getAnswerList().forEach((submitAnswer)-> taskEntityManager.submitAnswer(new AnswerDto(null,submitAnswer.questionId,submitAnswer.answerContent, finalId)));
+        taskEntityManager.updateTaskSubmitted(new TaskSubmittedDto(null,submitTaskVo.getTaskId(),id,submitted));
+    }
 }

@@ -26,13 +26,11 @@ public class TeamEntityManager {
 
 
     public void createTeam(TeamDto teamDto) {
-        if (teamMapper.createTeam(teamDto)==0)
-            throw AokiException.notFound();
+        teamMapper.createTeam(teamDto);
     }
 
     public void addTeamMember(TeamMemberDto teamMemberDto) {
-        if (teamMapper.addTeamMember(teamMemberDto)==0)
-            throw AokiException.notFound();
+        teamMapper.addTeamMember(teamMemberDto);
     }
 
     public List<TeamVo> getTeams(Integer lessonId){
@@ -48,31 +46,23 @@ public class TeamEntityManager {
     }
 
     public TeamDto getTeam(Integer id){
-        TeamDto teamDto=teamMapper.getTeam(id);
-        if (teamDto==null)
-            throw AokiException.notFound();
-        return teamDto;
+        return teamMapper.getTeam(id);
     }
 
     public Integer getTeamId(Integer lessonId,Integer id){
         return teamMapper.getTeamId(lessonId,id);
     }
 
-    public void verifyTeamOwner(Integer id,Integer teamId){
-        if (!getTeam(teamId).getOwnerId().equals(id))
-            throw AokiException.forbidden();
+    public Boolean verifyTeamOwner(Integer id,Integer teamId){
+        return getTeam(teamId).getOwnerId().equals(id);
     }
 
     public Integer getTeamLessonId(Integer id){
-        Integer lessonId=teamMapper.getTeamLessonId(id);
-        if (lessonId==null)
-            throw AokiException.notFound();
-        return lessonId;
+        return teamMapper.getTeamLessonId(id);
     }
 
     public void removeTeamMember(Integer teamId,Integer memberId){
-        if (teamMapper.removeTeamMember(teamId,memberId)==0)
-            throw AokiException.notFound();
+        teamMapper.removeTeamMember(teamId,memberId);
     }
 
     public List<TeamVo> getTopicTeams(Integer topicId){
@@ -81,5 +71,9 @@ public class TeamEntityManager {
 
     public List<NoTopicMemberList> getNoTopicTeams(Integer lessonId) {
         return teamMapper.getNoTopicTeams(lessonId);
+    }
+
+    public Integer getTeamIdByTaskId(Integer taskId,Integer id){
+        return teamMapper.getTeamIdByTaskId(taskId,id);
     }
 }

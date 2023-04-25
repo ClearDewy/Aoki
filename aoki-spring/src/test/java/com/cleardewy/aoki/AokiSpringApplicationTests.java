@@ -1,5 +1,7 @@
 package com.cleardewy.aoki;
 
+import com.cleardewy.aoki.entity.dto.AnswerDto;
+import com.cleardewy.aoki.entity.dto.LessonDto;
 import com.cleardewy.aoki.entity.dto.QuestionDto;
 import com.cleardewy.aoki.entity.dto.TaskDto;
 import com.cleardewy.aoki.manager.entity.LessonEntityManager;
@@ -37,7 +39,9 @@ class AokiSpringApplicationTests {
 
     @Test
     void test() {
-        taskMapper.getMemberTasksTeam(1,3);
+        AnswerDto answer = new AnswerDto(null, 1, "你说啥", 1);
+        taskMapper.submitAnswer(answer);
+//        System.out.println(teamMapper.getTeamIdByTaskId(1,1));;
     }
 
 }

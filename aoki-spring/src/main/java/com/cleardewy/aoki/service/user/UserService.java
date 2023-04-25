@@ -1,5 +1,6 @@
 package com.cleardewy.aoki.service.user;
 
+import com.cleardewy.aoki.entity.vo.lesson.SubmitTaskVo;
 import com.cleardewy.aoki.entity.vo.user.UpdateEmailVo;
 import com.cleardewy.aoki.entity.vo.user.UpdatePasswordVo;
 import com.cleardewy.aoki.utils.Result;
@@ -46,4 +47,7 @@ public interface UserService {
     Result getMemberTasks(Integer topicId);
 
 
+    Result getTaskQuestionAnswer(Integer taskId);
+
+    Result submitTask(SubmitTaskVo submitTaskVo, Boolean submitted);
 }

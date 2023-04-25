@@ -189,3 +189,19 @@ export type ScoreRuleType={
     taskId:number,
     limit:number
 }
+
+export type SubmitAnswerType={
+    questionId:number,
+    answerContent:string
+}
+
+export type SubmitTaskType={
+    taskId:number,
+    answerList:SubmitAnswerType[]
+}
+
+export type TaskQuestionAnswerListType={
+    questionId:number,
+    questionContent:string,
+    answerContent:string
+}

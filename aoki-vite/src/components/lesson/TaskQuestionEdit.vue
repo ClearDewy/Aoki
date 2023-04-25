@@ -2,8 +2,7 @@
   <el-card class="box-card" :body-style="{
     height:'calc(100% - 69px)',
     paddingTop:'0',
-    paddingBottom:'0',
-    overflow: 'auto'
+    paddingBottom:'0'
 }">
     <template #header>
       <div class="card-header">
@@ -11,7 +10,7 @@
         <el-button type="primary" @click="editTaskQuestions">保存</el-button>
       </div>
     </template>
-    <div style="width: 100%;height: 100%">
+    <div style="max-height: 100%;width: 100%;overflow: auto">
       <el-collapse v-model="activeNames">
         <el-collapse-item v-for="(x,index) in questionList" :name="index">
           <template #title>

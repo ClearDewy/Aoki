@@ -8,9 +8,9 @@
       @mouseenter="isCollapse=false"
       @mouseleave="isCollapse=true"
   >
-    <div>
-      <el-image v-if="Lesson.avatarURL" :src="Lesson.avatarURL" style="padding: 14px"
-                />
+
+    <div style="margin-top: 60px">
+      <el-image v-if="Lesson.avatarURL" :src="Lesson.avatarURL" style="padding: 14px"/>
       <div style="padding: 14px" v-if="!isCollapse">
         <span style="display: block; text-align: left;font-size: var(--el-font-size-extra-large);width: 100%">{{Lesson.name}}</span>
         <span style="display: block; text-align: left;font-size: var(--el-font-size-small);width: 100%">{{Lesson.ownerName}}</span>

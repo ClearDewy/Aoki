@@ -151,4 +151,7 @@ export const apiUrl={
     updateScoreRule:"/api/update-score-rule",
     deleteScoreRule:"/api/delete-score-rule",
     getScoreRule:"/api/get-score-rule",
+    getQuestionAnswer:"/api/get-task-question-answer",
+    submitTask:"/api/submit-task",
+    saveTask:"/api/save-task"
 }

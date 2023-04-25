@@ -138,5 +138,12 @@
                  LEFT JOIN topic ON topicmember.topicId = topic.id AND topic.lessonId = #{lessonId}
         WHERE topicmember.memberId IS NULL
     </select>
+
+    <select id="getLessonByTaskId" resultType="LessonDto" parameterType="Integer">
+        SELECT lesson.id, lesson.name, introduction, lesson.ownerId, teamMode, topicMode, avatarURL FROM lesson
+        INNER JOIN topic ON lesson.id = topic.lessonId
+        INNER JOIN task ON topic.id = task.topicId
+        WHERE task.id=#{taskId}
+    </select>
 </mapper>
 

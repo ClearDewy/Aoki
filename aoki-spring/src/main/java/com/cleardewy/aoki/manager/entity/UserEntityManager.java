@@ -26,75 +26,58 @@ public class UserEntityManager{
 
 
     public UserDto getUserById(Integer id){
-        UserDto user = userMapper.getUserById(id);
-        if (user==null)throw AokiException.notFound();
-        return user;
+        return userMapper.getUserById(id);
+
     }
 
 
 
 
     public String getMajorByMajorId(Integer majorId){
-        String major = userMapper.getMajorByMajorId(majorId);
-        if (major.isEmpty())throw AokiException.notFound();
-        return major;
+        return userMapper.getMajorByMajorId(majorId);
     }
 
 
 
 
     public Integer getRoleById(Integer id){
-        Integer role=userMapper.getRoleById(id);
-        if (role==null)throw AokiException.notFound();
-        return role;
+        return userMapper.getRoleById(id);
     }
 
 
     public Integer getMajorIdByMajor(String majorName) {
-        Integer id= userMapper.getMajorIdByMajor(majorName);
-        if (id==null)throw AokiException.notFound();
-        return id;
+        return userMapper.getMajorIdByMajor(majorName);
     }
 
 
 
 
     public UserDto getUserByUsername(String username) {
-        UserDto userDto = userMapper.getUserByUsername(username);
-        if (userDto==null)throw AokiException.notFound();
-        return userDto;
+        return userMapper.getUserByUsername(username);
     }
 
 
 
 
     public UserDto getUserByEmail(String email){
-        UserDto userDto = userMapper.getUserByEmail(email);
-        if (userDto==null)throw AokiException.notFound();
-        return userDto;
+        return userMapper.getUserByEmail(email);
     }
 
 
 
     public void addUser(UserDto userDto){
-        if (userMapper.addUser(userDto)==0){
-            throw AokiException.notFound();
-        }
+        userMapper.addUser(userDto);
     }
 
 
 
     public void updateUserById(UserDto userDto){
-        if (userMapper.updateUserById(userDto)==0){
-            throw AokiException.notFound();
-        }
+        userMapper.updateUserById(userDto);
     }
 
 
     public void deleteUserById(Integer id){
-        if (userMapper.deleteUserById(id)==0){
-            throw AokiException.notFound();
-        }
+        userMapper.deleteUserById(id);
     }
 
 
@@ -105,15 +88,11 @@ public class UserEntityManager{
 
 
     public void deleteMajorByName(String majorName){
-        if (userMapper.deleteMajorByName(majorName)==0){
-            throw AokiException.notFound();
-        }
+        userMapper.deleteMajorByName(majorName);
     }
 
     public void addMajor(String majorName){
-        if (userMapper.addMajor(majorName)==0){
-            throw AokiException.notFound();
-        }
+        userMapper.addMajor(majorName);
     }
 
     public Integer countUsername(String username){

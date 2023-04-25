@@ -1,5 +1,6 @@
 package com.cleardewy.aoki.service.user.impl;
 
+import com.cleardewy.aoki.entity.vo.lesson.SubmitTaskVo;
 import com.cleardewy.aoki.entity.vo.user.UpdateEmailVo;
 import com.cleardewy.aoki.entity.vo.user.UpdatePasswordVo;
 import com.cleardewy.aoki.manager.user.UserManager;
@@ -113,5 +114,14 @@ public class UserServiceImpl implements UserService {
         return Result.success(userManager.getMemberTasks(topicId));
     }
 
+    @Override
+    public Result getTaskQuestionAnswer(Integer taskId) {
+        return Result.success(userManager.getTaskQuestionAnswer(taskId));
+    }
 
+    @Override
+    public Result submitTask(SubmitTaskVo submitTaskVo, Boolean submitted) {
+        userManager.submitTask(submitTaskVo,submitted);
+        return Result.success();
+    }
 }

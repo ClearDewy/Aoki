@@ -89,5 +89,21 @@
     <select id="getScoreRule" parameterType="Integer" resultType="ScoreRuleDto">
         SELECT `id`, `name`, `taskId`, `limit` FROM scorerule WHERE taskId=#{taskId}
     </select>
+    <insert id="submitAnswer" parameterType="AnswerDto">
+        INSERT INTO answer (`questionId`, `ownerId`, `content`)
+        VALUES (#{questionId}, #{ownerId}, #{content})
+        ON DUPLICATE KEY UPDATE content=#{content};
+    </insert>
+    <select id="getQuestionAnswerList" parameterType="Integer" resultType="TaskQuestionAnswerList">
+        SELECT question.id,question.content as questionContent,answer.content as answerContent
+        FROM question
+                 LEFT JOIN answer ON answer.questionId=question.id AND answer.ownerId=#{id}
+        WHERE taskId=#{taskId}
+    </select>
+    <insert id="updateTaskSubmitted" parameterType="TaskSubmittedDto">
+        INSERT INTO tasksubmitted (`taskId`, `memberId`, `submitted`)
+        VALUES (#{taskId}, #{memberId}, #{submitted})
+        ON DUPLICATE KEY UPDATE `submitted`=IF(`submitted`=1,1,#{submitted})
+    </insert>
 </mapper>
 
