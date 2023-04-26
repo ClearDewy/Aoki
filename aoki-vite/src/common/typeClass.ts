@@ -205,3 +205,22 @@ export type TaskQuestionAnswerListType={
     questionContent:string,
     answerContent:string
 }
+
+export type scoreType={
+    scoreRuleId:number,
+    score:number
+}
+
+export type ScoreRecordType={
+    taskId:number,
+    teamId:number,
+    username:string,
+    scoreList:scoreType[]
+}
+
+export type ScoreEditType={
+    scoreRuleId:number,
+    name:string,
+    limit:number,
+    score:number
+}

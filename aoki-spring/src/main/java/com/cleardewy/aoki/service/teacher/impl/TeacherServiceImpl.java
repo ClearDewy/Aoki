@@ -1,10 +1,7 @@
 package com.cleardewy.aoki.service.teacher.impl;
 
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
-import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
-import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.manager.teacher.TeacherManager;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
@@ -181,5 +178,41 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Result getScoreRule(Integer taskId) {
         return Result.success(teacherManager.getScoreRule(taskId));
+    }
+
+    @Override
+    public Result getTaskMember(Integer taskId) {
+        return Result.success(teacherManager.getTaskMember(taskId));
+    }
+
+    @Override
+    public Result getNoTaskMember(Integer taskId) {
+        return Result.success(teacherManager.getNoTaskMember(taskId));
+    }
+
+    @Override
+    public Result getTaskQuestionAnswerUsername(Integer taskId, String username) {
+        return Result.success(teacherManager.getTaskQuestionAnswerUsername(taskId,username));
+    }
+
+    @Override
+    public Result getTaskQuestionAnswerTeam(Integer taskId, Integer id) {
+        return Result.success(teacherManager.getTaskQuestionAnswerTeam(taskId,id));
+    }
+
+    @Override
+    public Result getScoreRecord(Integer taskId, String username) {
+        return Result.success(teacherManager.getScoreRecord(taskId,username));
+    }
+
+    @Override
+    public Result getScoreRecordTeam(Integer taskId, Integer id) {
+        return Result.success(teacherManager.getScoreRecordTeam(taskId,id));
+    }
+
+    @Override
+    public Result submitScoreRecord(ScoreRecordVo scoreRecordVo) {
+        teacherManager.submitScoreRecord(scoreRecordVo);
+        return Result.success();
     }
 }

@@ -74,5 +74,24 @@
         INNER JOIN task ON task.topicId=topicmember.topicId
         WHERE task.id=#{taskId} AND teammember.memberId=#{id}
     </select>
+
+    <select id="getTaskMemberTeam" parameterType="Integer" resultType="TeamVo">
+        SELECT team.id as id, team.name as name,user.name as ownerName
+        FROM team
+                 INNER JOIN topicmember ON team.id = topicmember.memberId
+                 INNER JOIN task ON task.topicId=topicmember.topicId
+                 INNER JOIN user ON team.ownerId = user.id
+                LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND team.id=tasksubmitted.memberId
+        WHERE task.id = #{taskId} AND `submitted`=1
+    </select>
+    <select id="getNoTaskMemberTeam" parameterType="Integer" resultType="TeamVo">
+        SELECT team.id as id, team.name as name,user.name as ownerName
+        FROM team
+                 INNER JOIN topicmember ON team.id = topicmember.memberId
+                 INNER JOIN task ON task.topicId=topicmember.topicId
+                 INNER JOIN user ON team.ownerId = user.id
+                 LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND team.id=tasksubmitted.memberId
+        WHERE task.id = #{taskId} AND `submitted`!=1
+    </select>
 </mapper>
 

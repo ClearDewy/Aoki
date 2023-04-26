@@ -1,4 +1,4 @@
-import {GET, post, POST_FILE} from "./api"
+import {GET, POST, post, POST_FILE} from "./api"
 import router, {routerPath} from "../router";
 import {storage} from "../common/storage";
 import {alertsuccess} from "../common/alert";
@@ -6,7 +6,7 @@ import {AxiosResponse} from "axios";
 import {apiUrl} from "./api";
 import {
     AccountType, EditTopicType,
-    EmailLoginType,
+    EmailLoginType, SubmitTaskType,
     UpdateEmailType,
     UpdatePasswordType,
     UserRegisterType,
@@ -101,7 +101,16 @@ export const userApi={
     },
     getMemberTasks(topicId:number){
         return post(apiUrl.getMemberTasks,{topicId:topicId})
-    }
+    },
+    getQuestionAnswer(taskId:number){
+        return post(apiUrl.getQuestionAnswer,{taskId:taskId})
+    },
+    submitTask(submitTask:SubmitTaskType){
+        return POST(apiUrl.submitTask,submitTask)
+    },
+    saveTask(saveTask:SubmitTaskType){
+        return POST(apiUrl.saveTask,saveTask)
+    },
 }
 
 // 将返回的结果赋值给User

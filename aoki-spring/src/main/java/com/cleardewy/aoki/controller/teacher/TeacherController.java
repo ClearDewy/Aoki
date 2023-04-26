@@ -4,10 +4,7 @@ import cn.hutool.json.JSON;
 import com.cleardewy.aoki.annotation.AokiRole;
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
-import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
-import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
-import com.cleardewy.aoki.entity.vo.lesson.TopicTimeVo;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -152,4 +149,38 @@ public class TeacherController {
     Result getScoreRule(Integer taskId){
         return teacherService.getScoreRule(taskId);
     }
+
+    @PostMapping("/get-task-member")
+    Result getTaskMember(Integer taskId){
+        return teacherService.getTaskMember(taskId);
+    }
+    @PostMapping("/get-no-task-member")
+    Result getNoTaskMember(Integer taskId){
+        return teacherService.getNoTaskMember(taskId);
+    }
+
+    @PostMapping("/get-task-question-answer-username")
+    Result getTaskQuestionAnswerUsername(Integer taskId,String username){
+        return teacherService.getTaskQuestionAnswerUsername(taskId,username);
+    }
+    @PostMapping("/get-task-question-answer-team")
+    Result getTaskQuestionAnswerTeam(Integer taskId,Integer id){
+        return teacherService.getTaskQuestionAnswerTeam(taskId,id);
+    }
+
+    @PostMapping("/get-score-record")
+    Result getScoreRecord(Integer taskId,String username){
+        return teacherService.getScoreRecord(taskId,username);
+    }
+    @PostMapping("/get-score-record-team")
+    Result getScoreRecordTeam(Integer taskId,Integer id){
+        return teacherService.getScoreRecordTeam(taskId,id);
+    }
+
+    @PostMapping("/submit-score-record")
+    Result submitScoreRecord(@RequestBody ScoreRecordVo scoreRecordVo){
+        return teacherService.submitScoreRecord(scoreRecordVo);
+    }
+
+
 }

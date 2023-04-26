@@ -153,5 +153,14 @@ export const apiUrl={
     getScoreRule:"/api/get-score-rule",
     getQuestionAnswer:"/api/get-task-question-answer",
     submitTask:"/api/submit-task",
-    saveTask:"/api/save-task"
+    saveTask:"/api/save-task",
+
+    getTaskMember:"/api/get-task-member",
+    getNoTaskMember:"/api/get-no-task-member",
+
+    getTaskQuestionAnswerUsername:"/api/get-task-question-answer-username",
+    getTaskQuestionAnswerTeam:"/api/get-task-question-answer-team",
+    getScoreRecord:"/api/get-score-record",
+    getScoreRecordTeam:"/api/get-score-record-team",
+    submitScoreRecord:"/api/submit-score-record"
 }

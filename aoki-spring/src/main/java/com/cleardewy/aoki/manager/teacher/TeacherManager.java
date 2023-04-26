@@ -277,4 +277,72 @@ public class TeacherManager {
             throw AokiException.forbidden();
         return taskEntityManager.getScoreRule(taskId);
     }
+
+    public Object getTaskMember(Integer taskId) {
+        LessonDto lesson = lessonEntityManager.getLessonByTaskId(taskId);
+        if (lesson.isTeamMode()){
+            List<TeamVo> topicTeams = teamEntityManager.getTaskMemberTeam(taskId);
+            topicTeams.forEach(team -> {
+                team.setMemberList(teamEntityManager.getTeamMembers(team.getId()));
+            });
+            return topicTeams;
+        }else{
+            return taskEntityManager.getTaskMember(taskId);
+        }
+    }
+
+    public Object getNoTaskMember(Integer taskId) {
+        LessonDto lesson = lessonEntityManager.getLessonByTaskId(taskId);
+        if (lesson.isTeamMode()){
+            List<TeamVo> topicTeams = teamEntityManager.getNoTaskMemberTeam(taskId);
+            topicTeams.forEach(team -> {
+                team.setMemberList(teamEntityManager.getTeamMembers(team.getId()));
+            });
+            return topicTeams;
+        }else{
+            return taskEntityManager.getNoTaskMember(taskId);
+        }
+    }
+
+    public List<TaskQuestionAnswerList> getTaskQuestionAnswerUsername(Integer taskId, String username) {
+        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        UserDto user = userEntityManager.getUserByUsername(username);
+        return taskEntityManager.getTaskQuestionAnswer(taskId,user.getId());
+    }
+
+    public List<TaskQuestionAnswerList> getTaskQuestionAnswerTeam(Integer taskId, Integer id) {
+        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        return taskEntityManager.getTaskQuestionAnswer(taskId,id);
+    }
+
+    public List<ScoreEditVo> getScoreRecord(Integer taskId, String username) {
+        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        UserDto user = userEntityManager.getUserByUsername(username);
+        return taskEntityManager.getScoreRecord(taskId,user.getId());
+    }
+
+    public List<ScoreEditVo> getScoreRecordTeam(Integer taskId, Integer id) {
+        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+        return taskEntityManager.getScoreRecord(taskId,id);
+    }
+
+    public void submitScoreRecord(ScoreRecordVo scoreRecordVo) {
+        if (!taskEntityManager.verifyTaskOwner(scoreRecordVo.getTaskId(),threadLocalUtils.getCurrentUser().getId()))
+            throw AokiException.forbidden();
+
+        LessonDto lesson = lessonEntityManager.getLessonByTaskId(scoreRecordVo.getTaskId());
+        Integer id;
+        if (lesson.isTeamMode()){
+            id=scoreRecordVo.getTeamId();
+        }else{
+            id=userEntityManager.getUserByUsername(scoreRecordVo.getUsername()).getId();
+        }
+        scoreRecordVo.getScoreList().forEach(sr->taskEntityManager.submitScoreRecord(new ScoreRecordDto(
+                null,sr.scoreRuleId,scoreRecordVo.getTaskId(),id, sr.score
+        )));
+    }
 }

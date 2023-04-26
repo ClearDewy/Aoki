@@ -3,7 +3,7 @@ export const storage={
     getItem(key:string){
         return JSON.parse(window.localStorage.getItem(key) as string)||null
     },
-    setItem(key:string,value:object|string){
+    setItem(key:string,value:any){
         window.localStorage.setItem(key,JSON.stringify(value))
     },
     remove(key:string){

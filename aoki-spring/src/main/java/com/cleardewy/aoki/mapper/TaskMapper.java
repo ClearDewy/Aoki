@@ -1,13 +1,8 @@
 package com.cleardewy.aoki.mapper;
 
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.TaskListMemberVo;
-import com.cleardewy.aoki.entity.vo.lesson.TaskListOwnerVo;
-import com.cleardewy.aoki.entity.vo.lesson.TaskQuestionAnswerList;
-import io.lettuce.core.dynamic.batch.BatchSize;
-import jakarta.validation.constraints.Size;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 
@@ -17,6 +12,7 @@ import java.util.List;
  **/
 @Mapper
 public interface TaskMapper {
+    TaskDto getTask(Integer id);
     Integer createTask(TaskDto taskDto);
     Integer updateTask(TaskDto taskDto);
     Integer deleteTask(Integer id);
@@ -46,4 +42,12 @@ public interface TaskMapper {
     Integer submitAnswer(AnswerDto answerDto);
     List<TaskQuestionAnswerList>getQuestionAnswerList(Integer taskId,Integer id);
     Integer updateTaskSubmitted(TaskSubmittedDto taskSubmittedDto);
+
+    List<TeamMemberVo> getTaskMember(Integer taskId);
+
+    List<TeamMemberVo> getNoTaskMember(Integer taskId);
+
+    List<ScoreEditVo> getScoreRecord(Integer taskId, Integer id);
+
+    Integer submitScoreRecord(ScoreRecordDto scoreRuleDto);
 }

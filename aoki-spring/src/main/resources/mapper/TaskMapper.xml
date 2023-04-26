@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cleardewy.aoki.mapper.TaskMapper">
+    <select id="getTask" resultType="TaskDto" parameterType="Integer">
+        SELECT id, name, publish, topicId, beginTime, endTime FROM task WHERE id=#{id}
+    </select>
     <insert id="createTask" parameterType="TaskDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO task(`name`,`topicId`,`beginTime`,`endTime`)
         VALUE (#{name},#{topicId},#{beginTime},#{endTime})
@@ -104,6 +107,36 @@
         INSERT INTO tasksubmitted (`taskId`, `memberId`, `submitted`)
         VALUES (#{taskId}, #{memberId}, #{submitted})
         ON DUPLICATE KEY UPDATE `submitted`=IF(`submitted`=1,1,#{submitted})
+    </insert>
+
+    <select id="getTaskMember" parameterType="Integer" resultType="TeamMemberVo">
+        SELECT user.username,user.name,user.avatarURL
+        FROM user
+        INNER JOIN topicmember ON user.id=topicmember.memberId
+        INNER JOIN task ON task.topicId=topicmember.topicId
+        LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND tasksubmitted.memberId=user.id
+        WHERE task.id=#{taskId} AND `submitted`=1
+    </select>
+
+    <select id="getNoTaskMember" parameterType="Integer" resultType="TeamMemberVo">
+        SELECT user.username,user.name,user.avatarURL
+        FROM user
+                 INNER JOIN topicmember ON user.id=topicmember.memberId
+                 INNER JOIN task ON task.topicId=topicmember.topicId
+                 LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND tasksubmitted.memberId=user.id
+        WHERE task.id=#{taskId} AND `submitted`!=1
+    </select>
+
+    <select id="getScoreRecord" parameterType="Integer" resultType="ScoreEditVo">
+        SELECT scorerule.id,name,`limit`,COALESCE(scorerecord.score,0) FROM scorerule
+        LEFT JOIN scorerecord ON scorerecord.memberId=#{id} AND scorerecord.scoreRuleId=scorerule.id
+        WHERE scorerule.taskId=#{taskId}
+    </select>
+
+    <insert id="submitScoreRecord" parameterType="ScoreRecordDto">
+        INSERT INTO scorerecord (`scoreRuleId`, `taskId`, `memberId`,`score`)
+        VALUES (#{scoreRuleId}, #{taskId}, #{memberId}, #{score})
+        ON DUPLICATE KEY UPDATE score=#{score};
     </insert>
 </mapper>
 

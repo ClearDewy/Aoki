@@ -235,6 +235,10 @@ public class UserManager {
 
     public void submitTask(SubmitTaskVo submitTaskVo, Boolean submitted) {
         Integer id=threadLocalUtils.getCurrentUser().getId();
+        TaskDto task = taskEntityManager.getTask(submitTaskVo.getTaskId());
+        Date now=new Date();
+        if (now.before(task.getBeginTime())||now.after(task.getEndTime()))
+            throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
         LessonDto lesson = lessonEntityManager.getLessonByTaskId(submitTaskVo.getTaskId());
         if (lesson.isTeamMode()){
             id=teamEntityManager.getTeamId(lesson.getId(),id);

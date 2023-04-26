@@ -5,7 +5,7 @@
         <h2 style="margin: auto">我的作业</h2>
       </div>
     </template>
-    <el-table :data="taskList" style="height: 100%">
+    <el-table :data="taskList" style="height: 100%" @row-click="taskEdit">
       <el-table-column prop="name" label="名称"/>
       <el-table-column prop="beginTime" label="开始时间"/>
       <el-table-column prop="endTime" label="截至时间"/>
@@ -22,6 +22,7 @@ import {userApi} from "../../api/userApi";
 import {Lesson} from "../../common/gloableData";
 import {alerterror} from "../../common/alert";
 import {storage} from "../../common/storage";
+import router from "../../router";
 const taskList=ref<MemberTaskListType[]>([])
 
 
@@ -34,6 +35,11 @@ const getMyTaskList=()=>{
       alerterror("获取作业列表失败")
     })
   }
+}
+
+const taskEdit=(task:MemberTaskListType)=>{
+  storage.setItem('task',{id:task.id,name:task.name})
+  router.push('task-edit')
 }
 
 getMyTaskList()

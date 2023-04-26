@@ -40,4 +40,8 @@ public interface TeamMapper {
     List<NoTopicMemberList> getNoTopicTeams(Integer lessonId);
 
     Integer getTeamIdByTaskId(Integer taskId,Integer id);
+
+    List<TeamVo> getTaskMemberTeam(Integer taskId);
+    List<TeamVo> getNoTaskMemberTeam(Integer taskId);
+
 }

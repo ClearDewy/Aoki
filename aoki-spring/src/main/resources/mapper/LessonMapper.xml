@@ -124,7 +124,7 @@
         DELETE FROM topicmember WHERE `topicId`=#{topicId} AND `memberId`=#{memberId}
     </delete>
 
-    <select id="getTopicMember" parameterType="Integer" resultType="UserListVo">
+    <select id="getTopicMembers" parameterType="Integer" resultType="TeamMemberVo">
         SELECT user.username,user.name,user.avatarURL
         FROM topicmember,user
         WHERE `topicId`=#{topicId} AND `memberId`=user.id

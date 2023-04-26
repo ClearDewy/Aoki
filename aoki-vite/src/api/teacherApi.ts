@@ -3,7 +3,7 @@ import {
     EditLessonType,
     EditTopicType,
     LessonType,
-    MilestonesType, QuestionType, ScoreRuleType, TaskType,
+    MilestonesType, QuestionType, ScoreRecordType, ScoreRuleType, TaskType,
     TopicTimeType
 } from "../common/typeClass";
 import {apiUrl, POST, post} from "./api";
@@ -93,4 +93,25 @@ export const teacherApi={
     getScoreRule(taskId:number){
         return post(apiUrl.getScoreRule,{taskId:taskId})
     },
+    getTaskMember(taskId:number){
+        return post(apiUrl.getTaskMember,{taskId:taskId})
+    },
+    getNoTaskMember(taskId:number){
+        return post(apiUrl.getNoTaskMember,{taskId:taskId})
+    },
+    getTaskQuestionAnswerUsername(taskId:number,username:string){
+        return post(apiUrl.getTaskQuestionAnswerUsername,{taskId:taskId,username:username})
+    },
+    getTaskQuestionAnswerTeam(taskId:number,id:number){
+        return post(apiUrl.getTaskQuestionAnswerTeam,{taskId:taskId,id:id})
+    },
+    getScoreRecord(taskId:number,username:string){
+        return post(apiUrl.getScoreRecord,{taskId:taskId,username:username})
+    },
+    getScoreRecordTeam(taskId:number,id:number){
+        return post(apiUrl.getScoreRecordTeam,{taskId:taskId,id:id})
+    },
+    submitScoreRecord(scoreRecord:ScoreRecordType){
+        return POST(apiUrl.submitScoreRecord,scoreRecord)
+    }
 }

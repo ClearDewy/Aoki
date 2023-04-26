@@ -87,6 +87,16 @@ const routes:Array<RouteRecordRaw>=[
                 name:"题目",
                 component:()=>import("../components/lesson/TaskQuestionEdit.vue"),
             },
+            {
+                path:"task-edit",
+                name:"作业编辑",
+                component:()=>import("../components/lesson/TaskAnswerEdit.vue"),
+            },
+            {
+                path:"task-score",
+                name:"作业评分",
+                component:()=>import("../components/lesson/TaskScoreEdit.vue"),
+            }
         ],
         meta:{
             requiresAuth:false,

@@ -1,11 +1,9 @@
 package com.cleardewy.aoki.manager.entity;
 
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.TaskListMemberVo;
-import com.cleardewy.aoki.entity.vo.lesson.TaskListOwnerVo;
-import com.cleardewy.aoki.entity.vo.lesson.TaskQuestionAnswerList;
-import com.cleardewy.aoki.exception.AokiException;
+import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.mapper.TaskMapper;
+import com.cleardewy.aoki.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +18,9 @@ public class TaskEntityManager {
     @Autowired
     TaskMapper taskMapper;
 
+    public TaskDto getTask(Integer id){
+        return taskMapper.getTask(id);
+    }
 
     public void createTask(TaskDto taskDto) {
         taskMapper.createTask(taskDto);
@@ -97,5 +98,22 @@ public class TaskEntityManager {
 
     public void updateTaskSubmitted(TaskSubmittedDto taskSubmittedDto){
         taskMapper.updateTaskSubmitted(taskSubmittedDto);
+    }
+
+    public List<TeamMemberVo> getTaskMember(Integer taskId) {
+        return taskMapper.getTaskMember(taskId);
+    }
+
+
+    public List<TeamMemberVo> getNoTaskMember(Integer taskId) {
+        return taskMapper.getNoTaskMember(taskId);
+    }
+
+    public List<ScoreEditVo> getScoreRecord(Integer taskId, Integer id) {
+        return taskMapper.getScoreRecord(taskId,id);
+    }
+
+    public void submitScoreRecord(ScoreRecordDto scoreRecordDto){
+        taskMapper.submitScoreRecord(scoreRecordDto);
     }
 }

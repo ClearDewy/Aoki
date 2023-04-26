@@ -76,4 +76,13 @@ public class TeamEntityManager {
     public Integer getTeamIdByTaskId(Integer taskId,Integer id){
         return teamMapper.getTeamIdByTaskId(taskId,id);
     }
+
+
+    public List<TeamVo> getTaskMemberTeam(Integer taskId) {
+        return teamMapper.getTaskMemberTeam(taskId);
+    }
+
+    public List<TeamVo> getNoTaskMemberTeam(Integer taskId) {
+        return teamMapper.getNoTaskMemberTeam(taskId);
+    }
 }

@@ -6,7 +6,7 @@
         <el-button type="primary" @click="getMyTopics()||(flag=true)||(showEditTaskDialog=true)">新建</el-button>
       </div>
     </template>
-    <el-table :data="taskList" style="height: 100%">
+    <el-table :data="taskList" style="height: 100%" @row-click="showTaskMemberDrawer">
       <el-table-column prop="name" label="名称"/>
       <el-table-column prop="topicName" label="所属课题"/>
       <el-table-column prop="beginTime" label="开始时间"/>
@@ -18,29 +18,29 @@
               :content="row.publish?'取消发布':'发布作业'"
               placement="bottom"
           >
-            <el-button :type="row.publish?'':'success'" :icon="row.publish?SemiSelect:Select" circle @click="toggleTaskPublish(row.id)"/>
+            <el-button :type="row.publish?'':'success'" :icon="row.publish?SemiSelect:Select" circle @click.stop="toggleTaskPublish(row.id)"/>
           </el-tooltip>
           <el-tooltip
               content="编辑"
               placement="bottom"
           >
-            <el-button type="primary" :icon="Edit" circle @click="updateTask(row)"/>
+            <el-button type="primary" :icon="Edit" circle @click.stop="updateTask(row)"/>
           </el-tooltip>
           <el-tooltip
               content="题目"
               placement="bottom"
           >
-            <el-button type="info" :icon="Memo" circle @click="storage.setItem('redirectPath',router.currentRoute.value.path)||router.push({path:'question',query:{taskId:row.id}})"/>
+            <el-button type="info" :icon="Memo" circle @click.stop="storage.setItem('redirectPath',router.currentRoute.value.path)||router.push({path:'question',query:{taskId:row.id}})"/>
           </el-tooltip>
           <el-tooltip
               content="评分规则"
               placement="bottom"
           >
-            <el-button type="warning" :icon="Star" circle @click="showScoreRule(row.id)"/>
+            <el-button type="warning" :icon="Star" circle @click.stop="showScoreRule(row.id)"/>
           </el-tooltip>
           <el-popconfirm title="Are you sure to delete this?">
             <template #reference>
-              <el-button type="danger" :icon="Delete" circle @click="deleteTask(row.id)"/>
+              <el-button type="danger" :icon="Delete" circle @click.stop="deleteTask(row.id)"/>
             </template>
           </el-popconfirm>
 
@@ -136,6 +136,9 @@
       </span>
     </template>
   </el-dialog>
+
+
+  <TaskMember ref="taskMemberRef"/>
 </template>
 
 <script setup lang="ts">
@@ -150,6 +153,8 @@ import {Lesson} from "../../common/gloableData";
 import {Edit,Select,SemiSelect,Delete,Star,Memo,Plus} from "@element-plus/icons-vue";
 import router from "../../router";
 import {storage} from "../../common/storage";
+import TaskMember from "./TaskMember.vue"
+
 
 const showEditTaskDialog=ref(false)
 const showScoreRuleDrawer=ref(false)
@@ -330,6 +335,12 @@ const editScoreRule=(row:ScoreRuleType)=>{
   editScoreRuleForm.value.taskId=row.taskId
   editScoreRuleForm.value.limit=row.limit
   showEditScoreRuleDialog.value=true
+}
+
+// 操作子组件
+const taskMemberRef=ref<TaskMember>()
+const showTaskMemberDrawer=(row:OwnerTaskListType)=>{
+  taskMemberRef.value.showTaskMemberDrawer(row)
 }
 
 getOwnerTasks()

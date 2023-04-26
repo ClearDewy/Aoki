@@ -12,6 +12,7 @@ import lombok.Data;
 public class ScoreRecordDto {
     private Integer id;
     private Integer scoreRuleId;
-    private Integer answerId;
+    private Integer taskId;
+    private Integer memberId;
     private Double score;
 }
