@@ -179,7 +179,7 @@ public class UserManager {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         try{
-            if (now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getBeginTime())))
+            if (topicTimeVo.getBeginTime().isBlank()||now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getEndTime())))
                 throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
         }catch (ParseException e) {
             throw new RuntimeException(e);
@@ -190,6 +190,10 @@ public class UserManager {
             if ((id = teamEntityManager.getTeamId(lesson.getId(), id))==null)
                 throw AokiException.fail(ResultStatus.Message.HAVE_NO_TEAM);
         }
+        TopicListVo myTopic = lessonEntityManager.getMyTopic(lesson.getId(), id);
+        if (myTopic!=null)
+            throw AokiException.fail(ResultStatus.Message.TOPIC_EXIT);
+
         lessonEntityManager.addTopicMember(new TopicMemberDto(null,topicId,id));
     }
 
@@ -200,7 +204,7 @@ public class UserManager {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         try{
-            if (now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getBeginTime())))
+            if (now.before(sdf.parse(topicTimeVo.getBeginTime()))||now.after(sdf.parse(topicTimeVo.getEndTime())))
                 throw AokiException.fail(ResultStatus.Message.NOT_WITHIN_TIME_RANGE);
         }catch (ParseException e) {
             throw new RuntimeException(e);

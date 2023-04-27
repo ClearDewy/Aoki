@@ -112,7 +112,6 @@ public class UserController {
     }
     @PostMapping("/submit-task")
     Result submitTask(@RequestBody SubmitTaskVo submitTaskVo){
-        System.out.println(submitTaskVo);
         return userService.submitTask(submitTaskVo,true);
     }
     @PostMapping("/save-task")

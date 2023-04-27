@@ -1,5 +1,5 @@
 <template>
-  <SideBar style="position: fixed;z-index: 1;left: 0;top: 0"/>
+  <SideBar style="position: fixed;z-index: 10;left: 0;top: 0"/>
   <div style="width: calc(100% - 63px);;height: 100%;margin-left: 63px">
     <router-view/>
   </div>

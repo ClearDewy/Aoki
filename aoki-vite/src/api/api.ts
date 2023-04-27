@@ -30,6 +30,7 @@ axios.interceptors.response.use(
         if (response.data?.status===200){
             return response.data
         }else {
+            errorHandel(response.data)
             return Promise.reject(response.data)
         }
     },
@@ -45,7 +46,6 @@ axios.interceptors.response.use(
 const errorHandel = (error:any) => {
     switch (error.status){
         case 402:
-        case 403:
             console.log(error.status)
             storage.clear()
             storage.setItem("redirectPath",router.currentRoute.value.fullPath)

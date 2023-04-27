@@ -260,10 +260,11 @@ const finishCrop = () => {
         'LessonAvatar.png'
     );
     FileApi.uploadAvatar(file).then((res)=>{
-      if (res)
-        createLessonForm.avatarURL=res.data
+      createLessonForm.avatarURL=res.data
       alertsuccess("头像上传成功")
       reselect()
+    }).catch(e=>{
+      alerterror("头像上传失败")
     })
   }).catch(e=>{
     alerterror(e.toString())

@@ -124,7 +124,7 @@
                  INNER JOIN topicmember ON user.id=topicmember.memberId
                  INNER JOIN task ON task.topicId=topicmember.topicId
                  LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND tasksubmitted.memberId=user.id
-        WHERE task.id=#{taskId} AND `submitted`!=1
+        WHERE task.id=#{taskId} AND (`submitted` IS NULL OR `submitted`=0)
     </select>
 
     <select id="getScoreRecord" parameterType="Integer" resultType="ScoreEditVo">

@@ -71,7 +71,7 @@
         WHERE `lessonId`=#{lessonId}
     </update>
     <select id="getTopicTime" parameterType="Integer" resultType="TopicTimeVo">
-        SELECT DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s') FROM topictime WHERE `lessonId`=#{lessonId}
+        SELECT COALESCE(DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s'),''), COALESCE(DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s'),'') FROM topictime WHERE `lessonId`=#{lessonId}
     </select>
     
     <insert id="createTopic" parameterType="TopicDto" useGeneratedKeys="true" keyProperty="id">

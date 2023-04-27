@@ -39,8 +39,7 @@ class AokiSpringApplicationTests {
 
     @Test
     void test() {
-        AnswerDto answer = new AnswerDto(null, 1, "你说啥", 1);
-        taskMapper.submitAnswer(answer);
+        System.out.println(userEntityManager.getUserByUsername("202121091256"));;
 //        System.out.println(teamMapper.getTeamIdByTaskId(1,1));;
     }
 

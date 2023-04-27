@@ -51,7 +51,7 @@
       <template #header>
         <div class="card-header">
           <span>课程信息设置</span>
-          <el-button class="button" :disabled="Lesson.topicMode" @click="updateLesson" type="primary">保存</el-button>
+          <el-button class="button" @click="updateLesson" type="primary">保存</el-button>
         </div>
       </template>
       <el-form ref="ruleFormRef" :model="editLessonForm" label-width="120px" :rules="rule" label-position="top" :inline="true">
@@ -174,7 +174,8 @@ import {FileApi} from "../../api/fileApi";
 import {Check,Refresh,RefreshRight,RefreshLeft,UploadFilled,Message,Loading} from "@element-plus/icons-vue";
 import Editor from "../../components/sample/Editor.vue"
 import {teacherApi} from "../../api/teacherApi";
-import router from "../../router";
+import router, {routerPath} from "../../router";
+import {storage} from "../../common/storage";
 
 
 const topicTime=ref(['',''])
@@ -266,10 +267,11 @@ const finishCrop = () => {
         'LessonAvatar.png'
     );
     FileApi.uploadAvatar(file).then((res)=>{
-      if (res)
-        editLessonForm.avatarURL=res.data
+      editLessonForm.avatarURL=res.data
       alertsuccess("头像上传成功")
       reselect()
+    }).catch(e=>{
+      alerterror("头像上传失败")
     })
   }).catch(e=>{
     alerterror(e.toString())
@@ -280,6 +282,7 @@ const finishCrop = () => {
 
 const updateLesson=()=>{
   teacherApi.updateLesson(editLessonForm).then(res=>{
+    refreshCurrentLesson()
     alertsuccess("保存成功")
   }).catch(e=>{
     alerterror("保存失败")
@@ -314,6 +317,20 @@ const deleteLesson=()=>{
     alerterror("删除失败")
   })
 }
+
+const refreshCurrentLesson=()=>{
+  userApi.getLesson(Lesson.value.id as number).then(res=>{
+    if (res){
+      Lesson.value=res.data
+      Lesson.value.ownerName=storage.getItem("Lesson").ownerName
+      storage.setItem("Lesson",Lesson.value)
+      router.push(routerPath.Lesson)
+    }
+  }).catch(e=>{
+    alerterror("刷新课程失败")
+  })
+}
+
 
 if (!Lesson.value.topicMode)getTopicTime()
 </script>

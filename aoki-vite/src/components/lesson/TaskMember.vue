@@ -67,7 +67,7 @@
           </el-collapse>
         </div>
         <div v-else>
-          <el-table :data="taskMembers" :show-header="false" style="height: 100%">
+          <el-table :data="noTaskMembers" :show-header="false" style="height: 100%">
             <el-table-column prop="avatarURL" label="头像">
               <template #default="{row}">
                 <el-avatar :src="row.avatarURL" fit="scale-down" :size="'small'"/>

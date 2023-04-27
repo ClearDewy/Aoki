@@ -34,7 +34,7 @@
       <el-table-column label="操作">
         <template #default="{row}">
           <el-button type="primary" @click="addTopicMember(row.id)" plain
-                     :disabled="row.number>=row.limit&&disabled"
+                     :disabled="row.number>=row.limit||disabled"
           >选择</el-button>
         </template>
       </el-table-column>
@@ -57,7 +57,6 @@ const myTopic=ref<TopicListType>()
 const topicList=ref<TopicListType[]>([])
 const beginTime=ref(new Date(0))
 const endTime=ref(new Date(0))
-const disabled=ref(false)
 
 const getTopics = () => {
   userApi.getTopics(Lesson.value.id as number).then(res=>{
@@ -81,6 +80,7 @@ const getTopicTime = () => {
     beginTime.value=new Date(res.data.beginTime)
     endTime.value=new Date(res.data.endTime)
   }).catch(e=>{
+    console.log(e)
     alerterror("获取选课时间失败");
   })
 }
@@ -108,6 +108,8 @@ if (!myTopic.value){
   getTopicTime()
   getTopics()
 }
+
+const disabled=ref(!(new Date() >= beginTime.value && new Date() <= endTime.value))
 
 // 定时检查当前时间是否在范围内
 setInterval(() => {

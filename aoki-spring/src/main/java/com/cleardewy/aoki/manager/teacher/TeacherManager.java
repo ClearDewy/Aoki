@@ -186,7 +186,7 @@ public class TeacherManager {
 
     public void deleteLesson(Integer lessonId, String code) {
         UserDto user = threadLocalUtils.getCurrentUser();
-        if (!lessonEntityManager.verifyLessonOwner(lessonId,user.getId()))
+        if (!lessonEntityManager.verifyLessonOwner(user.getId(),lessonId))
             throw AokiException.forbidden();
         emailVerifyManager.verifyCode(new EmailVerifyVo(user.getEmail(),code));
         lessonEntityManager.deleteLesson(lessonId);

@@ -16,13 +16,13 @@
       <el-table-column prop="ownerName" label="老师"/>
       <el-table-column label="人数">
         <template #default="{row}">
-          <sp>{{row.number}} / {{row.limit}}</sp>
+          <span>{{row.number}} / {{row.limit}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作">
         <template #default="{row}">
-          <el-button type="primary" :icon="Edit" @click="updateTopic(row)" circle />
-          <el-button type="danger" :icon="Delete" @click="deleteTopic(row.id)" circle />
+          <el-button type="primary" :icon="Edit" @click.stop="updateTopic(row)" circle />
+          <el-button type="danger" :icon="Delete" @click.stop="deleteTopic(row.id)" circle />
         </template>
       </el-table-column>
     </el-table>

@@ -91,7 +91,7 @@
                  INNER JOIN task ON task.topicId=topicmember.topicId
                  INNER JOIN user ON team.ownerId = user.id
                  LEFT JOIN tasksubmitted ON task.id = tasksubmitted.taskId AND team.id=tasksubmitted.memberId
-        WHERE task.id = #{taskId} AND `submitted`!=1
+        WHERE task.id = #{taskId} AND (`submitted` IS NULL OR `submitted`=0)
     </select>
 </mapper>
 

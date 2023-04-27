@@ -77,7 +77,7 @@ public class JwtFilter implements HandlerInterceptor{
         log.info("RequestToken->{}",tokenValue);
         //没有token一律不准通过
         if (tokenValue==null||tokenValue.isBlank()) {
-            throw new AokiException(ResultStatus.Status.FORBIDDEN);
+            throw new AokiException(ResultStatus.Status.OVERDUE);
         }
         //查看token状态
         DecodedJWT decodedJWT = jwtUtils.getDecodedJWTByToken(tokenValue);

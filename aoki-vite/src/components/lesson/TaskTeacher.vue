@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <h2 style="margin: auto">我的作业</h2>
-        <el-button type="primary" @click="getMyTopics()||(flag=true)||(showEditTaskDialog=true)">新建</el-button>
+        <el-button type="primary" @click="createTask">新建</el-button>
       </div>
     </template>
     <el-table :data="taskList" style="height: 100%" @row-click="showTaskMemberDrawer">
@@ -217,17 +217,18 @@ const finish = async (formEl: FormInstance | undefined) => {
       if (flag.value){
         teacherApi.createTask(task).then(res=>{
           alertsuccess("创建成功")
+          getOwnerTasks()
         }).catch(e=>{
           alerterror("创建失败")
         })
       }else{
         teacherApi.updateTask(task).then(res=>{
           alertsuccess("更新成功")
+          getOwnerTasks()
         }).catch(e=>{
           alerterror("更新失败")
         })
       }
-      getOwnerTasks()
       showEditTaskDialog.value=false
     }
   })
@@ -335,6 +336,12 @@ const editScoreRule=(row:ScoreRuleType)=>{
   editScoreRuleForm.value.taskId=row.taskId
   editScoreRuleForm.value.limit=row.limit
   showEditScoreRuleDialog.value=true
+}
+
+const createTask=()=>{
+  getMyTopics()
+  flag.value=true
+  showEditTaskDialog.value=true
 }
 
 // 操作子组件

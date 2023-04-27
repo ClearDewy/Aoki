@@ -57,7 +57,9 @@ public final class ResultStatus {
 
         TOPIC_MEMBER_FULL("选题人数已满"),
 
-        NOT_WITHIN_TIME_RANGE("不在时间范围内")
+        NOT_WITHIN_TIME_RANGE("不在时间范围内"),
+
+        TOPIC_EXIT("已有课程")
         ;
 
         private final String message;

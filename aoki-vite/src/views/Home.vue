@@ -69,7 +69,6 @@ const getLessonList = () => {
   userApi.getLessonList().then(res=>{
     res&& (lessonList.value=res.data.reverse())
     lessonTotleNum.value=lessonList.value.length
-    console.log(lessonList.value)
     refreshPageLessonList()
   }).catch(e=>{
     alerterror("获取课程列表失败")
