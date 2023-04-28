@@ -31,7 +31,7 @@ public interface LessonMapper {
 
     List<UserListVo> getLessonMember(Integer id);
 
-    Integer deleteLessonMembers(Integer id,List<Integer> idList);
+    Integer deleteLessonMembers(Integer lessonId,Integer id);
 
     Integer addTopicTime(TopicTimeDto topicTimeDto);
     Integer updateTopicTime(TopicTimeDto topicTimeDto);
@@ -47,6 +47,8 @@ public interface LessonMapper {
     TopicListVo getMyTopic(Integer lessonId, Integer id);
 
     LessonDto getTopicLesson(Integer id);
+
+    Integer verifyNoTopic(Integer lessonId,Integer memberId);
 
     Integer addTopicMember(TopicMemberDto topicMemberDto);
 

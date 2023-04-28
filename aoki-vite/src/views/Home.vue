@@ -1,21 +1,14 @@
 <template>
-  <el-row type="flex" style="flex-wrap: wrap;flex-direction: row;padding-left: 4%;padding-right: 4%" gutter="20">
-    <el-col
-        v-for="lesson in currentLessonList"
-        :key="lesson.id"
-        :span="4"
-    >
-      <el-card :body-style="{ padding: '0px'}" shadow="hover" @click="enterLesson(lesson)">
-        <el-image :src="lesson.avatarURL"
-                  style="height: 130px;width: 240px"/>
-        <div style="padding: 14px">
-          <span style="display: block; text-align: left;font-size: var(--el-font-size-extra-large);width: 100%">{{lesson.name}}</span>
-          <span style="display: block; text-align: left;font-size: var(--el-font-size-small);width: 100%">{{lesson.ownerName}}</span>
-        </div>
-      </el-card>
-    </el-col>
-
-  </el-row>
+  <div class="container">
+    <el-card v-for="lesson in lessonList" :body-style="{ padding: '0px'}" style="width: 240px;height: 206px" shadow="hover" @click="enterLesson(lesson)">
+      <el-image :src="lesson.avatarURL" fit="fill"
+                style="height: 130px;width: 240px"/>
+      <div style="padding: 14px">
+        <span class="inline-span" style="display: block; text-align: left;font-size: var(--el-font-size-extra-large);width: 100%">{{lesson.name}}</span>
+        <span class="inline-span" style="display: block; text-align: left;font-size: var(--el-font-size-small);width: 100%">{{lesson.ownerName}}</span>
+      </div>
+    </el-card>
+  </div>
   <div class="demo-pagination-block" style="padding:1%;float: right">
     <el-pagination
         v-model:current-page="currentPage"
@@ -25,7 +18,7 @@
         :disabled="disabled"
         :background="background"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="lessonTotleNum"
+        :total="lessonTotalNum"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
     />
@@ -34,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {userApi} from "../api/userApi";
 import {alerterror} from "../common/alert";
 import {LessonListType} from "../common/typeClass";
@@ -42,8 +35,9 @@ import {emitter, Lesson, User} from "../common/gloableData";
 import router, {routerPath} from "../router";
 import {storage} from "../common/storage";
 const currentPage = ref(1)
-const pageSizeList=[24, 48, 96]
-const pageSize = ref(pageSizeList[0])
+const pageSizeList=ref([20, 40, 60])
+const pageSize = ref(pageSizeList.value[0])
+
 const small = ref(false)
 const disabled = ref(false)
 const background = ref(false)
@@ -58,7 +52,7 @@ const handleCurrentChange = (val: number) => {
 
 const lessonList=ref<LessonListType[]>([])
 const currentLessonList=ref<LessonListType[]>([])
-const lessonTotleNum=ref(0)
+const lessonTotalNum=ref(0)
 
 const refreshPageLessonList=()=>{
   currentLessonList.value=lessonList.value.slice((currentPage.value-1)*pageSize.value,Math.min(lessonList.value.length,currentPage.value*pageSize.value))
@@ -68,7 +62,7 @@ const refreshPageLessonList=()=>{
 const getLessonList = () => {
   userApi.getLessonList().then(res=>{
     res&& (lessonList.value=res.data.reverse())
-    lessonTotleNum.value=lessonList.value.length
+    lessonTotalNum.value=lessonList.value.length
     refreshPageLessonList()
   }).catch(e=>{
     alerterror("获取课程列表失败")
@@ -94,5 +88,17 @@ const enterLesson=(les:LessonListType)=>{
 </script>
 
 <style scoped>
+.inline-span {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;  /* 避免换行 */
+  text-overflow: ellipsis;
+}
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 </style>

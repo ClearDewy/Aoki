@@ -28,6 +28,9 @@ public class TeamEntityManager {
     public void createTeam(TeamDto teamDto) {
         teamMapper.createTeam(teamDto);
     }
+    public void deleteTeam(Integer id){
+        teamMapper.deleteTeam(id);
+    }
 
     public void addTeamMember(TeamMemberDto teamMemberDto) {
         teamMapper.addTeamMember(teamMemberDto);

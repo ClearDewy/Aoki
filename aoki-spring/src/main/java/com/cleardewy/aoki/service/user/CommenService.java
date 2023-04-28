@@ -2,6 +2,7 @@ package com.cleardewy.aoki.service.user;
 
 import com.cleardewy.aoki.entity.vo.user.AccountVo;
 import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UserRegisterVo;
 import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.utils.Result;
 
@@ -14,7 +15,7 @@ public interface CommenService {
 
     Result logout();
 
-    Result register(UserVo userVo,String code);
+    Result register(UserRegisterVo userRegisterVo, String code);
 
     Result getVerifyCode(EmailVerifyVo emailVerifyVo);
 

@@ -145,14 +145,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="showAddMemberDialog = false">取消</el-button>
-        <el-button type="primary" @click="finish(ruleFormRef)">
-          确认
-        </el-button>
-      </span>
-    </template>
   </el-dialog>
 </template>
 
@@ -259,7 +251,7 @@ const deleteTopic=(id:number)=>{
 
 const getTopicMembers = (topicId:number) => {
   teacherApi.getTopicMembers(topicId).then(res=>{
-    topicMembers.value=res.data
+    topicMembers.value=res.data||[]
   }).catch(e=>{
     alerterror("获取课题成员列表失败")
   })

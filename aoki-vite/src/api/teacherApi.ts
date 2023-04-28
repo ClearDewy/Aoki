@@ -21,8 +21,8 @@ export const teacherApi={
     addLessonMember(username:string,id:number){
         return post(apiUrl.addLessonMember,{username:username,id:id})
     },
-    removeLessonMembers(id:number,idList:number[]){
-        return post(apiUrl.removeLessonMembers,{id:id,idList:idList})
+    removeLessonMembers(lessonId:number,id:number){
+        return post(apiUrl.removeLessonMembers,{lessonId:lessonId,id:id})
     },
     addMilestones(milestones: MilestonesType){
         return post(apiUrl.addMilestones,milestones);
@@ -99,17 +99,11 @@ export const teacherApi={
     getNoTaskMember(taskId:number){
         return post(apiUrl.getNoTaskMember,{taskId:taskId})
     },
-    getTaskQuestionAnswerUsername(taskId:number,username:string){
-        return post(apiUrl.getTaskQuestionAnswerUsername,{taskId:taskId,username:username})
+    getTaskQuestionAnswer(taskId:number,id:number){
+        return post(apiUrl.getTaskQuestionAnswerTeacher,{taskId:taskId,id:id})
     },
-    getTaskQuestionAnswerTeam(taskId:number,id:number){
-        return post(apiUrl.getTaskQuestionAnswerTeam,{taskId:taskId,id:id})
-    },
-    getScoreRecord(taskId:number,username:string){
-        return post(apiUrl.getScoreRecord,{taskId:taskId,username:username})
-    },
-    getScoreRecordTeam(taskId:number,id:number){
-        return post(apiUrl.getScoreRecordTeam,{taskId:taskId,id:id})
+    getScoreRecord(taskId:number,id:number){
+        return post(apiUrl.getScoreRecord,{taskId:taskId,id:id})
     },
     submitScoreRecord(scoreRecord:ScoreRecordType){
         return POST(apiUrl.submitScoreRecord,scoreRecord)

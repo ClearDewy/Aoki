@@ -39,7 +39,7 @@
             <el-table-column prop="username" label="学号"/>
             <el-table-column>
               <template #default="{row}">
-                <el-button type="info" circle @click="scoreTask(row.username)" :icon="Search"/>
+                <el-button type="info" circle @click="scoreTask(row.id)" :icon="Search"/>
               </template>
             </el-table-column>
           </el-table>
@@ -138,7 +138,7 @@ const getNoTaskMember=()=>{
   })
 }
 
-const scoreTask=(key:number|string)=>{
+const scoreTask=(key:number)=>{
   router.push({path:'task-score',query:{id:task.value.id,name:task.value.name,key:key}})
 }
 

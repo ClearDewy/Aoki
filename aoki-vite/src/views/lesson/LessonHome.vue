@@ -1,7 +1,7 @@
 <template>
   <el-row justify="space-between">
     <el-col :span="12">
-      <el-card :body-style="{ padding: '0px'}" >
+      <el-card :body-style="el_card__body" >
         <template #header>
           <div class="card-header">
             <span>{{Lesson.name}}</span>
@@ -12,34 +12,36 @@
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card :body-style="{ padding: '0px'}" >
+      <el-card :body-style="el_card__body" >
         <template #header>
           <div class="card-header">
             <span>老师联系方式</span>
-            <div v-if="Lesson.ownerName===User.name" ><el-button class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
-              <el-button type="danger" :icon="Delete" circle :disabled="teacherMultipleSelection.length===0"  @click="removeUsers(teacherMultipleSelection)"/></div>
+              <el-button  v-if="Lesson.ownerName===User.name" class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
           </div>
         </template>
         <el-table
             :data="teachersData"
-            @selection-change="teacherTableSelectionChange"
             style="width: 100%;height: 100%">
-          <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
-          <el-table-column prop="name" label="姓名" style="width: 50%" />
-          <el-table-column prop="email" label="邮箱" style="width: 50%" />
+          <el-table-column prop="name" label="姓名" style="width: 50%" :overflow-tooltip="true"/>
+          <el-table-column prop="email" label="邮箱" style="width: 50%" :overflow-tooltip="true"/>
+          <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
+            <template #default="{row}">
+              <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </el-col>
   </el-row>
   <el-row justify="space-between">
     <el-col :span="12">
-      <el-card :body-style="{ padding: '0px'}" >
+      <el-card :body-style="el_card__body" >
         <template #header>
           <div class="card-header">
             <span>阶段任务</span>
-            <div v-if="Lesson.ownerName===User.name" >
-              <el-button class="button" v-if="Lesson.ownerName===User.name" text @click="milestonesEditRef.showCreateDialog()">添加任务</el-button>
-              <el-button type="danger" :icon="Delete" circle :disabled="milestonesMultipleSelection.length===0"  @click="deleteMilestones(milestonesMultipleSelection)"/></div>
+            <el-space v-if="Lesson.ownerId===User.id">
+              <el-button class="button" text @click="milestonesEditRef.showCreateDialog()">添加任务</el-button>
+              <el-button type="danger" :icon="Delete" circle :disabled="milestonesMultipleSelection.length===0"  @click="deleteMilestones(milestonesMultipleSelection)"/></el-space>
           </div>
         </template>
         <el-table
@@ -49,9 +51,9 @@
             @row-click="showMilestonesIntroduction"
         >
           <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
-          <el-table-column prop="name" label="任务名" style="width: 25%" />
-          <el-table-column prop="beginTime" label="开始时间" style="width: 25%" />
-          <el-table-column prop="endTime" label="结束时间" style="width: 25%" />
+          <el-table-column prop="name" label="任务名" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="beginTime" label="开始时间" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="endTime" label="结束时间" style="width: 25%" :overflow-tooltip="true"/>
           <el-table-column label="状态" style="width: 25%" >
             <template #default="scope">
               <span :style="{
@@ -64,7 +66,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column v-if="Lesson.ownerName===User.name" label="编辑" width="60" >
+          <el-table-column v-if="Lesson.ownerId===User.id" label="编辑" width="60" >
             <template #default="scope">
               <el-button :icon="Edit" circle @click="milestonesEditRef.showUpdateDialog(scope.row)"/>
             </template>
@@ -73,24 +75,26 @@
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card :body-style="{ padding: '0px'}" >
+      <el-card :body-style="el_card__body" >
         <template #header>
           <div class="card-header">
             <span>学生列表</span>
-            <div v-if="Lesson.ownerName===User.name"><el-button class="button" text @click="showAddMemberDialog=true">添加学生</el-button>
-              <el-button type="danger" :icon="Delete" circle :disabled="studentMultipleSelection.length===0" @click="removeUsers(studentMultipleSelection)"/></div>
+            <el-button  v-if="Lesson.ownerId===User.id" class="button" text @click="showAddMemberDialog=true">添加学生</el-button>
           </div>
         </template>
         <el-table
             :data="studentsData"
             style="width: 100%;height: 100%"
-            @selection-change="studentTableSelectionChange"
         >
-          <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
-          <el-table-column prop="name" label="姓名" style="width: 25%" />
-          <el-table-column prop="username" label="学号" style="width: 25%" />
-          <el-table-column prop="email" label="邮箱" style="width: 25%" />
-          <el-table-column prop="major" label="专业" style="width: 25%" />
+          <el-table-column prop="name" label="姓名" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="username" label="学号" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="email" label="邮箱" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="major" label="专业" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
+            <template #default="{row}">
+              <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </el-col>
@@ -139,6 +143,7 @@ import Editor from "../../components/sample/Editor.vue";
 import {Delete} from '@element-plus/icons-vue'
 import MilestonesEdit from "../../components/lesson/MilestonesEdit.vue";
 import {Edit} from "@element-plus/icons-vue"
+import {el_card__body} from "../../common/style";
 
 const teachersData=ref<UserListType[]>([])
 const studentsData=ref<UserListType[]>([])
@@ -218,23 +223,14 @@ const addLessonMember = async (formEl: FormInstance | undefined) => {
   })
 }
 
-const teacherMultipleSelection = ref<UserListType[]>([])
-const studentMultipleSelection = ref<UserListType[]>([])
 const milestonesMultipleSelection=ref<MilestonesType[]>([])
-
-const teacherTableSelectionChange=(val:UserListType[])=>{
-  teacherMultipleSelection.value=val
-}
-const studentTableSelectionChange=(val:UserListType[])=>{
-  studentMultipleSelection.value=val
-}
 
 const milestonesTableSelectionChange = (val:MilestonesType[]) => {
   milestonesMultipleSelection.value=val
 }
 
-const removeUsers = (userMultipleSelection:UserListType[]) => {
-  teacherApi.removeLessonMembers(Lesson.value.id as number,userMultipleSelection.map(ul=>ul.id)).then(res=>{
+const removeUsers = (id:number) => {
+  teacherApi.removeLessonMembers(Lesson.value.id as number,id).then(res=>{
     refreshMemberList()
   }).catch(e=>{
     alerterror("删除用户失败:"+e.message)

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -50,14 +49,6 @@ public class UserManager {
     @Autowired
     TaskEntityManager taskEntityManager;
 
-
-    public UserVo userDtoToUserVo(UserDto userDto){
-        return new UserVo(userDto.getUsername(),"",userDto.getName(),userDto.getEmail(),userEntityManager.getMajorByMajorId(userDto.getMajorId()),userDto.getRole(),userDto.getAvatarURL());
-    }
-
-    public UserDto userVoToUserDto(UserVo userVo){
-        return new UserDto(null,userVo.getUsername(),userVo.getPassword(),userVo.getName(),userVo.getEmail(),userEntityManager.getMajorIdByMajor(userVo.getMajor()),userVo.getRole(),userVo.getAvatarURL());
-    }
 
     public void updatePassword(UpdatePasswordVo updatePasswordVo) {
         UserDto userDto=threadLocalUtils.getCurrentUser();
@@ -134,21 +125,32 @@ public class UserManager {
         return teamEntityManager.getNoTeamMembers(lessonId);
     }
 
-    public void addTeamMember(Integer id,String username) {
-        if (!teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),id))
-            throw AokiException.forbidden();
-        Integer memberId=userEntityManager.getUserByUsername(username).getId();
-        if (!lessonEntityManager.verifyLessonMember(teamEntityManager.getTeamLessonId(id),memberId)){
-            throw AokiException.forbidden();
-        }
-        teamEntityManager.addTeamMember(new TeamMemberDto(null,id,memberId));
-    }
-
-    public void removeTeamMember(Integer teamId, String username) {
+    public void addTeamMember(Integer teamId,Integer id) {
         if (!teamEntityManager.verifyTeamOwner(threadLocalUtils.getCurrentUser().getId(),teamId))
             throw AokiException.forbidden();
-        Integer memberId=userEntityManager.getUserByUsername(username).getId();
-        teamEntityManager.removeTeamMember(teamId,memberId);
+        if (!lessonEntityManager.verifyLessonMember(teamEntityManager.getTeamLessonId(teamId),id)){
+            throw AokiException.forbidden();
+        }
+        teamEntityManager.addTeamMember(new TeamMemberDto(null,teamId,id));
+    }
+
+    public void removeTeamMember(Integer teamId, Integer id) {
+        UserDto currentUser = threadLocalUtils.getCurrentUser();
+        if (!teamEntityManager.verifyTeamOwner(currentUser.getId(),teamId))
+            throw AokiException.forbidden();
+        if (currentUser.getId().equals(id)){
+            teamEntityManager.deleteTeam(teamId);
+            Integer lessonId = teamEntityManager.getTeamLessonId(teamId);
+            TopicListVo myTopic = lessonEntityManager.getMyTopic(lessonId, teamId);
+            if (myTopic!=null){
+                lessonEntityManager.removeTopicMember(new TopicMemberDto(null,myTopic.getId(),teamId));
+                taskEntityManager.deleteAnswers(myTopic.getId(),id);
+                taskEntityManager.deleteTaskSubmitted(myTopic.getId(), id);
+            }
+
+        }else{
+            teamEntityManager.removeTeamMember(teamId,id);
+        }
     }
 
     public TopicTimeVo getTopicTime(Integer lessonId) {
@@ -222,7 +224,7 @@ public class UserManager {
         Integer id=threadLocalUtils.getCurrentUser().getId();
         LessonDto lesson = lessonEntityManager.getLessonByTopic(topicId);
         if (lesson.isTeamMode()){
-            return taskEntityManager.getMemberTasksTeam(id,topicId);
+            id=teamEntityManager.getTeamId(lesson.getId(),id);
         }
         return taskEntityManager.getMemberTasks(id,topicId);
     }

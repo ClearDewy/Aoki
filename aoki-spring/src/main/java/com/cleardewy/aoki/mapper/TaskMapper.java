@@ -20,7 +20,6 @@ public interface TaskMapper {
     List<TaskListOwnerVo> getOwnerTasks(Integer id, Integer lessonId);
 
     List<TaskListMemberVo> getMemberTasks(Integer id, Integer topicId);
-    List<TaskListMemberVo> getMemberTasksTeam(Integer id, Integer topicId);
 
     Integer verifyTaskOwner(Integer taskId,Integer id);
     Integer toggleTaskPublish(Integer taskId);
@@ -40,8 +39,12 @@ public interface TaskMapper {
     List<ScoreRuleDto> getScoreRule(Integer taskId);
 
     Integer submitAnswer(AnswerDto answerDto);
+
+    Integer deleteAnswers(Integer topicId,Integer id);
     List<TaskQuestionAnswerList>getQuestionAnswerList(Integer taskId,Integer id);
     Integer updateTaskSubmitted(TaskSubmittedDto taskSubmittedDto);
+
+    Integer deleteTaskSubmitted(Integer topicId,Integer id);
 
     List<TeamMemberVo> getTaskMember(Integer taskId);
 

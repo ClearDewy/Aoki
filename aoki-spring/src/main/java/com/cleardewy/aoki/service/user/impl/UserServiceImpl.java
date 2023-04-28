@@ -73,14 +73,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result addTeamMember(String username, Integer teamId) {
-        userManager.addTeamMember(teamId,username);
+    public Result addTeamMember(Integer teamId,Integer id) {
+        userManager.addTeamMember(teamId,id);
         return Result.success();
     }
 
     @Override
-    public Result removeTeamMember(Integer teamId, String username) {
-        userManager.removeTeamMember(teamId,username);
+    public Result removeTeamMember(Integer teamId,Integer id) {
+        userManager.removeTeamMember(teamId,id);
         return Result.success();
     }
 

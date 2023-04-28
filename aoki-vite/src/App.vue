@@ -4,7 +4,7 @@
   <div id="app">
     <el-backtop :right="30" :bottom="20" />
     <el-container style="height: 100%">
-      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);z-index: 2" ><NavBar/></el-header>
+      <el-header v-if="router.currentRoute.value.meta.showHeader" style="background: white;box-shadow: var(--el-box-shadow-lighter);z-index: 11" ><NavBar/></el-header>
       <el-container>
         <el-main><router-view/></el-main>
       </el-container>

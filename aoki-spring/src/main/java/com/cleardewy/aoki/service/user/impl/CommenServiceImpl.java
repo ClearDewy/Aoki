@@ -2,6 +2,7 @@ package com.cleardewy.aoki.service.user.impl;
 
 import com.cleardewy.aoki.entity.vo.user.AccountVo;
 import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UserRegisterVo;
 import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.manager.user.UserManager;
 import com.cleardewy.aoki.manager.account.AccountManager;
@@ -45,8 +46,8 @@ public class CommenServiceImpl implements CommenService {
     }
 
     @Override
-    public Result register(UserVo userVo,String code) {
-        accountManager.register(userVo,code);
+    public Result register(UserRegisterVo userRegisterVo, String code) {
+        accountManager.register(userRegisterVo,code);
         return Result.success();
     }
 

@@ -40,9 +40,6 @@ public class TaskEntityManager {
     public List<TaskListMemberVo> getMemberTasks(Integer id, Integer topicId) {
         return taskMapper.getMemberTasks(id,topicId);
     }
-    public List<TaskListMemberVo> getMemberTasksTeam(Integer id, Integer topicId) {
-        return taskMapper.getMemberTasksTeam(id,topicId);
-    }
 
     public Boolean verifyTaskOwner(Integer taskId,Integer id){
         return taskMapper.verifyTaskOwner(taskId,id)!=0;
@@ -96,8 +93,15 @@ public class TaskEntityManager {
         taskMapper.submitAnswer(answerDto);
     }
 
+    public void deleteAnswers(Integer topicId,Integer id){
+        taskMapper.deleteAnswers(topicId,id);
+    }
+
     public void updateTaskSubmitted(TaskSubmittedDto taskSubmittedDto){
         taskMapper.updateTaskSubmitted(taskSubmittedDto);
+    }
+    public void deleteTaskSubmitted(Integer topicId,Integer id){
+        taskMapper.deleteTaskSubmitted(topicId,id);
     }
 
     public List<TeamMemberVo> getTaskMember(Integer taskId) {

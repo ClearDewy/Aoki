@@ -57,8 +57,8 @@ public class LessonEntityManager {
         return lessonMapper.getLessonMember(id);
     }
 
-    public void deleteLessonMembers(Integer id, List<Integer> idList){
-        lessonMapper.deleteLessonMembers(id,idList);
+    public void deleteLessonMembers(Integer lessonId,Integer id){
+        lessonMapper.deleteLessonMembers(lessonId,id);
     }
 
     public void addTopicTime(TopicTimeDto topicTimeDto){
@@ -102,6 +102,9 @@ public class LessonEntityManager {
         return lessonMapper.getTopicLesson(id);
     }
 
+    public Boolean verifyNoTopic(Integer lessonId,Integer memberId){
+        return lessonMapper.verifyNoTopic(lessonId,memberId)==0;
+    }
     public void addTopicMember(TopicMemberDto topicMemberDto){
         lessonMapper.addTopicMember(topicMemberDto);
     }

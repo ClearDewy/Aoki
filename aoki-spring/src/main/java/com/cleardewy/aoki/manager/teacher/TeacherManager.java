@@ -73,12 +73,23 @@ public class TeacherManager {
         return new UserListVo(user.getId(),user.getUsername(),user.getName(),user.getEmail(),userEntityManager.getMajorByMajorId(user.getMajorId()),user.getRole());
     }
 
-    public void removeLessonMembers(Integer id, Integer[] idList) {
-        if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),id)){
+    public void removeLessonMembers(Integer lessonId, Integer id) {
+        Integer uid=threadLocalUtils.getCurrentUser().getId();
+        if (uid.equals(id)){
+            throw AokiException.fail();
+        }
+
+        if (!lessonEntityManager.verifyLessonOwner(uid,lessonId)){
             throw AokiException.forbidden();
         }
-        if (idList.length!=0)
-            lessonEntityManager.deleteLessonMembers(id, Arrays.asList(idList));
+        lessonEntityManager.deleteLessonMembers(lessonId, id);
+        TopicListVo myTopic = lessonEntityManager.getMyTopic(lessonId, id);
+        if (myTopic!=null)
+            lessonEntityManager.removeTopicMember(new TopicMemberDto(null, myTopic.getId(), id));
+        Integer teamId = teamEntityManager.getTeamId(lessonId, id);
+        if (teamId!=null)
+            teamEntityManager.removeTeamMember(teamId,id);
+
     }
 
     public void addMilestones(MilestonesDto milestonesDto) {
@@ -175,6 +186,8 @@ public class TeacherManager {
     public void addTopicMember(Integer topicId, Integer memberId) {
         if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
+        if (!lessonEntityManager.verifyNoTopic(lessonEntityManager.getLessonByTopic(topicId).getId(),memberId))
+            throw AokiException.fail();
         lessonEntityManager.addTopicMember(new TopicMemberDto(null,topicId,memberId));
     }
 
@@ -182,6 +195,8 @@ public class TeacherManager {
         if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
         lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,memberId));
+        taskEntityManager.deleteAnswers(topicId,memberId);
+        taskEntityManager.deleteTaskSubmitted(topicId, memberId);
     }
 
     public void deleteLesson(Integer lessonId, String code) {
@@ -317,14 +332,7 @@ public class TeacherManager {
         return taskEntityManager.getTaskQuestionAnswer(taskId,id);
     }
 
-    public List<ScoreEditVo> getScoreRecord(Integer taskId, String username) {
-        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
-            throw AokiException.forbidden();
-        UserDto user = userEntityManager.getUserByUsername(username);
-        return taskEntityManager.getScoreRecord(taskId,user.getId());
-    }
-
-    public List<ScoreEditVo> getScoreRecordTeam(Integer taskId, Integer id) {
+    public List<ScoreEditVo> getScoreRecord(Integer taskId, Integer id) {
         if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
         return taskEntityManager.getScoreRecord(taskId,id);

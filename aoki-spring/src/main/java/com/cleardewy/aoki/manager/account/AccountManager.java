@@ -5,6 +5,7 @@ import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.UserDto;
 import com.cleardewy.aoki.entity.vo.user.AccountVo;
 import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UserRegisterVo;
 import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.user.UserManager;
@@ -73,7 +74,15 @@ public class AccountManager {
         response.setHeader("refresh-authorization", String.valueOf(true)); //放到信息头部
         response.setHeader("Access-Control-Expose-Headers", "authorization");
 
-        return userManager.userDtoToUserVo(userDto);
+        return new UserVo(
+                userDto.getId(),
+                userDto.getUsername(),
+                "",
+                userDto.getName(),
+                userDto.getEmail(),
+                userEntityManager.getMajorByMajorId(userDto.getMajorId()),
+                userDto.getRole(),
+                userDto.getAvatarURL());
     }
 
 
@@ -84,17 +93,24 @@ public class AccountManager {
         jwtUtils.cleanToken(jwt);
     }
 
-    public void register(UserVo userVo,String code){
+    public void register(UserRegisterVo userRegisterVo, String code){
         // 检验用户名是否唯一
-        if (userEntityManager.countUsername(userVo.getUsername())!=0)
+        if (userEntityManager.countUsername(userRegisterVo.getUsername())!=0)
             throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.USERNAME_EXIST);
         // 检验邮箱是否唯一
-        if (userEntityManager.countEmail(userVo.getEmail())!=0)
+        if (userEntityManager.countEmail(userRegisterVo.getEmail())!=0)
             throw new AokiException(ResultStatus.Status.FAIL,ResultStatus.Message.EMAIL_EXIST);
-        emailVerifyManager.verifyCode(new EmailVerifyVo(userVo.getEmail(),code));
-        redisUtils.del("email_verify_code:"+userVo.getEmail());
+        emailVerifyManager.verifyCode(new EmailVerifyVo(userRegisterVo.getEmail(),code));
+        redisUtils.del("email_verify_code:"+userRegisterVo.getEmail());
         // 添加用户
-        userEntityManager.addUser(userManager.userVoToUserDto(userVo));
+        userEntityManager.addUser(new UserDto(
+                null,
+                userRegisterVo.getUsername()
+                ,userRegisterVo.getPassword(),
+                userRegisterVo.getName(),
+                userRegisterVo.getEmail(),
+                userEntityManager.getMajorIdByMajor(userRegisterVo.getMajor()),
+                userRegisterVo.getRole(),userRegisterVo.getAvatarURL()));
     }
 
 
@@ -134,6 +150,14 @@ public class AccountManager {
         response.setHeader("refresh-authorization", String.valueOf(true)); //放到信息头部
         response.setHeader("Access-Control-Expose-Headers", "authorization");
 
-        return userManager.userDtoToUserVo(userDto);
+        return new UserVo(
+                userDto.getId(),
+                userDto.getUsername(),
+                "",
+                userDto.getName(),
+                userDto.getEmail(),
+                userEntityManager.getMajorByMajorId(userDto.getMajorId()),
+                userDto.getRole(),
+                userDto.getAvatarURL());
     }
 }

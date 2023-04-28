@@ -16,7 +16,7 @@ public interface TeacherService {
 
     Result addLessonMember(Integer id, String username);
 
-    Result removeLessonMembers(Integer id, Integer[] idList);
+    Result removeLessonMembers(Integer lessonId, Integer id);
 
     Result addMilestones(MilestonesDto milestonesDto);
 
@@ -71,13 +71,12 @@ public interface TeacherService {
 
     Result getNoTaskMember(Integer taskId);
 
-    Result getTaskQuestionAnswerUsername(Integer taskId, String username);
+    Result getTaskQuestionAnswer(Integer taskId, Integer id);
 
-    Result getTaskQuestionAnswerTeam(Integer taskId, Integer id);
+    Result getScoreRecord(Integer taskId, Integer id);
 
-    Result getScoreRecord(Integer taskId, String username);
-
-    Result getScoreRecordTeam(Integer taskId, Integer id);
 
     Result submitScoreRecord(ScoreRecordVo scoreRecordVo);
+
+
 }

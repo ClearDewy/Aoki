@@ -43,8 +43,8 @@ public class TeacherController {
     }
 
     @PostMapping("/remove-lesson-member")
-    Result removeLessonMembers(Integer id, Integer[] idList){
-        return teacherService.removeLessonMembers(id,idList);
+    Result removeLessonMembers(Integer lessonId, Integer id){
+        return teacherService.removeLessonMembers(lessonId,id);
     }
 
     @PostMapping("/add-milestones")
@@ -159,23 +159,16 @@ public class TeacherController {
         return teacherService.getNoTaskMember(taskId);
     }
 
-    @PostMapping("/get-task-question-answer-username")
-    Result getTaskQuestionAnswerUsername(Integer taskId,String username){
-        return teacherService.getTaskQuestionAnswerUsername(taskId,username);
-    }
-    @PostMapping("/get-task-question-answer-team")
-    Result getTaskQuestionAnswerTeam(Integer taskId,Integer id){
-        return teacherService.getTaskQuestionAnswerTeam(taskId,id);
+    @PostMapping("/get-task-question-answer-teacher")
+    Result getTaskQuestionAnswer(Integer taskId,Integer id){
+        return teacherService.getTaskQuestionAnswer(taskId,id);
     }
 
     @PostMapping("/get-score-record")
-    Result getScoreRecord(Integer taskId,String username){
-        return teacherService.getScoreRecord(taskId,username);
+    Result getScoreRecord(Integer taskId,Integer id){
+        return teacherService.getScoreRecord(taskId,id);
     }
-    @PostMapping("/get-score-record-team")
-    Result getScoreRecordTeam(Integer taskId,Integer id){
-        return teacherService.getScoreRecordTeam(taskId,id);
-    }
+
 
     @PostMapping("/submit-score-record")
     Result submitScoreRecord(@RequestBody ScoreRecordVo scoreRecordVo){

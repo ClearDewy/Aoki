@@ -7,19 +7,17 @@
         INSERT INTO team(`name`,`lessonId`,`ownerId`) VALUES (#{name},#{lessonId},#{ownerId})
     </insert>
 
-<!--    SELECT t.id, t.name, u.name AS ownerName,-->
-<!--    (SELECT GROUP_CONCAT(CONCAT(m.username, ':', m.name, ':', m.avatarURL) SEPARATOR ';')-->
-<!--    FROM teammember tm JOIN user m ON tm.memberId = m.id-->
-<!--    WHERE tm.teamId = t.id) AS memberList-->
-<!--    FROM team t JOIN user u ON t.ownerId = u.id-->
-<!--    WHERE t.lessonId = #{lessonId}-->
+    <delete id="deleteTeam" parameterType="Integer">
+        DELETE FROM team WHERE id=#{id}
+    </delete>
+
     <select id="getTeams" parameterType="Integer" resultType="TeamVo">
-        SELECT team.id as id,team.name as name,user.name as ownerName
+        SELECT team.id as id,team.name as name,team.ownerId,user.name as ownerName
         FROM team,user
         WHERE ownerId=user.id AND lessonId=#{lessonId}
     </select>
     <select id="getTopicTeams" parameterType="Integer" resultType="TeamVo">
-        SELECT team.id AS id, team.name AS name, user.name AS ownerName
+        SELECT team.id AS id, team.name AS name,team.ownerId, user.name AS ownerName
         FROM topicmember
                  INNER JOIN team ON topicmember.memberId = team.id
                  INNER JOIN user ON team.ownerId = user.id
@@ -27,13 +25,13 @@
     </select>
 
     <select id="getTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
-        SELECT user.username,user.name,user.avatarURL
+        SELECT user.id,user.username,user.name,user.avatarURL
         FROM teammember,user
         WHERE `teamId`=#{teamId} AND teammember.memberId=user.id
     </select>
 
     <select id="getNoTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
-        SELECT user.username, user.name, user.avatarURL
+        SELECT user.id,user.username, user.name, user.avatarURL
         FROM user
                  INNER JOIN lessonmember ON user.id = lessonmember.memberId
                  LEFT JOIN teammember ON user.id = teammember.memberId
@@ -76,7 +74,7 @@
     </select>
 
     <select id="getTaskMemberTeam" parameterType="Integer" resultType="TeamVo">
-        SELECT team.id as id, team.name as name,user.name as ownerName
+        SELECT team.id as id, team.name as name,team.ownerId as ownerId,user.name as ownerName
         FROM team
                  INNER JOIN topicmember ON team.id = topicmember.memberId
                  INNER JOIN task ON task.topicId=topicmember.topicId
@@ -85,7 +83,7 @@
         WHERE task.id = #{taskId} AND `submitted`=1
     </select>
     <select id="getNoTaskMemberTeam" parameterType="Integer" resultType="TeamVo">
-        SELECT team.id as id, team.name as name,user.name as ownerName
+        SELECT team.id as id, team.name as name,team.ownerId as ownerId,user.name as ownerName
         FROM team
                  INNER JOIN topicmember ON team.id = topicmember.memberId
                  INNER JOIN task ON task.topicId=topicmember.topicId

@@ -31,15 +31,7 @@
                             ON task.id = tasksubmitted.taskId AND topicmember.memberId=tasksubmitted.memberId
         WHERE topicmember.topicId=#{topicId} AND topicmember.memberId = #{id} AND task.publish=true
     </select>
-    <select id="getMemberTasksTeam" resultType="TaskListMemberVo">
-        SELECT task.id, task.name, DATE_FORMAT(beginTime, '%Y-%m-%d %H:%i:%s') as beginTime, DATE_FORMAT(endTime, '%Y-%m-%d %H:%i:%s') as endTime,COALESCE(tasksubmitted.submitted, false) as submitted
-        FROM task
-                 INNER JOIN topicmember ON task.topicId = topicmember.topicId
-                 INNER JOIN teammember ON topicmember.memberId = teammember.id
-                 LEFT JOIN tasksubmitted
-                            ON task.id = tasksubmitted.taskId AND topicmember.memberId=tasksubmitted.memberId
-        WHERE topicmember.topicId=#{topicId} AND teammember.memberId = #{id} AND task.publish=true
-    </select>
+
     <select id="verifyTaskOwner" resultType="Integer">
         SELECT count(*) FROM task
         JOIN topic on topic.id = task.topicId
@@ -97,6 +89,12 @@
         VALUES (#{questionId}, #{ownerId}, #{content})
         ON DUPLICATE KEY UPDATE content=#{content};
     </insert>
+    <delete id="deleteAnswers" parameterType="integer">
+        DELETE FROM answer WHERE answer.ownerId=#{id} AND questionId IN (
+            SELECT question.id FROM question
+            JOIN task ON question.taskId=task.id
+            WHERE topicId=#{topicId})
+    </delete>
     <select id="getQuestionAnswerList" parameterType="Integer" resultType="TaskQuestionAnswerList">
         SELECT question.id,question.content as questionContent,answer.content as answerContent
         FROM question
@@ -108,7 +106,11 @@
         VALUES (#{taskId}, #{memberId}, #{submitted})
         ON DUPLICATE KEY UPDATE `submitted`=IF(`submitted`=1,1,#{submitted})
     </insert>
-
+    <delete id="deleteTaskSubmitted" parameterType="integer">
+        DELETE FROM tasksubmitted WHERE tasksubmitted.memberId=#{id} AND taskId IN (
+            SELECT task.id FROM task
+            WHERE topicId=#{topicId})
+    </delete>
     <select id="getTaskMember" parameterType="Integer" resultType="TeamMemberVo">
         SELECT user.username,user.name,user.avatarURL
         FROM user
@@ -138,5 +140,6 @@
         VALUES (#{scoreRuleId}, #{taskId}, #{memberId}, #{score})
         ON DUPLICATE KEY UPDATE score=#{score};
     </insert>
+
 </mapper>
 

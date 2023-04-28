@@ -18,6 +18,7 @@ import java.util.List;
 public interface TeamMapper {
 
     Integer createTeam(TeamDto teamDto);
+    Integer deleteTeam(Integer id);
 
     Integer addTeamMember(TeamMemberDto teamMemberDto);
 
@@ -43,5 +44,6 @@ public interface TeamMapper {
 
     List<TeamVo> getTaskMemberTeam(Integer taskId);
     List<TeamVo> getNoTaskMemberTeam(Integer taskId);
+
 
 }

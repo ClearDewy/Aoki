@@ -19,7 +19,7 @@
           <el-table-column prop="username" label="学号"/>
           <el-table-column v-if="myTeam?.ownerName===User.name" label="编辑" width="60" >
             <template #default="{row}">
-              <el-button type="danger" :icon="Delete" circle @click="removeTeamMember(row.username)"/>
+              <el-button type="danger" :icon="Delete" circle @click="removeTeamMember(row.id)"/>
             </template>
           </el-table-column>
         </el-table>
@@ -28,7 +28,7 @@
         <template #header>
           <div class="card-header">
             <span>未加入团队</span>
-            <el-button class="button" text @click="refreshNoTeamMembersList">Operation button</el-button>
+            <el-button class="button" text @click="refreshNoTeamMembersList">刷新</el-button>
           </div>
         </template>
         <el-table :data="noTeamMembersList" :show-header="false" style="height: 100%">
@@ -46,7 +46,6 @@
       <template #header>
         <div class="card-header">
           <span>团队列表</span>
-          <el-button class="button" text>Operation button</el-button>
         </div>
       </template>
       <el-collapse v-model="activeTeamId" @change="handleChange">
@@ -86,7 +85,7 @@
       <el-table-column prop="username" label="学号"/>
       <el-table-column label="编辑" width="60" >
         <template #default="scope">
-          <el-button :icon="Plus" type="primary" circle @click="addTeamMember(scope.row.username)"/>
+          <el-button :icon="Plus" type="primary" circle @click="addTeamMember(scope.row.id)"/>
         </template>
       </el-table-column>
     </el-table>
@@ -151,9 +150,9 @@ const createTeam=()=>{
   })
 }
 
-const addTeamMember=(username:string)=>{
+const addTeamMember=(id:number)=>{
   if (myTeam.value)
-    userApi.addTeamMember(myTeam.value.id,username).then(res=>{
+    userApi.addTeamMember(myTeam.value.id,id).then(res=>{
       refreshTeamList()
       refreshNoTeamMembersList()
     }).catch(e=>{
@@ -161,8 +160,8 @@ const addTeamMember=(username:string)=>{
     })
 }
 
-const removeTeamMember=(username:string)=>{
-  userApi.removeTeamMember(myTeam.value?.id as number,username).then(res=>{
+const removeTeamMember=(id:number)=>{
+  userApi.removeTeamMember(myTeam.value?.id as number,id).then(res=>{
     refreshTeamList()
     refreshNoTeamMembersList()
   }).catch(e=>{

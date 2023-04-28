@@ -61,36 +61,20 @@ type TaskType={id:number,name:string,key:number|string}
 const task=ref<TaskType>(router.currentRoute.value.query as unknown as TaskType)
 
 const getQuestionAnswer=()=>{
-  if (Lesson.value.teamMode){
-    teacherApi.getTaskQuestionAnswerTeam(task.value.id,task.value.key as number).then(res=>{
-      taskQuestionAnswerList.value=res.data
-    }).catch(e=>{
-      alerterror("获取作业详情失败")
-    })
-  }else{
-    teacherApi.getTaskQuestionAnswerUsername(task.value.id,task.value.key as string).then(res=>{
-      taskQuestionAnswerList.value=res.data
-    }).catch(e=>{
-      alerterror("获取作业详情失败")
-    })
-  }
+  teacherApi.getTaskQuestionAnswer(task.value.id,task.value.key as number).then(res=>{
+    taskQuestionAnswerList.value=res.data
+  }).catch(e=>{
+    alerterror("获取作业详情失败")
+  })
 }
 
 const scoreRecordList=ref<ScoreEditType[]>([])
 const getScoreRule=()=>{
-  if (Lesson.value.teamMode){
-    teacherApi.getScoreRecordTeam(task.value.id,task.value.key as number).then(res=>{
-      scoreRecordList.value=res.data
-    }).catch(e=>{
-      alerterror("获取分数记录失败")
-    })
-  }else{
-    teacherApi.getScoreRecord(task.value.id,task.value.key as string).then(res=>{
-      scoreRecordList.value=res.data
-    }).catch(e=>{
-      alerterror("获取分数记录失败")
-    })
-  }
+  teacherApi.getScoreRecord(task.value.id,task.value.key as number).then(res=>{
+    scoreRecordList.value=res.data
+  }).catch(e=>{
+    alerterror("获取分数记录失败")
+  })
 }
 
 const submitScoreRecord=()=>{

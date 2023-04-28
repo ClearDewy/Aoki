@@ -7,7 +7,7 @@
       </div>
     </template>
     <div style="display: flex;justify-content: center;align-items: center;height: 100%;width: 100%;flex-direction: column">
-      <h1 style="font-size:100px;margin: 0">{{myTopic?.name || '暂无课题'}}</h1>
+      <h1 style="font-size:100px;margin: 0">{{myTopic?.name}}</h1>
       <el-rate :size="'large'" v-model="myTopic.difficult" :colors="colors" :disabled="true"/>
       <h3>{{myTopic?.ownerName}}</h3>
     </div>
@@ -105,8 +105,19 @@ const removeTopicMember = (id:number) => {
 
 getMyTopic()
 if (!myTopic.value){
-  getTopicTime()
-  getTopics()
+  if (Lesson.value.topicMode){
+    myTopic.value={
+      id:0,
+      name:'暂无课题',
+      ownerName:'未知',
+      difficult:0,
+      number:0,
+      limit:0
+    }
+  }else{
+    getTopicTime()
+    getTopics()
+  }
 }
 
 const disabled=ref(!(new Date() >= beginTime.value && new Date() <= endTime.value))

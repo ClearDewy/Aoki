@@ -146,6 +146,7 @@ export const apiUrl={
 
     getTaskQuestion:"/api/get-task-questions",
     editTaskQuestions:"/api/edit-task-questions",
+    getTaskQuestionAnswer:"/api/get-task-question-answer",
 
     createScoreRule:"/api/create-score-rule",
     updateScoreRule:"/api/update-score-rule",
@@ -158,9 +159,8 @@ export const apiUrl={
     getTaskMember:"/api/get-task-member",
     getNoTaskMember:"/api/get-no-task-member",
 
-    getTaskQuestionAnswerUsername:"/api/get-task-question-answer-username",
-    getTaskQuestionAnswerTeam:"/api/get-task-question-answer-team",
+
+    getTaskQuestionAnswerTeacher:"/api/get-task-question-answer-teacher",
     getScoreRecord:"/api/get-score-record",
-    getScoreRecordTeam:"/api/get-score-record-team",
     submitScoreRecord:"/api/submit-score-record"
 }

@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TeamMemberVo {
+    private Integer id;
     private String username;
     private String name;
     private String avatarURL;

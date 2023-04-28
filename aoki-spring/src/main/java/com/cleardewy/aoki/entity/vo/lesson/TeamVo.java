@@ -12,12 +12,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class TeamVo {
-    Integer id;
-    String name;
-    String ownerName;
-    List<TeamMemberVo> memberList;
+    private Integer id;
+    private String name;
+    private Integer ownerId;
+    private String ownerName;
+    private List<TeamMemberVo> memberList;
 
-    TeamVo(Integer id,String name,String ownerName){
-        this.id=id;this.name=name;this.ownerName=ownerName;
+    TeamVo(Integer id,String name,Integer ownerId,String ownerName){
+        this.id=id;this.name=name;this.ownerId=ownerId;this.ownerName=ownerName;
     }
 }

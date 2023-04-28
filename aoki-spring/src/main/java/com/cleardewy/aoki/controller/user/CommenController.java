@@ -2,6 +2,7 @@ package com.cleardewy.aoki.controller.user;
 
 import com.cleardewy.aoki.entity.vo.user.AccountVo;
 import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UserRegisterVo;
 import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.service.user.CommenService;
 import com.cleardewy.aoki.utils.Result;
@@ -33,8 +34,8 @@ public class CommenController {
 
 
     @PostMapping("/register")
-    Result register(@Valid UserVo userVo,String code){
-        return commenService.register(userVo,code);
+    Result register(@Valid UserRegisterVo userRegisterVo, String code){
+        return commenService.register(userRegisterVo,code);
     }
 
     @PostMapping("/get-verify-code")

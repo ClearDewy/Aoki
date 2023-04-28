@@ -20,7 +20,7 @@ import {storage} from "./storage";
 
 
 export const User=ref<UserType>(storage.getItem("User")||{
-    avatarURL: "", email: "", major: "", name: "", password: "", role: null, username: ""
+    id:0,avatarURL: "", email: "", major: "", name: "", password: "", role: null, username: ""
 })
 
 export const Lesson=ref<LessonType>(storage.getItem("Lesson")||{

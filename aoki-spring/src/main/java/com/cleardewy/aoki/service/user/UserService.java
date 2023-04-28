@@ -31,9 +31,9 @@ public interface UserService {
 
     Result getNoTeamMembers(Integer lessonId);
 
-    Result addTeamMember(String username, Integer teamId);
+    Result addTeamMember(Integer teamId,Integer id);
 
-    Result removeTeamMember(Integer teamId, String username);
+    Result removeTeamMember(Integer teamId,Integer id);
 
     Result getTopicTime(Integer lessonId);
     Result getTopics(Integer lessonId);

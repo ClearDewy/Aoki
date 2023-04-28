@@ -42,8 +42,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Result removeLessonMembers(Integer id, Integer[] idList) {
-        teacherManager.removeLessonMembers(id,idList);
+    public Result removeLessonMembers(Integer lesson, Integer id) {
+        teacherManager.removeLessonMembers(lesson,id);
         return Result.success();
     }
 
@@ -191,24 +191,15 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Result getTaskQuestionAnswerUsername(Integer taskId, String username) {
-        return Result.success(teacherManager.getTaskQuestionAnswerUsername(taskId,username));
-    }
-
-    @Override
-    public Result getTaskQuestionAnswerTeam(Integer taskId, Integer id) {
+    public Result getTaskQuestionAnswer(Integer taskId, Integer id) {
         return Result.success(teacherManager.getTaskQuestionAnswerTeam(taskId,id));
     }
 
     @Override
-    public Result getScoreRecord(Integer taskId, String username) {
-        return Result.success(teacherManager.getScoreRecord(taskId,username));
+    public Result getScoreRecord(Integer taskId, Integer id) {
+        return Result.success(teacherManager.getScoreRecord(taskId,id));
     }
 
-    @Override
-    public Result getScoreRecordTeam(Integer taskId, Integer id) {
-        return Result.success(teacherManager.getScoreRecordTeam(taskId,id));
-    }
 
     @Override
     public Result submitScoreRecord(ScoreRecordVo scoreRecordVo) {

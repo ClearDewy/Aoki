@@ -72,12 +72,12 @@ public class UserController {
         return userService.getNoTeamMembers(lessonId);
     }
     @PostMapping("/add-team-member")
-    Result addTeamMember(String username,Integer teamId){
-        return userService.addTeamMember(username,teamId);
+    Result addTeamMember(Integer teamId,Integer id){
+        return userService.addTeamMember(teamId,id);
     }
     @PostMapping("/remove-team-member")
-    Result removeTeamMember(Integer teamId,String username){
-        return userService.removeTeamMember(teamId,username);
+    Result removeTeamMember(Integer teamId,Integer id){
+        return userService.removeTeamMember(teamId,id);
     }
     @PostMapping("/get-topic-time")
     Result getTopicTime(Integer lessonId){

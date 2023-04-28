@@ -49,9 +49,9 @@ public class MailUtils {
         context.setVariable("AOKI_NAME","Aoki"); //为html页面的id赋值
         context.setVariable("CODE",code);
         context.setVariable("EXPIRE_TIME",date);
-        String emailContent = templateEngine.process("emailTemplate_registerCode",context);
+        String emailContent = templateEngine.process("emailTemplate",context);
         try {
-            sendHtmlMail(mail,"来自Aoki的注册邮件",emailContent);
+            sendHtmlMail(mail,"来自Aoki的邮件",emailContent);
         }catch (Exception e){
             log.error(e.getLocalizedMessage());
             throw new AokiException(ResultStatus.Status.FAIL, ResultStatus.Message.EMAIL_SEND_FAIL);

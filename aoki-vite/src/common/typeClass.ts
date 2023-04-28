@@ -7,6 +7,7 @@ export type AccountType={
 
 // 用户信息
 export type UserType={
+    id:number
     username:string,
     password:string,
     name:string,
@@ -77,6 +78,7 @@ export type LessonType={
     teamMode:boolean
     topicMode:boolean,
     avatarURL:string,
+    ownerId:number
     ownerName:string,
 }
 
@@ -99,6 +101,7 @@ export type MilestonesType={
 }
 
 export type TeamMemberListType={
+    id:number,
     username:string
     name:string
     avatarURL:string
@@ -107,6 +110,7 @@ export type TeamMemberListType={
 export type TeamListType={
     id:number
     name:string
+    ownerId:number
     ownerName:string
     memberList:TeamMemberListType[]
 }

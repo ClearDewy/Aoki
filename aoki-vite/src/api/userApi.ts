@@ -78,11 +78,11 @@ export const userApi={
     getNoTeamMembers(lessonId:number){
         return post(apiUrl.getNoTeamMembers,{lessonId:lessonId})
     },
-    addTeamMember(teamId:number,username:string){
-        return post(apiUrl.addTeamMember,{teamId:teamId,username:username})
+    addTeamMember(teamId:number,id:number){
+        return post(apiUrl.addTeamMember,{teamId:teamId,id:id})
     },
-    removeTeamMember(teamId:number,username:string){
-        return post(apiUrl.removeTeamMember,{teamId:teamId,username:username})
+    removeTeamMember(teamId:number,id:number){
+        return post(apiUrl.removeTeamMember,{teamId:teamId,id:id})
     },
     getTopicTime(lessonId:number){
         return post(apiUrl.getTopicTime,{lessonId:lessonId})
