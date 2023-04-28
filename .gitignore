@@ -13,3 +13,4 @@
 /aoki-deploy/aoki/
 /aoki-deploy/src/docker-compose.yml
 /aoki-deploy/src/aoki/
+/aoki-deploy/src/frontend/dist/
