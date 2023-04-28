@@ -148,9 +148,5 @@
         INNER JOIN task ON topic.id = task.topicId
         WHERE task.id=#{taskId}
     </select>
-<!--    <delete id="deleteLessonTopicMember" parameterType="integer">-->
-<!--        DELETE from topicmember -->
-<!--        JOIN -->
-<!--    </delete>-->
 </mapper>
 

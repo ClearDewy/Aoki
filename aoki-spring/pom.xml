@@ -109,6 +109,12 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+
+                    <image>
+                        <name>
+                            registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_backend
+                        </name>
+                    </image>
                 </configuration>
             </plugin>
         </plugins>

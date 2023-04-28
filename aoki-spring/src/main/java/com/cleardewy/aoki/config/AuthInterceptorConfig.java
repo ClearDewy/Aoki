@@ -22,7 +22,7 @@ import java.io.File;
 public class AuthInterceptorConfig implements WebMvcConfigurer {
 
     private static final String[] EXCLUDE_PATH_PATTERNS=new String[]{
-            FileConstants.AVATAR_PATH+"**",FileConstants.IMG_PATH+"**"
+            FileConstants.AVATAR_PATH+"/**",FileConstants.IMG_PATH+"/**"
     };
 
     @Autowired

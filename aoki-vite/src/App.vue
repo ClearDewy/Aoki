@@ -16,8 +16,6 @@
 <script setup lang="ts">
 import router from "./router";
 import NavBar from "./components/bar/NavBar.vue"
-import TaskQuestionEdit from "./components/lesson/TaskQuestionEdit.vue";
-import TaskAnswerEdit from "./components/lesson/TaskAnswerEdit.vue";
 
 
 const Loading=document.getElementById("loading")

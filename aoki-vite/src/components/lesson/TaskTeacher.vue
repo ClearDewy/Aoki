@@ -345,7 +345,7 @@ const createTask=()=>{
 }
 
 // 操作子组件
-const taskMemberRef=ref<TaskMember>()
+const taskMemberRef=ref<typeof TaskMember>()
 const showTaskMemberDrawer=(row:OwnerTaskListType)=>{
   taskMemberRef.value.showTaskMemberDrawer(row)
 }

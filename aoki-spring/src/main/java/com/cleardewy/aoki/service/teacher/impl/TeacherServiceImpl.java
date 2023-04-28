@@ -192,7 +192,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Result getTaskQuestionAnswer(Integer taskId, Integer id) {
-        return Result.success(teacherManager.getTaskQuestionAnswerTeam(taskId,id));
+        return Result.success(teacherManager.getTaskQuestionAnswer(taskId,id));
     }
 
     @Override

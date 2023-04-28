@@ -43,11 +43,9 @@ const disabled = ref(false)
 const background = ref(false)
 const handleSizeChange = (val: number) => {
   refreshPageLessonList()
-  console.log(`${val} items per page`)
 }
 const handleCurrentChange = (val: number) => {
   refreshPageLessonList()
-  console.log(`current page: ${val}`)
 }
 
 const lessonList=ref<LessonListType[]>([])
@@ -78,6 +76,8 @@ const enterLesson=(les:LessonListType)=>{
       Lesson.value=res.data
       Lesson.value.ownerName=les.ownerName
       storage.setItem("Lesson",Lesson.value)
+      storage.remove('topic')
+      storage.remove('task')
       router.push(routerPath.Lesson)
     }
   }).catch(e=>{

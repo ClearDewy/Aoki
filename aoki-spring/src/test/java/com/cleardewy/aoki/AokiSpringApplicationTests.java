@@ -1,10 +1,8 @@
 package com.cleardewy.aoki;
 
-import com.cleardewy.aoki.entity.dto.AnswerDto;
-import com.cleardewy.aoki.entity.dto.LessonDto;
-import com.cleardewy.aoki.entity.dto.QuestionDto;
-import com.cleardewy.aoki.entity.dto.TaskDto;
+import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.manager.entity.LessonEntityManager;
+import com.cleardewy.aoki.manager.entity.TeamEntityManager;
 import com.cleardewy.aoki.manager.entity.UserEntityManager;
 import com.cleardewy.aoki.mapper.LessonMapper;
 import com.cleardewy.aoki.mapper.TaskMapper;
@@ -35,11 +33,13 @@ class AokiSpringApplicationTests {
     TeamMapper teamMapper;
     @Autowired
     TaskMapper taskMapper;
+    @Autowired
+    TeamEntityManager teamEntityManager;
 
 
     @Test
     void test() {
-        System.out.println(userEntityManager.getUserByUsername("202121091256"));;
+//        System.out.println(userEntityManager.getUserByUsername("202121091256"));;
 //        System.out.println(teamMapper.getTeamIdByTaskId(1,1));;
     }
 

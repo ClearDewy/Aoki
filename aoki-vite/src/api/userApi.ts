@@ -1,7 +1,7 @@
 import {GET, POST, post, POST_FILE} from "./api"
 import router, {routerPath} from "../router";
 import {storage} from "../common/storage";
-import {alertsuccess} from "../common/alert";
+import {alerterror, alertsuccess} from "../common/alert";
 import {AxiosResponse} from "axios";
 import {apiUrl} from "./api";
 import {
@@ -19,13 +19,18 @@ export const userApi={
     login:(account:AccountType)=>{
         post(apiUrl.login,account).then(res=>{
             loginSuccess(res)
+        }).catch(e=>{
+            alerterror("用户名或密码错误")
         })
     },
     logout:()=>{
         GET(apiUrl.logout).then(res=>{
-            storage.clear()
-            router.replace(routerPath.Login)
+
+        }).catch(e=>{
+
         })
+        storage.clear()
+        router.replace(routerPath.Login)
     },
     // 获取验证码
     getVerifyCode:(email:string)=>{
@@ -35,10 +40,7 @@ export const userApi={
         return post(apiUrl.verifyCode,{email:email,code:code})
     },
     register(user:UserRegisterType){
-        post(apiUrl.register,user).then(res=>{
-            alertsuccess("注册成功")
-            router.replace(routerPath.Login)
-        })
+        return post(apiUrl.register,user)
     },
     getAllMajor(){
         return GET(apiUrl.getAllMajor)

@@ -1,14 +1,15 @@
-import { defineConfig } from 'vite'
+import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vitejs.dev/config/
-export default defineConfig({
+
+export default ({mode})=>defineConfig({
   plugins: [vue()],
   server: {
+    port:8066,
     // 配置代理
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: loadEnv(mode, process.cwd()).VITE_PROXY_API,
         ws: true,
         changeOrigin: true,
       },

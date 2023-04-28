@@ -95,8 +95,8 @@ export const apiUrl={
     uploadFile:"/api/file/upload-file",
 
     updatePassword:"/api/update-password",
-    updateEmail:"/api//update-email",
-    updateAvatar:"/api//update-avatar",
+    updateEmail:"/api/update-email",
+    updateAvatar:"/api/update-avatar",
 
 
     createLesson:"/api/create-lesson",

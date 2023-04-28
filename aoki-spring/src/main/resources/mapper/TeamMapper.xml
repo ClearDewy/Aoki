@@ -32,9 +32,10 @@
 
     <select id="getNoTeamMembers" parameterType="Integer" resultType="TeamMemberVo">
         SELECT user.id,user.username, user.name, user.avatarURL
-        FROM user
-                 INNER JOIN lessonmember ON user.id = lessonmember.memberId
-                 LEFT JOIN teammember ON user.id = teammember.memberId
+        FROM lessonmember
+                 LEFT JOIN team ON  team.lessonId=lessonMember.lessonId
+                 LEFT JOIN teammember ON teamMember.teamId = team.id AND teammember.memberId=lessonmember.memberId
+                 INNER JOIN user ON lessonmember.memberId = user.id
         WHERE lessonmember.lessonId = #{lessonId} AND user.role=2 AND teammember.memberId IS NULL
     </select>
 
@@ -42,12 +43,12 @@
         SELECT * FROM team where id=#{id}
     </select>
     <select id="getTeamId" resultType="Integer">
-        select teamId from team,teammember
+        SELECT teamId FROM team,teammember
         WHERE memberId=#{id} AND teamId=team.id AND team.lessonId=#{lessonId}
     </select>
 
     <select id="getTeamLessonId" resultType="Integer">
-        select lessonId from team
+        SELECT lessonId FROM team
         WHERE id=#{id}
     </select>
 

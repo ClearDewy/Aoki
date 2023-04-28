@@ -194,9 +194,9 @@ public class TeacherManager {
     public void removeTopicMember(Integer topicId, Integer memberId) {
         if (!lessonEntityManager.verifyTopicOwner(topicId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
-        lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,memberId));
         taskEntityManager.deleteAnswers(topicId,memberId);
         taskEntityManager.deleteTaskSubmitted(topicId, memberId);
+        lessonEntityManager.removeTopicMember(new TopicMemberDto(null,topicId,memberId));
     }
 
     public void deleteLesson(Integer lessonId, String code) {
@@ -319,14 +319,8 @@ public class TeacherManager {
         }
     }
 
-    public List<TaskQuestionAnswerList> getTaskQuestionAnswerUsername(Integer taskId, String username) {
-        if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
-            throw AokiException.forbidden();
-        UserDto user = userEntityManager.getUserByUsername(username);
-        return taskEntityManager.getTaskQuestionAnswer(taskId,user.getId());
-    }
 
-    public List<TaskQuestionAnswerList> getTaskQuestionAnswerTeam(Integer taskId, Integer id) {
+    public List<TaskQuestionAnswerList> getTaskQuestionAnswer(Integer taskId, Integer id) {
         if (!taskEntityManager.verifyTaskOwner(taskId,threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
         return taskEntityManager.getTaskQuestionAnswer(taskId,id);

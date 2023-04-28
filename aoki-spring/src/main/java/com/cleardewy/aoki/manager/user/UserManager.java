@@ -139,7 +139,6 @@ public class UserManager {
         if (!teamEntityManager.verifyTeamOwner(currentUser.getId(),teamId))
             throw AokiException.forbidden();
         if (currentUser.getId().equals(id)){
-            teamEntityManager.deleteTeam(teamId);
             Integer lessonId = teamEntityManager.getTeamLessonId(teamId);
             TopicListVo myTopic = lessonEntityManager.getMyTopic(lessonId, teamId);
             if (myTopic!=null){
@@ -147,7 +146,7 @@ public class UserManager {
                 taskEntityManager.deleteAnswers(myTopic.getId(),id);
                 taskEntityManager.deleteTaskSubmitted(myTopic.getId(), id);
             }
-
+            teamEntityManager.deleteTeam(teamId);
         }else{
             teamEntityManager.removeTeamMember(teamId,id);
         }
@@ -250,6 +249,8 @@ public class UserManager {
             id=teamEntityManager.getTeamId(lesson.getId(),id);
         }
         Integer finalId = id;
+        log.warn("FINALID{}",finalId);
+        System.out.println(submitTaskVo.getAnswerList());
         submitTaskVo.getAnswerList().forEach((submitAnswer)-> taskEntityManager.submitAnswer(new AnswerDto(null,submitAnswer.questionId,submitAnswer.answerContent, finalId)));
         taskEntityManager.updateTaskSubmitted(new TaskSubmittedDto(null,submitTaskVo.getTaskId(),id,submitted));
     }

@@ -144,7 +144,7 @@ const createTeam=()=>{
   userApi.createTeam(createTeamName.value,Lesson.value.id as number).then(res=>{
     showCreateTeamDialog.value=false
     refreshTeamList()
-
+    refreshNoTeamMembersList()
   }).catch(e=>{
     alerterror("创建团队失败")
   })

@@ -221,6 +221,7 @@ const avatarOption={
   width: 240,
   height: 130,
   cropBoxResizable: false,
+  aspectRatio: 24 / 13,
 }
 
 // 防止重复提交

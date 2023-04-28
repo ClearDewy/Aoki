@@ -82,6 +82,7 @@ import {Message,Lock,Loading} from "@element-plus/icons-vue";
 import {UserRegisterType} from "../../common/typeClass";
 import {teacherApi} from "../../api/teacherApi";
 import {alerterror, alertsuccess} from "../../common/alert";
+import router, {routerPath} from "../../router";
 
 // 验证成功显示完善信息页面
 const emailVarified=ref(false)
@@ -115,6 +116,8 @@ const nextStep=async (formEl: FormInstance | undefined) => {
     if (valid) {
       userApi.verifyCode(UserRegisterForm.email,UserRegisterForm.code).then(res=>{
         emailVarified.value=true
+      }).catch(e=>{
+        alerterror("验证码错误")
       })
     }
   })
@@ -127,6 +130,8 @@ const getVerifyCode=()=>{
   userApi.getVerifyCode(UserRegisterForm.email).then(res=>{
     endTime.value=Date.now()+1000*60
     startGrab.value=true
+  }).catch(e=>{
+    alerterror("验证码发送失败")
   })
 }
 const resetGetVerifyCode=()=>{
@@ -158,7 +163,12 @@ const register=async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      userApi.register(UserRegisterForm)
+      userApi.register(UserRegisterForm).then(res=>{
+        alertsuccess("注册成功")
+        router.replace(routerPath.Login)
+      }).catch(e=>{
+        alerterror("注册失败")
+      })
     }
   })
 }

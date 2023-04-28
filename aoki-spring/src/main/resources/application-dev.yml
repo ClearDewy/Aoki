@@ -1,12 +1,12 @@
 # 默认以下配置默认会读取环境变量的值
-mysql-public-host: localhost
-mysql-public-port: 6603
+mysql-host: localhost
+mysql-port: 6603
 mysql-username: root
 mysql-password: "040110"
 
 redis-host: localhost
 redis-port: 6379
-redis-password: "040110"
+redis-password: "aoki123456"
 
 mail-username: 2701679328@qq.com
 mail-password: habozfhkpjgsdfjg
@@ -21,7 +21,7 @@ server:
 spring:
   datasource: # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${mysql-public-host}:${mysql-public-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${mysql-host}:${mysql-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
     username: ${mysql-username}
     password: ${mysql-password}
   data:                       #直接连接redis
@@ -47,10 +47,6 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 5GB
-
-
-
-
 
 
 #&serverTimezone=GMT

@@ -10,10 +10,10 @@
   >
 
     <div style="margin-top: 60px">
-      <el-image v-if="Lesson.avatarURL" :src="Lesson.avatarURL" style="padding: 14px"/>
+      <el-image v-if="Lesson.avatarURL" :src="Lesson.avatarURL" style="width: 90%;padding-left: 5%;padding-right: 5%"/>
       <div style="padding: 14px" v-if="!isCollapse">
-        <span style="display: block; text-align: left;font-size: var(--el-font-size-extra-large);width: 100%">{{Lesson.name}}</span>
-        <span style="display: block; text-align: left;font-size: var(--el-font-size-small);width: 100%">{{Lesson.ownerName}}</span>
+        <span class="inline-span" style="display: block; text-align: left;font-size: var(--el-font-size-extra-large);width: 100%">{{Lesson.name}}</span>
+        <span class="inline-span" style="display: block; text-align: left;font-size: var(--el-font-size-small);width: 100%">{{Lesson.ownerName}}</span>
       </div>
     </div>
     <el-menu-item index="/lesson">
@@ -59,5 +59,13 @@ const isCollapse = ref(true)
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+}
+
+.inline-span {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;  /* 避免换行 */
+  text-overflow: ellipsis;
 }
 </style>

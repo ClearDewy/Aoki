@@ -1,24 +1,1 @@
-spring:
-  jackson: #@ResponseBody????
-    time-zone: GMT+8
-  profiles:
-    active: dev
-
-mybatis-plus:
-  # ???????????entity
-  type-aliases-package: com/cleardewy/aoki/entity
-  #  configuration:
-  #    map-underscore-to-camel-case: true # ??????
-  mapper-locations: # mapper??????
-    - classpath:mapper/*Mapper.xml
-  global-config:
-    banner: false
-
-springdoc:
-  packages-to-scan: com.cleardewy.aoki
-  api-docs:   # OpenApi??
-    enabled: true
-    # path: apiui
-  swagger-ui:
-    enabled: true
-    # path: /swagger-ui.html  #swagger??
+spring:  jackson: # @ResponseBody    time-zone: GMT+8  profiles:    active: promybatis-plus:  # entity  type-aliases-package: com/cleardewy/aoki/entity  #  configuration:  #    map-underscore-to-camel-case: true  mapper-locations: # mapper    - classpath:mapper/*Mapper.xml  global-config:    banner: false#springdoc:#  packages-to-scan: com.cleardewy.aoki#  api-docs:   # OpenApi#    enabled: true#    # path: apiui#  swagger-ui:#    enabled: true#    # path: /swagger-ui.html  #swagger

@@ -1,0 +1,16 @@
+docker build -t registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_frontend ./frontend
+docker build -t registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_mysql ./mysql
+
+
+
+
+
+
+
+
+
+
+
+docker push registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_frontend
+docker push registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_mysql
+docker push registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_backend

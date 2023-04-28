@@ -154,7 +154,6 @@ const finishCrop = () => {
       alerterror("图片获取为空")
       return
     }
-    console.log(avatarBlob.type)
     let file = new window.File(
         [avatarBlob],
         'avatar.png'

@@ -30,7 +30,7 @@ public class MailConfiguration {
         mailSender.setUsername(username);
         mailSender.setPassword(password);
         mailSender.setHost(host);
-//        mailSender.setPort(Integer.parseInt(port));
-        return  mailSender;
+        mailSender.setPort(Integer.parseInt(port));
+        return mailSender;
     }
 }

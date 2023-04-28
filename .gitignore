@@ -3,7 +3,6 @@
 /aoki-spring/target/
 /aoki-spring/aoki_backend/
 /aoki-spring/.mvn/
-/aoki-deploy/
 /aoki-vite/.vscode/
 /aoki-vite/.idea/
 
@@ -11,3 +10,6 @@
 /aoki-vite/package-lock.json
 /aoki-vite/dist/
 /aoki-vite/src/Test.vue
+/aoki-deploy/aoki/
+/aoki-deploy/src/docker-compose.yml
+/aoki-deploy/src/aoki/

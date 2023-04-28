@@ -1,0 +1,93 @@
+version: "3"
+services:
+
+  aoki-redis:
+    image: redis:5.0.9-alpine
+    container_name: aoki-redis
+    restart: always
+    volumes:
+      - ./aoki/data/redis/data:/data
+    networks:
+      aoki-network:
+        ipv4_address: 172.20.0.2
+    ports:
+      - 6379:6379
+    # --requirepass 后面为redis访问密码
+    command: redis-server --requirepass aoki123456 --appendonly yes
+        
+  aoki-mysql:
+    image: registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_mysql
+    container_name: aoki-mysql
+    restart: always
+    volumes:
+      - ./aoki/data/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=aoki123456 # mysql数据库root账号的密码
+      - TZ=Asia/Shanghai
+    ports:
+      - 3306:3306
+    networks:
+      aoki-network:
+        ipv4_address: 172.20.0.3
+      
+
+    
+  aoki-backend:
+    image: registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_backend
+    container_name: aoki-backend
+    restart: always
+    depends_on:
+      - aoki-redis
+      - aoki-mysql
+    volumes:
+      - ./aoki/file:/workspace/aoki/file
+    environment:
+      - TZ=Asia/Shanghai
+      - JAVA_OPTS=-Xms192m -Xmx384m
+
+      - MYSQL_HOST=172.20.0.3
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=aoki123456
+      
+      - REDIS_HOST=172.20.0.2
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=aoki123456
+      - MAIL_HOST=smtp.qq.com # 请使用邮件服务的域名或ip
+      - MAIL_PORT=465 # 请使用邮件服务的端口号
+      - MAIL_USERNAME=2701679328@qq.com # 请使用对应邮箱账号
+      - MAIL_PASSWORD=habozfhkpjgsdfjg # 请使用对应邮箱密码
+    ports:
+      - 8080:8080
+    networks:
+      aoki-network:
+        ipv4_address: 172.20.0.4
+  
+  aoki-frontend:
+    image: registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_frontend
+    container_name: aoki-frontend
+    restart: always
+    # 开启https，请提供证书
+    #volumes:
+    #  - ./server.crt:/etc/nginx/etc/crt/server.crt
+    #  - ./server.key:/etc/nginx/etc/crt/server.key
+
+    environment:
+      - SERVER_NAME=localhost # 域名(例如baidu.com)或localhost(本地)
+      - BACKEND_SERVER_HOST=172.20.0.4 # backend后端服务地址
+      - BACKEND_SERVER_PORT=8080 # backend后端服务端口号
+      - USE_HTTPS=false # 使用https请设置为true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      aoki-network:
+        ipv4_address: 172.20.0.5
+  
+    
+networks:
+   aoki-network:
+     driver: bridge
+     ipam:
+       config:
+         - subnet: ${SUBNET:-172.20.0.0/15}

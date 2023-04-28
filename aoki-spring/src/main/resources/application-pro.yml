@@ -1,14 +1,18 @@
 # 默认以下配置默认会读取环境变量的值
-mysql-public-host: ${MYSQL_PUBLIC_HOST:172.18.0.3}
-mysql-public-port: ${MYSQL_PUBLIC_PORT:3306}
+mysql-host: ${MYSQL_HOST:172.18.0.3}
+mysql-port: ${MYSQL_PORT:3306}
 mysql-username: ${MYSQL_USERNAME:root}
-mysql-password: ${MYSQL_ROOT_PASSWORD:"040110"}
+mysql-password: ${MYSQL_PASSWORD:"aoki123456"}
 
+# redis配置
+redis-host: ${REDIS_HOST:172.20.0.2}
+redis-port: ${REDIS_PORT:6379}
+redis-password: ${REDIS_PASSWORD:"aoki123456"}
 
 mail-username: ${MAIL_USERNAME:your_mail_username}
-mail-password: ${MAIL_PASSWORD:your_mail_username}
+mail-password: ${MAIL_PASSWORD:your_mail_password}
 mail-host: ${MAIL_HOST:smtp.qq.com}
-mail-port: ${MAIL-PORT:465}
+mail-port: ${MAIL_PORT:465}
 
 
 # 服务端口号
@@ -18,7 +22,7 @@ server:
 spring:
   datasource: # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${mysql-public-host}:${mysql-public-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${mysql-host}:${mysql-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
     username: ${mysql-username}
     password: ${mysql-password}
   data:                       #直接连接redis
@@ -31,7 +35,7 @@ spring:
   cache:
     type: redis               # 缓存使用redis
     redis:
-      time-to-live: 1800      # 缓存过期时间，单位 s
+      time-to-live: 3600000      # 缓存过期时间，单位 s
       cache-null-values: true   # 是否缓存空值
   mail: #邮件配置
     username: ${mail-username}
@@ -47,7 +51,7 @@ spring:
 #&serverTimezone=GMT
 logging:
   file:
-    path: /home/log/backend
+    path: ./aoki_backend
   level:
     root: info
   config: classpath:logback-spring.xml
