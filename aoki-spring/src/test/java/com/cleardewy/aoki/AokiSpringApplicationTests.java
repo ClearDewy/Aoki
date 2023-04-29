@@ -40,7 +40,7 @@ class AokiSpringApplicationTests {
     @Test
     void test() {
 //        System.out.println(userEntityManager.getUserByUsername("202121091256"));;
-//        System.out.println(teamMapper.getTeamIdByTaskId(1,1));;
+//        System.out.println(taskMapper.getTaskMember(6));;
     }
 
 }

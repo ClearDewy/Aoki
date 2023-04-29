@@ -2,12 +2,9 @@
   <el-row justify="space-between" style="height: 100%">
     <el-col span="8" style="display: flex">
       <el-image v-if="router.currentRoute.value.fullPath==='/home'" :src=Logo fit="scale-down" style="height: 58px;"/>
-<!--      <el-breadcrumb :separator-icon="ArrowRight" style="display: flex;justify-content: center;align-items: center">-->
-<!--        <el-breadcrumb-item v-for="item in router.currentRoute.value.matched" :to="item.path.toString()">{{ item.name }}</el-breadcrumb-item>-->
-<!--      </el-breadcrumb>-->
       <el-button v-else @click="router.push(routerPath.Home)" type="primary" link style="color: black;"><el-icon class="el-icon--left">
         <arrow-left />
-      </el-icon>返回</el-button>
+      </el-icon>主页</el-button>
 
     </el-col>
     <el-col span="4">

@@ -47,10 +47,7 @@ public class JwtFilter implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("==================BEGAN================");
-        log.info("RequestUrl->{}",request.getRequestURI());
-        log.info("RequestAddress->{}",request.getRemoteAddr());
-        log.info("RequestType->{}",request.getMethod());
+
 
         if (!(handler instanceof HandlerMethod handlerMethod)){
             log.info("非方法映射:{}->{}",request.getRemoteAddr(),request.getRequestURI());
@@ -74,7 +71,6 @@ public class JwtFilter implements HandlerInterceptor{
         //获取token
         String tokenValue = request.getHeader(Constants.RequestHeaderConstants.AUTHORIZATION);
 
-        log.info("RequestToken->{}",tokenValue);
         //没有token一律不准通过
         if (tokenValue==null||tokenValue.isBlank()) {
             throw new AokiException(ResultStatus.Status.OVERDUE);
@@ -100,7 +96,6 @@ public class JwtFilter implements HandlerInterceptor{
         if(!ArrayUtils.contains(aokiRole.value(), user.getRole())){
             throw new AokiException(ResultStatus.Status.ACCESS_DENIED,ResultStatus.Message.NO_PERMISSIONS);
         }
-        log.info("User->id:{};name:{};role:{};",user.getId(),user.getName(),user.getRole());
         // 登录成功后存储当前用户信息
         threadLocalUtils.addCurrentUser(user);
         return true;

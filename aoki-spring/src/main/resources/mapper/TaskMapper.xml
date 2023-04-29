@@ -112,7 +112,7 @@
             WHERE topicId=#{topicId})
     </delete>
     <select id="getTaskMember" parameterType="Integer" resultType="TeamMemberVo">
-        SELECT user.username,user.name,user.avatarURL
+        SELECT user.id,user.username,user.name,user.avatarURL
         FROM user
         INNER JOIN topicmember ON user.id=topicmember.memberId
         INNER JOIN task ON task.topicId=topicmember.topicId
@@ -121,7 +121,7 @@
     </select>
 
     <select id="getNoTaskMember" parameterType="Integer" resultType="TeamMemberVo">
-        SELECT user.username,user.name,user.avatarURL
+        SELECT user.id,user.username,user.name,user.avatarURL
         FROM user
                  INNER JOIN topicmember ON user.id=topicmember.memberId
                  INNER JOIN task ON task.topicId=topicmember.topicId

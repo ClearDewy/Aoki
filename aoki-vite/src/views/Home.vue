@@ -9,7 +9,8 @@
       </div>
     </el-card>
   </div>
-  <div class="demo-pagination-block" style="padding:1%;float: right">
+  <el-empty v-if="lessonList.length===0"/>
+  <div v-else class="demo-pagination-block" style="padding:1%;float: right">
     <el-pagination
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"
