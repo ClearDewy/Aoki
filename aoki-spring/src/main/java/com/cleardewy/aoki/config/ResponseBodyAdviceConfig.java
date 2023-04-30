@@ -36,11 +36,7 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice {
         log.info("==================BEGAN================");
         log.info("RequestUrl->{}",request.getURI());
         log.info("RequestAddress->{}",request.getRemoteAddress());
-        try {
-            log.info("RequestBody->{}", StreamUtils.copyToString(request.getBody(), StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
         log.info("RequestType->{}",request.getMethod());
         log.info("RequestToken->{}",request.getHeaders().get(Constants.RequestHeaderConstants.AUTHORIZATION));
 

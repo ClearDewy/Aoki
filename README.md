@@ -3,7 +3,7 @@
 ![logo](logo.png)
 
 [![Java](https://img.shields.io/badge/Java-17-informational)](http://openjdk.java.net/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-success)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0.6-success)](https://spring.io/projects/spring-boot)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0.19-blue)](https://www.mysql.com/)
 [![Redis](https://img.shields.io/badge/Redis-5.0.9-red)](https://redis.io/)
 [![Vite](https://img.shields.io/badge/Vite-4.0.0-success)](https://cn.vuejs.org/)
