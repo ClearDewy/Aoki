@@ -20,6 +20,9 @@
 **注意：**
 
 ## 二、部署
+1. 安装docker
+2. 在`aoki/aoki-deploy/standAlone`下执行`docker-compose up -d`
+3. 在浏览器访问`localhost`
 
 ## 三、更新
 
