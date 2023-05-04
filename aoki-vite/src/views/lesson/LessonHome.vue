@@ -22,8 +22,8 @@
         <el-table
             :data="teachersData"
             style="width: 100%;height: 100%">
-          <el-table-column prop="name" label="姓名" style="width: 50%" :overflow-tooltip="true"/>
-          <el-table-column prop="email" label="邮箱" style="width: 50%" :overflow-tooltip="true"/>
+          <el-table-column prop="name" label="姓名" style="width: 50%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="email" label="邮箱" style="width: 50%" :show-overflow-tooltip="true"/>
           <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
             <template #default="{row}">
               <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>
@@ -51,9 +51,9 @@
             @row-click="showMilestonesIntroduction"
         >
           <el-table-column v-if="Lesson.ownerName===User.name" type="selection" width="55" />
-          <el-table-column prop="name" label="任务名" style="width: 25%" :overflow-tooltip="true"/>
-          <el-table-column prop="beginTime" label="开始时间" style="width: 25%" :overflow-tooltip="true"/>
-          <el-table-column prop="endTime" label="结束时间" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="name" label="任务名" style="width: 25%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="beginTime" label="开始时间" style="width: 25%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="endTime" label="结束时间" style="width: 25%" :show-overflow-tooltip="true"/>
           <el-table-column label="状态" style="width: 25%" >
             <template #default="scope">
               <span :style="{
@@ -86,10 +86,10 @@
             :data="studentsData"
             style="width: 100%;height: 100%"
         >
-          <el-table-column prop="name" label="姓名" style="width: 25%" :overflow-tooltip="true"/>
-          <el-table-column prop="username" label="学号" style="width: 25%" :overflow-tooltip="true"/>
-          <el-table-column prop="email" label="邮箱" style="width: 25%" :overflow-tooltip="true"/>
-          <el-table-column prop="major" label="专业" style="width: 25%" :overflow-tooltip="true"/>
+          <el-table-column prop="name" label="姓名" style="width: 25%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="username" label="学号" style="width: 25%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="email" label="邮箱" style="width: 25%" :show-overflow-tooltip="true"/>
+          <el-table-column prop="major" label="专业" style="width: 25%" :show-overflow-tooltip="true"/>
           <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
             <template #default="{row}">
               <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>

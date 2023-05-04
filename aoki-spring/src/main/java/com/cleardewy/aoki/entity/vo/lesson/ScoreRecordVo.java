@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ScoreRecordVo {
     private Integer taskId;
-    private Integer teamId;
-    private String username;
+    private Integer memberId;
     List<Score> scoreList;
     @Data
     @AllArgsConstructor

@@ -13,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -336,15 +333,8 @@ public class TeacherManager {
         if (!taskEntityManager.verifyTaskOwner(scoreRecordVo.getTaskId(),threadLocalUtils.getCurrentUser().getId()))
             throw AokiException.forbidden();
 
-        LessonDto lesson = lessonEntityManager.getLessonByTaskId(scoreRecordVo.getTaskId());
-        Integer id;
-        if (lesson.isTeamMode()){
-            id=scoreRecordVo.getTeamId();
-        }else{
-            id=userEntityManager.getUserByUsername(scoreRecordVo.getUsername()).getId();
-        }
         scoreRecordVo.getScoreList().forEach(sr->taskEntityManager.submitScoreRecord(new ScoreRecordDto(
-                null,sr.scoreRuleId,scoreRecordVo.getTaskId(),id, sr.score
+                null,sr.scoreRuleId,scoreRecordVo.getTaskId(),scoreRecordVo.getMemberId(), sr.score
         )));
     }
 }

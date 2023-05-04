@@ -80,8 +80,7 @@ const getScoreRule=()=>{
 const submitScoreRecord=()=>{
   const scoreRecord:ScoreRecordType= {
     taskId: task.value.id,
-    teamId: Lesson.value.teamMode?task.value.key as number:0,
-    username:Lesson.value.teamMode?'':task.value.key as string,
+    memberId: task.value.key as number,
     scoreList: scoreRecordList.value.map(({scoreRuleId,score})=>({scoreRuleId,score}))
   }
   teacherApi.submitScoreRecord(scoreRecord).then(res=>{

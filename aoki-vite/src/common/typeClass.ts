@@ -217,8 +217,7 @@ export type scoreType={
 
 export type ScoreRecordType={
     taskId:number,
-    teamId:number,
-    username:string,
+    memberId:number,
     scoreList:scoreType[]
 }
 
