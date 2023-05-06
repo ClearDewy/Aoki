@@ -164,7 +164,8 @@ CREATE TABLE if not exists `teamMember`(
 );
 
 -- 自定义异常
-
+DROP FUNCTION IF EXISTS `topic_limit_exceeded`;
+DELIMITER //
 CREATE FUNCTION `topic_limit_exceeded` ()
     RETURNS INT
     DETERMINISTIC
@@ -173,25 +174,32 @@ BEGIN
     DECLARE e INT DEFAULT 1642;     -- 异常状态码1642
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Topic limit exceeded', MYSQL_ERRNO = e;
     RETURN 1;
-END;
-
-
+END//
+DELIMITER ;
 
 -- 触发器
-
+DROP TRIGGER IF EXISTS `update_topic_number_trigger`;
+DELIMITER //
 CREATE TRIGGER `update_topic_number_trigger`
     AFTER INSERT ON `topicmember`
     FOR EACH ROW
 BEGIN
     UPDATE topic SET `number`=`number`+1 WHERE `id`=NEW.`topicId`;
-END;
+END//
+DELIMITER ;
+
+DELIMITER //
+DROP TRIGGER IF EXISTS `topicmember_delete_trigger`;
 CREATE TRIGGER `topicmember_delete_trigger`
-    AFTER DELETE ON topicmember
+    AFTER DELETE ON `topicmember`
     FOR EACH ROW
 BEGIN
     UPDATE topic SET `number` = `number` - 1 WHERE `id` = OLD.`topicId`;
-END;
+END//
+DELIMITER ;
 
+DELIMITER //
+DROP TRIGGER IF EXISTS `check_topic_limit`;
 CREATE TRIGGER `check_topic_limit`
     BEFORE INSERT ON `topicmember`
     FOR EACH ROW
@@ -199,14 +207,14 @@ BEGIN
     DECLARE cur_number INT DEFAULT 0;
     DECLARE cur_limit INT DEFAULT 0;
 
-    SELECT `number`, `limit` INTO cur_number, cur_limit FROM topic WHERE id = NEW.topicId;
+    SELECT `number`, `limit` INTO cur_number, cur_limit FROM `topic` WHERE `id` = NEW.`topicId`;
 
     IF (cur_number >= cur_limit) THEN
-        CALL topic_limit_exceeded();
+        CALL `topic_limit_exceeded`();
     END IF;
-END;
-
+END//
+DELIMITER ;
 
 
 -- 数据
-INSERT INTO `major`(`majorName`) VALUES("计算机科学技术","软件工程","人工智能")
+INSERT INTO `major`(`majorName`) VALUES("计算机科学技术"),("软件工程"),("人工智能");

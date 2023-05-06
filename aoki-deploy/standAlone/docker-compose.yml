@@ -26,12 +26,47 @@ services:
       - TZ=Asia/Shanghai
     ports:
       - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
       aoki-network:
         ipv4_address: 172.20.0.3
       
 
-    
+  aoki-nacos:
+    image: nacos/nacos-server:v2.2.2
+    container_name: aoki-nacos
+    restart: always
+    depends_on:
+      aoki-mysql:
+        condition: service_healthy
+    environment:
+      #- JVM_XMX=384m
+      #- JVM_XMS=384m
+      #- JVM_XMN=192m
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=172.20.0.3
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=aoki123456
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      - NACOS_AUTH_IDENTITY_KEY=2222
+      - NACOS_AUTH_IDENTITY_VALUE=2xxx
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+      - NACOS_AUTH_ENABLE=true
+    ports:
+      - 8848:8848
+      - 9848:9848
+    networks:
+      aoki-network:
+        ipv4_address: 172.20.0.4
+  
   aoki-backend:
     image: registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_backend
     container_name: aoki-backend
@@ -39,6 +74,7 @@ services:
     depends_on:
       - aoki-redis
       - aoki-mysql
+      - aoki-nacos
     volumes:
       - ./aoki/file:/workspace/aoki/file
     environment:
@@ -53,6 +89,7 @@ services:
       - REDIS_HOST=172.20.0.2
       - REDIS_PORT=6379
       - REDIS_PASSWORD=aoki123456
+
       - MAIL_HOST=smtp.qq.com # 请使用邮件服务的域名或ip
       - MAIL_PORT=465 # 请使用邮件服务的端口号
       - MAIL_USERNAME=2701679328@qq.com # 请使用对应邮箱账号
@@ -61,7 +98,7 @@ services:
       - 8080:8080
     networks:
       aoki-network:
-        ipv4_address: 172.20.0.4
+        ipv4_address: 172.20.0.5
   
   aoki-frontend:
     image: registry.cn-hangzhou.aliyuncs.com/cleardewy/aoki:aoki_frontend
@@ -74,7 +111,7 @@ services:
 
     environment:
       - SERVER_NAME=localhost # 域名(例如baidu.com)或localhost(本地)
-      - BACKEND_SERVER_HOST=172.20.0.4 # backend后端服务地址
+      - BACKEND_SERVER_HOST=172.20.0.5 # backend后端服务地址
       - BACKEND_SERVER_PORT=8080 # backend后端服务端口号
       - USE_HTTPS=false # 使用https请设置为true
     ports:
@@ -82,7 +119,7 @@ services:
       - "443:443"
     networks:
       aoki-network:
-        ipv4_address: 172.20.0.5
+        ipv4_address: 172.20.0.6
   
     
 networks:

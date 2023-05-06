@@ -21,7 +21,6 @@ server:
 
 spring:
   datasource: # 数据库配置
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${mysql-host}:${mysql-port}/aoki?characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
     username: ${mysql-username}
     password: ${mysql-password}
@@ -32,26 +31,9 @@ spring:
       password: ${redis-password}        # 密码
       connect-timeout: 30s
       timeout: 30s
-  cache:
-    type: redis               # 缓存使用redis
-    redis:
-      time-to-live: 3600000      # 缓存过期时间，单位 s
-      cache-null-values: true   # 是否缓存空值
+
   mail: #邮件配置
     username: ${mail-username}
     password: ${mail-password}
     host: ${mail-host}
     port: ${mail-port}
-
-  servlet:
-    multipart:
-      max-file-size: 1GB
-      max-request-size: 5GB
-
-#&serverTimezone=GMT
-logging:
-  file:
-    path: ./aoki_backend
-  level:
-    root: info
-  config: classpath:logback-spring.xml

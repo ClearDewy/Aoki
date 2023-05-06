@@ -1,4 +1,4 @@
-# Hcode Online Judge（HOJ）
+# Aoki
 
 ![logo](logo.png)
 

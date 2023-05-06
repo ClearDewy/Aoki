@@ -1,0 +1,36 @@
+nacos-url: ${NACOS_URL:localhost:8848}
+nacos-username: ${NACOS_USERNAME:root}
+nacos-password: ${NACOS_PASSWORD:aoki123456}
+
+test:
+  name: Lisi
+
+spring:
+  application:
+    name: aoki
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        username: ${nacos-username}
+        password: ${nacos-password}
+        server-addr: ${nacos-url} # Nacos 作为服务注册中心 nacos的地址
+        group: DEFAULT_GROUP
+      config:
+        username: ${nacos-username}
+        password: ${nacos-password}
+        server-addr: ${nacos-url}  #Nacos 作为配置中心地址 nacos的地址
+        group: DEFAULT_GROUP  # 指定分组
+        #namespace:命名空间ID  默认为public
+        enable-remote-sync-config: true
+        file-extension: yml
+        prefix: aoki
+
+
+logging:
+  file:
+    path: ./aoki_backend
+  level:
+    root: info
+  config: classpath:logback-spring.xml
