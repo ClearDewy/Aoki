@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
-    TeacherManager teacherManager;
+    private TeacherManager teacherManager;
 
     @Override
     public Result createLesson(CreateLessonVo createLessonVo) {
@@ -37,9 +37,16 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Result addLessonMember(Integer id, String username) {
-        return Result.success(teacherManager.addLessonMember(id,username));
+    public Result getUsersByUsernames(String[] usernames) {
+        return Result.success(teacherManager.getUsersByUsernames(usernames));
     }
+
+    @Override
+    public Result addLessonMember(Integer lessonId, Integer[] idList) {
+        teacherManager.addLessonMember(lessonId,idList);
+        return Result.success();
+    }
+
 
     @Override
     public Result removeLessonMembers(Integer lesson, Integer id) {

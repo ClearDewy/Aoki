@@ -1,7 +1,6 @@
 package com.cleardewy.aoki.controller.user;
 
 import com.cleardewy.aoki.annotation.AokiRole;
-import com.cleardewy.aoki.constant.RoleConstans;
 import com.cleardewy.aoki.entity.vo.lesson.SubmitTaskVo;
 import com.cleardewy.aoki.entity.vo.user.UpdateEmailVo;
 import com.cleardewy.aoki.entity.vo.user.UpdatePasswordVo;
@@ -19,11 +18,11 @@ import static com.cleardewy.aoki.constant.RoleConstans.*;
  **/
 @RestController
 @RequestMapping("/api")
-@AokiRole({ROOT, TEACHER, STUDENT})
+@AokiRole({ADMIN, TEACHER, STUDENT})
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping("/update-password")
     Result updatePassword(@Valid UpdatePasswordVo updatePasswordVo){

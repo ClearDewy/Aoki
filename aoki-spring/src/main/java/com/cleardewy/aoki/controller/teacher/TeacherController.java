@@ -1,30 +1,34 @@
 package com.cleardewy.aoki.controller.teacher;
 
-import cn.hutool.json.JSON;
 import com.cleardewy.aoki.annotation.AokiRole;
-import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
-import com.cleardewy.aoki.entity.vo.lesson.*;
+import com.cleardewy.aoki.entity.vo.lesson.CreateLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.EditLessonVo;
+import com.cleardewy.aoki.entity.vo.lesson.EditTopicVo;
+import com.cleardewy.aoki.entity.vo.lesson.ScoreRecordVo;
 import com.cleardewy.aoki.service.teacher.TeacherService;
 import com.cleardewy.aoki.utils.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import static com.cleardewy.aoki.constant.RoleConstans.*;
+import static com.cleardewy.aoki.constant.RoleConstans.ADMIN;
+import static com.cleardewy.aoki.constant.RoleConstans.TEACHER;
 
 /**
  * @ Author: ClearDewy
  * @ Description:
  **/
 @RestController
-@AokiRole({TEACHER})
+@AokiRole({TEACHER,ADMIN})
 @RequestMapping("/api")
 @Slf4j
 public class TeacherController {
     @Autowired
-    TeacherService teacherService;
+    private TeacherService teacherService;
     @PostMapping("/create-lesson")
     Result createLesson(CreateLessonVo createLessonVo){
         return teacherService.createLesson(createLessonVo);
@@ -37,9 +41,14 @@ public class TeacherController {
     Result deleteLesson(Integer lessonId,String code){
         return teacherService.deleteLesson(lessonId,code);
     }
-    @PostMapping("/add-lesson-member")
-    Result addLessonMember(Integer id,String username){
-        return teacherService.addLessonMember(id,username);
+
+    @PostMapping("/get-users-by-usernames")
+    Result getUsersByUsernames(String[] usernames){
+        return teacherService.getUsersByUsernames(usernames);
+    }
+    @PostMapping("/add-lesson-members")
+    Result addLessonMember(Integer lessonId,Integer[] idList){
+        return teacherService.addLessonMember(lessonId,idList);
     }
 
     @PostMapping("/remove-lesson-member")

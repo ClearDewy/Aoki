@@ -18,7 +18,7 @@ import static com.cleardewy.aoki.constant.RoleConstans.*;
 @RequestMapping("/api/file")
 public class FileController {
     @Autowired
-    FileService fileService;
+    private FileService fileService;
 
     @PostMapping("upload-avatar")
     public Result uploadAvatar(MultipartFile avatar){

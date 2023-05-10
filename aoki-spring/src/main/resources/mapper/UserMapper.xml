@@ -57,9 +57,9 @@
     </select>
 
     <delete id="deleteMajorByName" parameterType="String">
-        DELETE FROM `role` WHERE `majorName`=#{majorName}
+        DELETE FROM `major` WHERE `majorName`=#{majorName}
     </delete>
-    <insert id="addMajor" parameterType="String" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addMajor" parameterType="String">
         insert INTO `major`(`majorName`) values (#{majorName})
     </insert>
 
@@ -70,6 +70,18 @@
         SELECT COUNT(*) FROM `user` WHERE #{email}=`email`
     </select>
 
-
+    <select id="getUsersByUsernames" resultType="UserListVo">
+        SELECT user.id,`username`,`name`,`email`,COALESCE(`majorName`, ''),`role` FROM `user`
+        LEFT JOIN `major` ON major.id=user.majorId
+        WHERE username IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    
+    <select id="getAllUser" resultType="UserVo">
+        SELECT user.id,username,password,name,email,COALESCE(`majorName`, ''),role,avatarURL FROM `user`
+        LEFT JOIN `major` ON user.majorId=major.id
+    </select>
 </mapper>
 

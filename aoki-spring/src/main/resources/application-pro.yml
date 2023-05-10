@@ -13,7 +13,7 @@ mail-username: ${MAIL_USERNAME:your_mail_username}
 mail-password: ${MAIL_PASSWORD:your_mail_password}
 mail-host: ${MAIL_HOST:smtp.qq.com}
 mail-port: ${MAIL_PORT:465}
-
+mail-protocol: ${MAIL_PROTOCOL:"smtps"}
 
 # 服务端口号
 server:
@@ -37,3 +37,4 @@ spring:
     password: ${mail-password}
     host: ${mail-host}
     port: ${mail-port}
+    protocol: ${mail-protocol}

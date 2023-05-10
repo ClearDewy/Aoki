@@ -1,13 +1,12 @@
 package com.cleardewy.aoki.utils;
 
+import com.cleardewy.aoki.config.AokiConfigProperties;
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.exception.AokiException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -22,11 +21,9 @@ import java.util.Date;
 @Component
 @Slf4j
 public class MailUtils {
-    @Value("${spring.mail.username}")
-    private String from;
 
     @Autowired
-    private JavaMailSender mailSender;
+    AokiConfigProperties aokiConfigProperties;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -60,22 +57,33 @@ public class MailUtils {
 
     /**
      * @ Author: ClearDewy
-     * @ Param: [java.lang.String, java.lang.String, java.lang.String]
-     * @ Return: void
      * @ Description: 发送邮件
      **/
     public void sendHtmlMail(String to, String subject, String content) throws Exception {
+        //实例化
+        JavaMailSenderImpl mailSender = getJavaMailSender();
         //创建MIME样式的电子邮件对象
         MimeMessage message = mailSender.createMimeMessage();
         //用于填充MimeMessage的帮助类
         //参数1填入MimeMessage对象
         //参数2表示是否创建支持替代文本、内联元素和附件的多部分消息
         MimeMessageHelper helper = new MimeMessageHelper(message, true,"UTF-8");
-        helper.setFrom(from);
+        helper.setFrom(aokiConfigProperties.getSpring().getMail().getUsername());
         helper.setTo(to);
         helper.setSubject(subject);
         //参数2表示是否使用默认内容类型为HTML邮件应用内容类型"text/html"
         helper.setText(content, true);
         mailSender.send(message);
+    }
+
+    public JavaMailSenderImpl getJavaMailSender(){
+        JavaMailSenderImpl mailSender=new JavaMailSenderImpl();
+        mailSender.setUsername(aokiConfigProperties.getSpring().getMail().getUsername());
+        mailSender.setPassword(aokiConfigProperties.getSpring().getMail().getPassword());
+        mailSender.setHost(aokiConfigProperties.getSpring().getMail().getHost());
+        mailSender.setPort(Integer.parseInt(aokiConfigProperties.getSpring().getMail().getPort()));
+        mailSender.setProtocol(aokiConfigProperties.getSpring().getMail().getProtocol());
+        mailSender.setDefaultEncoding("UTF-8");
+        return mailSender;
     }
 }

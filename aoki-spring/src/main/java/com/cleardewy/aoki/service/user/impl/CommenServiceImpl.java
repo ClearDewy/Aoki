@@ -23,16 +23,16 @@ import org.springframework.stereotype.Service;
 public class CommenServiceImpl implements CommenService {
 
     @Autowired
-    AccountManager accountManager;
+    private AccountManager accountManager;
 
     @Autowired
-    UserManager userManager;
+    private UserManager userManager;
 
     @Autowired
-    EmailVerifyManager emailVerifyManager;
+    private EmailVerifyManager emailVerifyManager;
 
     @Autowired
-    UserEntityManager userEntityManager;
+    private UserEntityManager userEntityManager;
 
     @Override
     public Result login(AccountVo accountVo) {

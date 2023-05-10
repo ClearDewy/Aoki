@@ -167,7 +167,7 @@ import {userApi} from "../../api/userApi";
 import {Lesson,User} from "../../common/gloableData";
 import {CreateLessonType, EditLessonType, TopicTimeType} from "../../common/typeClass";
 import {alerterror, alertsuccess} from "../../common/alert";
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox, FormInstance, FormRules, UploadFile, UploadFiles} from "element-plus";
 import VueCropper,{cropper} from "vue-picture-cropper";
 import {FileApi} from "../../api/fileApi";
@@ -332,8 +332,10 @@ const refreshCurrentLesson=()=>{
   })
 }
 
+onMounted(()=>{
+  if (!Lesson.value.topicMode)getTopicTime()
+})
 
-if (!Lesson.value.topicMode)getTopicTime()
 </script>
 
 <style scoped>

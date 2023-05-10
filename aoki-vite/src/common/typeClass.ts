@@ -227,3 +227,12 @@ export type ScoreEditType={
     limit:number,
     score:number
 }
+
+
+export type MailConfigType={
+    username:string,
+    password:string,
+    host:string,
+    port:number,
+    protocol:string
+}

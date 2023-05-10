@@ -1,6 +1,5 @@
 package com.cleardewy.aoki.manager.teacher;
 
-import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
@@ -13,7 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -61,13 +63,14 @@ public class TeacherManager {
         lessonEntityManager.updateLesson(editLessonVo);
     }
 
-    public UserListVo addLessonMember(Integer id, String username) {
-        if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),id)){
+    public List<UserListVo> getUsersByUsernames(String[] usernames) {
+        return userEntityManager.getUsersByUsernames(List.of(usernames));
+    }
+    public void addLessonMember(Integer lessonId, Integer[] idList) {
+        if (!lessonEntityManager.verifyLessonOwner(threadLocalUtils.getCurrentUser().getId(),lessonId)){
             throw AokiException.forbidden();
         }
-        UserDto user = userEntityManager.getUserByUsername(username);
-        lessonEntityManager.addLessonMember(new LessonMemberDto(null,user.getId(),id));
-        return new UserListVo(user.getId(),user.getUsername(),user.getName(),user.getEmail(),userEntityManager.getMajorByMajorId(user.getMajorId()),user.getRole());
+        lessonEntityManager.addLessonMembers(lessonId,List.of(idList));
     }
 
     public void removeLessonMembers(Integer lessonId, Integer id) {
@@ -337,4 +340,6 @@ public class TeacherManager {
                 null,sr.scoreRuleId,scoreRecordVo.getTaskId(),scoreRecordVo.getMemberId(), sr.score
         )));
     }
+
+
 }

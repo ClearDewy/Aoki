@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import {el_card__body} from "../../common/style";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {MemberTaskListType, TaskType, TopicType} from "../../common/typeClass";
 import {userApi} from "../../api/userApi";
 import {Lesson} from "../../common/gloableData";
@@ -41,8 +41,10 @@ const taskEdit=(task:MemberTaskListType)=>{
   storage.setItem('task',{id:task.id,name:task.name})
   router.push('task-edit')
 }
+onMounted(()=>{
+  getMyTaskList()
+})
 
-getMyTaskList()
 </script>
 
 <style scoped>

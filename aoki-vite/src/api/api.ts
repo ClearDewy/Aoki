@@ -105,7 +105,8 @@ export const apiUrl={
     getLessonList:"/api/get-lesson-list",
     getLesson:"/api/get-lesson",
     getLessonMember:"/api/get-lesson-member",
-    addLessonMember:"/api/add-lesson-member",
+    getUsersByUsernames:"/api/get-users-by-usernames",
+    addLessonMembers:"/api/add-lesson-members",
     removeLessonMembers:"/api/remove-lesson-member",
 
     addMilestones:"/api/add-milestones",
@@ -162,5 +163,14 @@ export const apiUrl={
 
     getTaskQuestionAnswerTeacher:"/api/get-task-question-answer-teacher",
     getScoreRecord:"/api/get-score-record",
-    submitScoreRecord:"/api/submit-score-record"
-}
+    submitScoreRecord:"/api/submit-score-record",
+
+    getMailConfig:"/api/admin/get-mail-config",
+    updateMailConfig:"/api/admin/update-mail-config",
+    getAllUser:"/api/admin/get-all-user",
+    addUser:"/api/admin/add-user",
+    updateUser:"/api/admin/update-user",
+    deleteUser:"/api/admin/delete-user",
+    addMajor:"/api/admin/add-major",
+    deleteMajor:"/api/admin/delete-major",
+};

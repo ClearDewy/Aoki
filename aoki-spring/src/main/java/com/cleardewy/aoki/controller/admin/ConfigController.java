@@ -1,25 +1,37 @@
 package com.cleardewy.aoki.controller.admin;
 
-import com.alibaba.nacos.api.config.annotation.NacosValue;
-import lombok.Data;
+import com.cleardewy.aoki.annotation.AokiRole;
+import com.cleardewy.aoki.config.AokiConfigProperties;
+import com.cleardewy.aoki.service.admin.ConfigService;
+import com.cleardewy.aoki.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Value;
+
+import static com.cleardewy.aoki.constant.RoleConstans.ADMIN;
 
 /**
  * @ Author: ClearDewy
  * @ Description:
  **/
-@Data
 @RestController
 @RefreshScope
+@RequestMapping("/api/admin")
+@AokiRole({ADMIN})
 public class ConfigController {
-    @Value(value = "${test.name:LiSi}")
-    private String name;
+    @Autowired
+    private ConfigService configService;
 
-    @RequestMapping("/config")
-    String home() {
-        return "Hello " + name;
+    @GetMapping("/get-mail-config")
+    public Result getMailConfig(){
+        return configService.getMailConfig();
     }
+
+    @RequestMapping("/update-mail-config")
+    public Result updateMailConfig(AokiConfigProperties.Mail mailConfig){
+        return configService.updateMailConfig(mailConfig);
+    }
+
 }

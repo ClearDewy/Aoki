@@ -110,7 +110,8 @@ public class AccountManager {
                 userRegisterVo.getName(),
                 userRegisterVo.getEmail(),
                 userEntityManager.getMajorIdByMajor(userRegisterVo.getMajor()),
-                userRegisterVo.getRole(),userRegisterVo.getAvatarURL()));
+                userRegisterVo.getRole()
+                ,userRegisterVo.getAvatarURL()));
     }
 
 

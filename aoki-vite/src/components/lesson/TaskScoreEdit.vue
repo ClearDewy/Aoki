@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {storage} from "../../common/storage";
 import {ScoreEditType, ScoreRecordType, ScoreRuleType, TaskQuestionAnswerListType} from "../../common/typeClass";
 import {userApi} from "../../api/userApi";
@@ -89,9 +89,11 @@ const submitScoreRecord=()=>{
     alerterror("保存失败")
   })
 }
+onMounted(()=>{
+  getScoreRule()
+  getQuestionAnswer()
+})
 
-getScoreRule()
-getQuestionAnswer()
 </script>
 
 <style scoped>

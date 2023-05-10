@@ -92,4 +92,15 @@ public class AokiException extends RuntimeException{
     public static AokiException systemError(ResultStatus.Message message){
         return new AokiException(ResultStatus.Status.SYSTEM_ERROR,message);
     }
+
+    public static AokiException dataExited(){
+        return new AokiException(ResultStatus.Status.DATA_EXISTED);
+    }
+
+    public static AokiException dataExited(String message){
+        return new AokiException(ResultStatus.Status.DATA_EXISTED.getStatus(),message);
+    }
+    public static AokiException dataExited(ResultStatus.Message message){
+        return new AokiException(ResultStatus.Status.DATA_EXISTED,message);
+    }
 }

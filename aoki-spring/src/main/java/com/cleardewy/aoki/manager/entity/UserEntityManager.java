@@ -1,15 +1,12 @@
 package com.cleardewy.aoki.manager.entity;
 
-import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.UserDto;
-import com.cleardewy.aoki.exception.AokiException;
+import com.cleardewy.aoki.entity.vo.user.UserListVo;
+import com.cleardewy.aoki.entity.vo.user.UserVo;
 import com.cleardewy.aoki.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -103,5 +100,13 @@ public class UserEntityManager{
     public Integer countEmail(String email){
         return userMapper.countEmail(email);
     }
+    public List<UserListVo> getUsersByUsernames(List<String> usernames) {
+        return userMapper.getUsersByUsernames(usernames);
+    }
+
+    public List<UserVo> getAllUser() {
+        return userMapper.getAllUser();
+    }
+
 
 }

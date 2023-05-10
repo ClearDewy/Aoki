@@ -68,8 +68,10 @@ const editTaskQuestions=()=>{
     alerterror("保存失败")
   })
 }
+onMounted(()=>{
+  getTaskQuestion()
+})
 
-getTaskQuestion()
 </script>
 
 <style scoped>

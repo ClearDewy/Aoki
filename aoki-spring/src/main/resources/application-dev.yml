@@ -12,6 +12,7 @@ mail-username: 2701679328@qq.com
 mail-password: habozfhkpjgsdfjg
 mail-host: smtp.qq.com
 mail-port: 465
+mail-protocol: "smtps"
 
 # 服务端口号
 server:
@@ -36,3 +37,4 @@ spring:
     password: ${mail-password}
     host: ${mail-host}
     port: ${mail-port}
+    protocol: ${mail-protocol}

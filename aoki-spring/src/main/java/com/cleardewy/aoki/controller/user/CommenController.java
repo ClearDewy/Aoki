@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class CommenController {
     @Autowired
-    CommenService commenService;
+    private CommenService commenService;
 
     @PostMapping("/login")
     Result login(@Valid AccountVo accountVo){

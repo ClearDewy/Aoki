@@ -1,10 +1,8 @@
 package com.cleardewy.aoki.manager.entity;
 
-import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
-import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.LessonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,6 +46,9 @@ public class LessonEntityManager {
 
     public void addLessonMember(LessonMemberDto lessonMemberDto){
         lessonMapper.addLessonMember(lessonMemberDto);
+    }
+    public void addLessonMembers(Integer lessonId, List<Integer> idList){
+        lessonMapper.addLessonMembers(lessonId,idList);
     }
 
     public boolean verifyLessonMember(Integer lessonId,Integer memberId){
@@ -125,4 +126,5 @@ public class LessonEntityManager {
     public LessonDto getLessonByTaskId(Integer taskId){
         return lessonMapper.getLessonByTaskId(taskId);
     }
+
 }

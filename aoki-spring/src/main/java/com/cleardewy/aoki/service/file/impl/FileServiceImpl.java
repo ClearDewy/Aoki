@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileServiceImpl implements FileService {
     @Autowired
-    FileManager fileManager;
+    private FileManager fileManager;
     @Override
     public Result uploadAvatar(MultipartFile avatar) {
         return Result.success(fileManager.uploadAvatar(avatar).getAllUrl());

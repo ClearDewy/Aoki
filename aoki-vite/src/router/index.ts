@@ -7,7 +7,8 @@ export const routerPath={
     Register:"/register",
     Setting:"/setting",
 
-    Lesson:"/lesson"
+    Lesson:"/lesson",
+    Admin:"/admin"
 }
 
 const routes:Array<RouteRecordRaw>=[
@@ -30,7 +31,7 @@ const routes:Array<RouteRecordRaw>=[
         name:"首页",
         component:()=>import("../views/Home.vue"),
         meta:{
-            requiresAuth:false,
+            requiresAuth:true,
             showHeader:true,
         }
     },
@@ -48,7 +49,7 @@ const routes:Array<RouteRecordRaw>=[
         name:"用户设置",
         component:()=>import("../views/user/Setting.vue"),
         meta:{
-            requiresAuth:false,
+            requiresAuth:true,
             showHeader:true,
         }
     },
@@ -102,7 +103,37 @@ const routes:Array<RouteRecordRaw>=[
             requiresAuth:false,
             showHeader:true,
         }
-    }
+    },
+    {
+        path:routerPath.Admin,
+        name:"后台",
+        component:()=>import("../views/admin/Admin.vue"),
+        children:[
+            {
+                path:"",
+                redirect:"/admin/dashboard"
+            },
+            {
+                path:"dashboard",
+                name:"仪表盘",
+                component:()=>import("../views/admin/Dashboard.vue"),
+            },
+            {
+                path:"conf",
+                name:"配置",
+                component:()=>import("../views/admin/Config.vue"),
+            },
+            {
+                path:"user",
+                name:"用户",
+                component:()=>import("../views/admin/UserConfig.vue"),
+            },
+        ],
+        meta:{
+            requiresAuth:false,     // 是否需要登录
+            showHeader:true,
+        }
+    },
 ]
 
 const router=createRouter({

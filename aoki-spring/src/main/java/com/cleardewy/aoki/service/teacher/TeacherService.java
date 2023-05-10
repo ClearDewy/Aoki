@@ -14,7 +14,8 @@ public interface TeacherService {
 
     Result deleteLesson(Integer lessonId, String code);
 
-    Result addLessonMember(Integer id, String username);
+    Result getUsersByUsernames(String[] usernames);
+    Result addLessonMember(Integer lessonId, Integer[] idList);
 
     Result removeLessonMembers(Integer lessonId, Integer id);
 
@@ -77,6 +78,5 @@ public interface TeacherService {
 
 
     Result submitScoreRecord(ScoreRecordVo scoreRecordVo);
-
 
 }

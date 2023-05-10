@@ -2,7 +2,6 @@ package com.cleardewy.aoki.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 /**
  * @ Author: ClearDewy
@@ -98,6 +97,11 @@ public final class ResultStatus {
          * code:404 数据不存在
          */
         NOT_FOUND(404,"数据不存在"),
+
+        /**
+         * code:405 数据已存在
+         */
+        DATA_EXISTED(404,"数据已存在"),
 
         /**
          * code:500 系统错误

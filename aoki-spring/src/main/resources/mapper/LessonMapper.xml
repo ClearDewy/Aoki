@@ -44,6 +44,12 @@
     <insert id="addLessonMember" parameterType="LessonMemberDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO lessonmember(`lessonId`,`memberId`) values(#{lessonId},#{memberId})
     </insert>
+    <insert id="addLessonMembers">
+        INSERT INTO lessonmember(`lessonId`,`memberId`) values
+        <foreach collection="idList" item="item" open="(" separator="),(" close=")">
+            #{lessonId},#{item}
+        </foreach>
+    </insert>
     <select id="verifyLessonMember" resultType="Integer" parameterType="Integer">
         SELECT count(*) FROM `lessonmember` WHERE memberId=#{memberId} and lessonId=#{lessonId}
     </select>

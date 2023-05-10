@@ -20,6 +20,7 @@
               <el-dropdown-item @click="router.push('/setting')">个人信息</el-dropdown-item>
 <!--              老师则显示新建课程-->
               <el-dropdown-item v-if="User.role===1" @click="createLessonRef.showDialog()">新建课程</el-dropdown-item>
+              <el-dropdown-item v-if="User.role===0" @click="router.push('/admin')">后台管理</el-dropdown-item>
               <el-dropdown-item @click="userApi.logout()">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>

@@ -1,6 +1,8 @@
 package com.cleardewy.aoki.mapper;
 
 import com.cleardewy.aoki.entity.dto.UserDto;
+import com.cleardewy.aoki.entity.vo.user.UserListVo;
+import com.cleardewy.aoki.entity.vo.user.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -38,4 +40,7 @@ public interface UserMapper {
     Integer countEmail(String email);
 
 
+    List<UserListVo> getUsersByUsernames(List<String> usernames);
+
+    List<UserVo> getAllUser();
 }

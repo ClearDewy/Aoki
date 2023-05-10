@@ -67,7 +67,7 @@ const getLessonList = () => {
     alerterror("获取课程列表失败")
   })
 }
-getLessonList()
+
 // 添加课程后重新获取课程列表
 emitter.on("refreshLessonList",getLessonList)
 
@@ -85,6 +85,10 @@ const enterLesson=(les:LessonListType)=>{
     alerterror("进入课程失败")
   })
 }
+
+onMounted(()=>{
+  getLessonList()
+})
 
 </script>
 

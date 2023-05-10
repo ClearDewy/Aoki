@@ -19,7 +19,7 @@
               </template>
             </el-input>
             <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
-            <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode">获取验证码
+            <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode(ruleFormRef1)">获取验证码
             </el-button>
           </el-form-item>
           <el-form-item prop="password">
@@ -34,7 +34,7 @@
                        style="width: 280px;height:40px;margin-top: 20px">下一步
             </el-button>
           </el-form-item>
-          <router-link to="/login" type="primary" :underline="false" style="float: left">>返回</router-link>
+          <el-button type="primary" link style="float: left" @click="router.push(routerPath.Login)">返回</el-button>
         </el-form>
       </div>
     </div>
@@ -126,14 +126,18 @@ const nextStep=async (formEl: FormInstance | undefined) => {
 const startGrab=ref(false)
 const endTime=ref(Date.now())
 
-const getVerifyCode=()=>{
-  userApi.getVerifyCode(UserRegisterForm.email).then(res=>{
-    endTime.value=Date.now()+1000*60
-    startGrab.value=true
-  }).catch(e=>{
-    alerterror("验证码发送失败")
+const getVerifyCode=async (formEl: FormInstance | undefined)=>{
+  if (!formEl) return
+  await formEl.validateField('email').then(valid => {
+    if (valid) {
+      userApi.getVerifyCode(UserRegisterForm.email).then(res=>{
+        endTime.value=Date.now()+1000*60
+        startGrab.value=true
+      })
+    }
   })
 }
+
 const resetGetVerifyCode=()=>{
   startGrab.value=false
 }

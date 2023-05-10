@@ -5,17 +5,17 @@ USE `aoki`;
 
 CREATE TABLE if not exists `major`(
         `id` int primary key auto_increment,
-        `majorName` varchar(31) NOT NULL
+        `majorName` varchar(31) NOT NULL UNIQUE
 );
 
 CREATE TABLE if not exists `user`(
        `id` int primary key auto_increment,
        `username` varchar(15) NOT NULL UNIQUE,
        `password` varchar(31) NOT NULL,
-       `name` varchar(31),
-       `email` varchar(31),
+       `name` varchar(31) NOT NULL DEFAULT "",
+       `email` varchar(31) NOT NULL DEFAULT "",
        `majorId` int,
-       `role` tinyint NOT NULL ,
+       `role` tinyint NOT NULL DEFAULT 2,
        `avatarURL` varchar(127),
        CONSTRAINT `userMajorId` FOREIGN KEY (`majorId`) REFERENCES `major` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
 );
@@ -218,3 +218,4 @@ DELIMITER ;
 
 -- 数据
 INSERT INTO `major`(`majorName`) VALUES("计算机科学技术"),("软件工程"),("人工智能");
+INSERT INTO `user`(`username`,`password`,`name`,`role`) VALUES("admin","aoki123456","admin",0)

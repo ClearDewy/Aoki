@@ -119,11 +119,15 @@ export const userApi={
 const loginSuccess=(res:AxiosResponse|void)=>{
     res&&(User.value= res.data)&& storage.setItem("User",res.data)
 
-    const redirect= storage.getItem("redirectPath")
-    if (redirect) { //如果存在参数
-        storage.remove("redirectPath")
-        router.replace(redirect)//则跳转至进入登录页前的路由
-    } else {
-        router.replace('/')//否则跳转至首页
+    if (User.value.role===0){
+        router.replace(routerPath.Admin)
+    }else{
+        const redirect= storage.getItem("redirectPath")
+        if (redirect) { //如果存在参数
+            storage.remove("redirectPath")
+            router.replace(redirect)//则跳转至进入登录页前的路由
+        } else {
+            router.replace('/')//否则跳转至首页
+        }
     }
 }

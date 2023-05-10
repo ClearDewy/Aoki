@@ -18,8 +18,11 @@ export const teacherApi={
     deleteLesson(lessonId:number,code:string){
         return post(apiUrl.deleteLesson,{lessonId:lessonId,code:code})
     },
-    addLessonMember(username:string,id:number){
-        return post(apiUrl.addLessonMember,{username:username,id:id})
+    getUsersByUsernames(usernames:string[]){
+        return post(apiUrl.getUsersByUsernames,{usernames:usernames})
+    },
+    addLessonMembers(lessonId:number,idList:number[]){
+        return post(apiUrl.addLessonMembers,{lessonId:lessonId,idList:idList})
     },
     removeLessonMembers(lessonId:number,id:number){
         return post(apiUrl.removeLessonMembers,{lessonId:lessonId,id:id})

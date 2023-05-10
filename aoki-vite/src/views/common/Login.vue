@@ -56,7 +56,7 @@
                 </template>
               </el-input>
               <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
-              <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode">获取验证码
+              <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode(ruleFormRefE)">获取验证码
               </el-button>
             </el-form-item>
             <el-form-item>
@@ -124,10 +124,15 @@ const ruleE=reactive<FormRules>(
     }
 )
 
-const getVerifyCode=()=>{
-  userApi.getVerifyCode(emailLoginForm.email).then(res=>{
-    endTime.value=Date.now()+1000*60
-    startGrab.value=true
+const getVerifyCode=async (formEl: FormInstance | undefined)=>{
+  if (!formEl) return
+  await formEl.validateField('email').then(valid => {
+    if (valid) {
+      userApi.getVerifyCode(emailLoginForm.email).then(res=>{
+        endTime.value=Date.now()+1000*60
+        startGrab.value=true
+      })
+    }
   })
 }
 const resetGetVerifyCode=()=>{

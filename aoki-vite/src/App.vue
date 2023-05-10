@@ -10,12 +10,13 @@
       </el-container>
     </el-container>
   </div>
-<!--<TaskAnswerEdit/>-->
+<!--<Admin/>-->
 </template>
 
 <script setup lang="ts">
 import router from "./router";
 import NavBar from "./components/bar/NavBar.vue"
+import Admin from "./views/admin/Admin.vue";
 
 
 const Loading=document.getElementById("loading")

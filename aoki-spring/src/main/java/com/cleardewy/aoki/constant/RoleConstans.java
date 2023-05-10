@@ -6,7 +6,7 @@ package com.cleardewy.aoki.constant;
  **/
 public final class RoleConstans {
 
-    public final static int ROOT=0;
+    public final static int ADMIN=0;
 
     public final static int TEACHER=1;
 

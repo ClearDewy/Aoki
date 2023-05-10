@@ -33,7 +33,7 @@
           <el-form-item label="新邮箱" prop="email">
             <el-input v-model="updateEmailForm.email" />
             <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px" value-style="color:#409eff;font-size: 14px" @finish="startGrab=false"/>
-            <el-button v-else style="position: absolute;right: 10px" type="text" @click="getVerifyCode">获取验证码
+            <el-button v-else style="position: absolute;right: 10px" type="text" @click="getVerifyCode(ruleFormRefE)">获取验证码
             </el-button>
           </el-form-item>
           <el-form-item label="验证码" prop="code">
@@ -61,10 +61,15 @@ import {teacherApi} from "../../api/teacherApi";
 const startGrab=ref(false)
 const endTime=ref(Date.now())
 
-const getVerifyCode=()=>{
-  userApi.getVerifyCode(updateEmailForm.email).then(res=>{
-    endTime.value=Date.now()+1000*60
-    startGrab.value=true
+const getVerifyCode=async (formEl: FormInstance | undefined)=>{
+  if (!formEl) return
+  await formEl.validateField('email').then(valid => {
+    if (valid) {
+      userApi.getVerifyCode(updateEmailForm.email).then(res=>{
+        endTime.value=Date.now()+1000*60
+        startGrab.value=true
+      })
+    }
   })
 }
 

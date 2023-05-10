@@ -143,7 +143,7 @@
 
 <script setup lang="ts">
 import {el_card__body} from "../../common/style";
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox, FormInstance, FormRules} from "element-plus";
 import {teacherApi} from "../../api/teacherApi";
 import {alerterror, alertsuccess} from "../../common/alert";
@@ -349,8 +349,10 @@ const taskMemberRef=ref<typeof TaskMember>()
 const showTaskMemberDrawer=(row:OwnerTaskListType)=>{
   taskMemberRef.value.showTaskMemberDrawer(row)
 }
+onMounted(()=>{
+  getOwnerTasks()
+})
 
-getOwnerTasks()
 </script>
 
 <style scoped>

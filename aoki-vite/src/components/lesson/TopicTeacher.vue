@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import {el_card__body,colors} from "../../common/style"
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {
   EditTopicType,
   MilestonesType,
@@ -317,10 +317,11 @@ const getMyTopics=()=>{
   })
 }
 
+onMounted(()=>{
+  getMyTopics()
+  getTopics()
+})
 
-
-getMyTopics()
-getTopics()
 </script>
 
 <style scoped>

@@ -26,6 +26,7 @@ public interface LessonMapper {
     Integer verifyLessonOwner(Integer ownerId,Integer id);
 
     Integer addLessonMember(LessonMemberDto lessonMemberDto);
+    Integer addLessonMembers(Integer lessonId,List<Integer>idList);
 
     Integer verifyLessonMember(Integer lessonId,Integer memberId);
 
@@ -64,4 +65,5 @@ public interface LessonMapper {
 
 
     LessonDto getLessonByTaskId(Integer taskId);
+
 }

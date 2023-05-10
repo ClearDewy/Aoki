@@ -30,6 +30,7 @@ import {onMounted, ref} from "vue";
 import {userApi} from "../../api/userApi.js";
 import {alerterror, alertsuccess} from "../../common/alert";
 import Editor from "../sample/Editor.vue";
+import {Lesson, User} from "../../common/gloableData";
 
 const taskQuestionAnswerList=ref<TaskQuestionAnswerListType[]>([])
 
@@ -68,7 +69,10 @@ const submitTask=()=>{
   })
 }
 
-getQuestionAnswer()
+onMounted(()=>{
+  getQuestionAnswer()
+})
+
 </script>
 
 <style scoped>

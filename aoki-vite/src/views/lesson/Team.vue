@@ -52,12 +52,12 @@
         <el-collapse-item v-for="team in teamList" :title="team.name" :name="team.id">
           <el-table :data="team.memberList" :show-header="false" style="height: 100%">
             <el-table-column prop="avatarURL" label="头像">
-              <template #default="scope">
-                <el-avatar :src="scope.row.avatarURL" fit="scale-down" :size="'small'"/>
+              <template #default="{row}">
+                <el-avatar :src="row.avatarURL" fit="scale-down" :size="'small'"/>
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="姓名"/>
-            <el-table-column prop="username" label="学号"/>
+            <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true"/>
+            <el-table-column prop="username" label="学号" :show-overflow-tooltip="true"/>
           </el-table>
         </el-collapse-item>
       </el-collapse>
@@ -94,7 +94,7 @@
 
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {TeamListType, TeamMemberListType} from "../../common/typeClass";
 import {Lesson, User} from "../../common/gloableData";
 import {userApi} from "../../api/userApi";
@@ -171,9 +171,11 @@ const removeTeamMember=(id:number)=>{
 
 
 
+onMounted(()=>{
+  refreshTeamList()
+  refreshNoTeamMembersList()
+})
 
-refreshTeamList()
-refreshNoTeamMembersList()
 </script>
 
 <style scoped>
