@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.thymeleaf.TemplateEngine;
 
-import java.util.List;
-
 @SpringBootTest
 class AokiSpringApplicationTests {
 
@@ -42,7 +40,6 @@ class AokiSpringApplicationTests {
     @Test
     void test() throws MessagingException {
 
-        lessonEntityManager.addLessonMembers(1, List.of(new Integer[]{3, 4}));
     }
 
 }

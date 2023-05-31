@@ -63,7 +63,7 @@
       width="750px"
   >
     <el-form ref="ruleFormRef" :model="editTopicForm" label-width="120px" :rules="rule" label-position="top" :inline="true">
-      <el-form-item label="阶段目标名称" prop="name">
+      <el-form-item label="课程名称" prop="name">
         <el-input v-model="editTopicForm.name" placeholder="请输入课题名"/>
       </el-form-item>
 
