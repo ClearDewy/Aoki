@@ -32,7 +32,7 @@
       <el-icon><setting /></el-icon>
       <template #title>团队</template>
     </el-menu-item>
-    <el-menu-item v-if="Lesson.ownerName===User.name" index="/lesson/lesson-setting">
+    <el-menu-item v-if="User.role===0||Lesson.ownerName===User.name" index="/lesson/lesson-setting">
       <el-icon><setting /></el-icon>
       <template #title>设置</template>
     </el-menu-item>

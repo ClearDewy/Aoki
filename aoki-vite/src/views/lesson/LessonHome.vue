@@ -16,7 +16,7 @@
         <template #header>
           <div class="card-header">
             <span>老师联系方式</span>
-              <el-button  v-if="Lesson.ownerId===User.id" class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
+              <el-button  v-if="User.role===0||Lesson.ownerId===User.id" class="button" text @click="showAddMemberDialog=true">添加老师</el-button>
           </div>
         </template>
         <el-table
@@ -24,7 +24,7 @@
             style="width: 100%;height: 100%">
           <el-table-column prop="name" label="姓名" style="width: 50%" :show-overflow-tooltip="true"/>
           <el-table-column prop="email" label="邮箱" style="width: 50%" :show-overflow-tooltip="true"/>
-          <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
+          <el-table-column label="操作" v-if="User.role===0||Lesson.ownerId===User.id">
             <template #default="{row}">
               <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>
             </template>
@@ -39,7 +39,7 @@
         <template #header>
           <div class="card-header">
             <span>阶段任务</span>
-            <el-space v-if="Lesson.ownerId===User.id">
+            <el-space v-if="User.role===0||Lesson.ownerId===User.id">
               <el-button class="button" text @click="milestonesEditRef.showCreateDialog()">添加任务</el-button>
               <el-button type="danger" :icon="Delete" circle :disabled="milestonesMultipleSelection.length===0"  @click="deleteMilestones(milestonesMultipleSelection)"/></el-space>
           </div>
@@ -66,7 +66,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column v-if="Lesson.ownerId===User.id" label="编辑" width="60" >
+          <el-table-column v-if="User.role===0||Lesson.ownerId===User.id" label="编辑" width="60" >
             <template #default="scope">
               <el-button :icon="Edit" circle @click="milestonesEditRef.showUpdateDialog(scope.row)"/>
             </template>
@@ -79,7 +79,7 @@
         <template #header>
           <div class="card-header">
             <span>学生列表</span>
-            <el-button  v-if="Lesson.ownerId===User.id" class="button" text @click="showAddMemberDialog=true">添加学生</el-button>
+            <el-button  v-if="User.role===0||Lesson.ownerId===User.id" class="button" text @click="showAddMemberDialog=true">添加学生</el-button>
           </div>
         </template>
         <el-table
@@ -90,7 +90,7 @@
           <el-table-column prop="username" label="学号" style="width: 25%" :show-overflow-tooltip="true"/>
           <el-table-column prop="email" label="邮箱" style="width: 25%" :show-overflow-tooltip="true"/>
           <el-table-column prop="major" label="专业" style="width: 25%" :show-overflow-tooltip="true"/>
-          <el-table-column label="操作" v-if="Lesson.ownerId===User.id">
+          <el-table-column label="操作" v-if="User.role===0||Lesson.ownerId===User.id">
             <template #default="{row}">
               <el-button type="danger" v-if="row.id!==User.id" :icon="Delete" circle @click="removeUsers(row.id)"/>
             </template>

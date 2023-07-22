@@ -53,7 +53,7 @@ import {teacherApi} from "../../api/teacherApi";
 import {alerterror, alertsuccess} from "../../common/alert";
 import router from "../../router";
 import {ArrowLeft} from '@element-plus/icons-vue'
-const showDrawer=ref(false)
+const showDrawer=ref(true)
 
 const taskQuestionAnswerList=ref<TaskQuestionAnswerListType[]>([])
 
@@ -85,6 +85,7 @@ const submitScoreRecord=()=>{
   }
   teacherApi.submitScoreRecord(scoreRecord).then(res=>{
     alertsuccess("保存成功")
+    router.back()
   }).catch(e=>{
     alerterror("保存失败")
   })

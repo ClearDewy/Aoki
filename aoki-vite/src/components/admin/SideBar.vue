@@ -9,15 +9,17 @@
     <div style="margin-top: 60px">
       <el-image :src="Logo" style="width: 90%;padding-left: 5%;padding-right: 5%"/>
     </div>
-    <el-menu-item index="/admin/dashboard">
-      <template #title>仪表盘</template>
+<!--    待后续开发-->
+<!--    <el-menu-item index="/admin/dashboard">-->
+<!--      <template #title>仪表盘</template>-->
+<!--    </el-menu-item>-->
+    <el-menu-item index="/admin/user">
+      <template #title>用户</template>
     </el-menu-item>
     <el-menu-item index="/admin/conf">
       <template #title>配置</template>
     </el-menu-item>
-    <el-menu-item index="/admin/user">
-      <template #title>用户</template>
-    </el-menu-item>
+
   </el-menu>
 
 </template>

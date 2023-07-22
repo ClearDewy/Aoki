@@ -3,11 +3,13 @@ package com.cleardewy.aoki.manager.entity;
 import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.mapper.TaskMapper;
-import com.cleardewy.aoki.mapper.UserMapper;
+import com.cleardewy.aoki.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.cleardewy.aoki.constant.RoleConstans.ADMIN;
 
 /**
  * @ Author: ClearDewy
@@ -17,6 +19,9 @@ import java.util.List;
 public class TaskEntityManager {
     @Autowired
     TaskMapper taskMapper;
+
+    @Autowired
+    ThreadLocalUtils threadLocalUtils;
 
     public TaskDto getTask(Integer id){
         return taskMapper.getTask(id);
@@ -42,7 +47,7 @@ public class TaskEntityManager {
     }
 
     public Boolean verifyTaskOwner(Integer taskId,Integer id){
-        return taskMapper.verifyTaskOwner(taskId,id)!=0;
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||taskMapper.verifyTaskOwner(taskId,id)!=0;
     }
 
     public void toggleTaskPublish(Integer taskId){
@@ -67,7 +72,7 @@ public class TaskEntityManager {
     }
 
     public Boolean verifyScoreRuleOwner(Integer srId,Integer id){
-        return taskMapper.verifyScoreRuleOwner(srId,id)!=0;
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||taskMapper.verifyScoreRuleOwner(srId,id)!=0;
     }
 
     public void createScoreRule(ScoreRuleDto scoreRuleDto) {

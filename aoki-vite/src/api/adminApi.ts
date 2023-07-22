@@ -25,5 +25,8 @@ export const adminApi={
     },
     deleteMajor(major:string){
         return post(apiUrl.deleteMajor,{major:major})
+    },
+    getAllLessonList(){
+        return GET(apiUrl.getAllLessonList);
     }
 }

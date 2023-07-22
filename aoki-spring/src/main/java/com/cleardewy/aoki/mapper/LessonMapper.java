@@ -19,6 +19,8 @@ public interface LessonMapper {
 
     List<LessonListVo> getLessonList(Integer id);
 
+    List<LessonListVo> getAllLessonList();
+
     LessonDto getLesson(Integer id);
 
     LessonDto getLessonByTopic(Integer topicId);
@@ -65,5 +67,4 @@ public interface LessonMapper {
 
 
     LessonDto getLessonByTaskId(Integer taskId);
-
 }

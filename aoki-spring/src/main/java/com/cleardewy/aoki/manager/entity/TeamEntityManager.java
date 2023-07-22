@@ -2,17 +2,18 @@ package com.cleardewy.aoki.manager.entity;
 
 import com.cleardewy.aoki.entity.dto.TeamDto;
 import com.cleardewy.aoki.entity.dto.TeamMemberDto;
-import com.cleardewy.aoki.entity.dto.TopicTimeDto;
 import com.cleardewy.aoki.entity.vo.lesson.NoTopicMemberList;
 import com.cleardewy.aoki.entity.vo.lesson.TeamMemberVo;
 import com.cleardewy.aoki.entity.vo.lesson.TeamVo;
-import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.mapper.TeamMapper;
+import com.cleardewy.aoki.utils.ThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.cleardewy.aoki.constant.RoleConstans.ADMIN;
 
 /**
  * @ Author: ClearDewy
@@ -23,6 +24,9 @@ import java.util.List;
 public class TeamEntityManager {
     @Autowired
     TeamMapper teamMapper;
+
+    @Autowired
+    ThreadLocalUtils threadLocalUtils;
 
 
     public void createTeam(TeamDto teamDto) {
@@ -57,7 +61,7 @@ public class TeamEntityManager {
     }
 
     public Boolean verifyTeamOwner(Integer id,Integer teamId){
-        return getTeam(teamId).getOwnerId().equals(id);
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||getTeam(teamId).getOwnerId().equals(id);
     }
 
     public Integer getTeamLessonId(Integer id){

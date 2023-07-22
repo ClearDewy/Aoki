@@ -27,6 +27,11 @@
                  JOIN user ON user.id = lesson.ownerId
         WHERE lessonMember.memberId = #{id}
     </select>
+    <select id="getAllLessonList" resultType="LessonListVo">
+        SELECT lesson.id as id,lesson.name as name,lesson.avatarURL as avatarURL,user.name AS ownerName
+        FROM lesson
+        JOIN user ON user.id = lesson.ownerId
+    </select>
 
     <select id="getLesson" parameterType="Integer" resultType="LessonDto">
         SELECT * FROM `lesson` WHERE id=#{id}

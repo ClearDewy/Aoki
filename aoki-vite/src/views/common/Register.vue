@@ -17,10 +17,12 @@
               <template #prefix>
                 <el-icon style=";font-size: 18px;"><Loading /></el-icon>
               </template>
+              <template #append>
+                <el-countdown v-if="startGrab" format="ss" :value="endTime" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
+                <el-button v-else type="primary" @click="getVerifyCode(ruleFormRef1)">获取验证码
+                </el-button>
+              </template>
             </el-input>
-            <el-countdown v-if="startGrab" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
-            <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode(ruleFormRef1)">获取验证码
-            </el-button>
           </el-form-item>
           <el-form-item prop="password">
             <el-input v-model="UserRegisterForm.password" style="width: 280px;height:40px;margin-top: 20px" placeholder="密码" show-password>

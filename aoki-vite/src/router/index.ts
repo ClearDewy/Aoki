@@ -111,7 +111,7 @@ const routes:Array<RouteRecordRaw>=[
         children:[
             {
                 path:"",
-                redirect:"/admin/dashboard"
+                redirect:"/admin/UserConfig"
             },
             {
                 path:"dashboard",

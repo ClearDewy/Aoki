@@ -173,4 +173,6 @@ export const apiUrl={
     deleteUser:"/api/admin/delete-user",
     addMajor:"/api/admin/add-major",
     deleteMajor:"/api/admin/delete-major",
+
+    getAllLessonList:"/api/get-all-lesson"
 };

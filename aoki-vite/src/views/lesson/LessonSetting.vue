@@ -37,10 +37,13 @@
                 <template #prefix>
                   <el-icon style="font-size: 18px;"><Loading /></el-icon>
                 </template>
+                <template #append>
+                  <el-countdown v-if="startGrab.value" format="ss" :value="endTime" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
+                  <el-button v-else type="text" @click="getVerifyCode">获取验证码
+                  </el-button>
+                </template>
               </el-input>
-              <el-countdown v-if="startGrab.value" format="ss" :value="endTime" style="position: absolute;right: 10px;top: 24px;" value-style="color:#409eff;font-size: 14px" @finish="resetGetVerifyCode"/>
-              <el-button v-else style="position: absolute;right: 10px;top: 24px;" type="text" @click="getVerifyCode">获取验证码
-              </el-button>
+
             </div>
             <el-button type="danger" @click="deleteLesson" style="width: 80%;height: 40px;margin: 10%" :disabled="emailCode.length!==6">删除</el-button>
           </div>

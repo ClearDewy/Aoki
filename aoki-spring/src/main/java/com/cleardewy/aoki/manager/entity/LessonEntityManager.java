@@ -4,10 +4,13 @@ import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
 import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.mapper.LessonMapper;
+import com.cleardewy.aoki.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.cleardewy.aoki.constant.RoleConstans.ADMIN;
 
 /**
  * @ Author: ClearDewy
@@ -17,6 +20,9 @@ import java.util.List;
 public class LessonEntityManager {
     @Autowired
     LessonMapper lessonMapper;
+
+    @Autowired
+    ThreadLocalUtils threadLocalUtils;
 
     public void addLesson(LessonDto lessonDto){
         lessonMapper.addLesson(lessonDto);
@@ -32,6 +38,10 @@ public class LessonEntityManager {
         return lessonMapper.getLessonList(id);
     }
 
+    public List<LessonListVo> getAllLessonList() {
+        return lessonMapper.getAllLessonList();
+    }
+
     public LessonDto getLesson(Integer id){
         return lessonMapper.getLesson(id);
     }
@@ -41,7 +51,7 @@ public class LessonEntityManager {
     }
 
     public boolean verifyLessonOwner(Integer ownerId,Integer id){
-        return lessonMapper.verifyLessonOwner(ownerId,id)!=0;
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||lessonMapper.verifyLessonOwner(ownerId,id)!=0;
     }
 
     public void addLessonMember(LessonMemberDto lessonMemberDto){
@@ -52,7 +62,7 @@ public class LessonEntityManager {
     }
 
     public boolean verifyLessonMember(Integer lessonId,Integer memberId){
-        return lessonMapper.verifyLessonMember(lessonId,memberId)!=0;
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||lessonMapper.verifyLessonMember(lessonId,memberId)!=0;
     }
     public List<UserListVo> getLessonMember(Integer id) {
         return lessonMapper.getLessonMember(id);
@@ -96,7 +106,7 @@ public class LessonEntityManager {
         return lessonMapper.getMyTopics(lessonId,id);
     }
     public Boolean verifyTopicOwner(Integer topicId,Integer id){
-        return lessonMapper.verifyTopicOwner(topicId,id)!=0;
+        return threadLocalUtils.getCurrentUser().getRole().equals(ADMIN)||lessonMapper.verifyTopicOwner(topicId,id)!=0;
     }
 
     public LessonDto getTopicLesson(Integer id){

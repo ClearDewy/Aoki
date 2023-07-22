@@ -3,7 +3,10 @@ package com.cleardewy.aoki.manager.user;
 import com.cleardewy.aoki.constant.ResultStatus;
 import com.cleardewy.aoki.entity.dto.*;
 import com.cleardewy.aoki.entity.vo.lesson.*;
-import com.cleardewy.aoki.entity.vo.user.*;
+import com.cleardewy.aoki.entity.vo.user.EmailVerifyVo;
+import com.cleardewy.aoki.entity.vo.user.UpdateEmailVo;
+import com.cleardewy.aoki.entity.vo.user.UpdatePasswordVo;
+import com.cleardewy.aoki.entity.vo.user.UserListVo;
 import com.cleardewy.aoki.exception.AokiException;
 import com.cleardewy.aoki.manager.account.EmailVerifyManager;
 import com.cleardewy.aoki.manager.entity.*;
@@ -79,6 +82,7 @@ public class UserManager {
     }
 
     public LessonDto getLesson(Integer id) {
+
         if (!lessonEntityManager.verifyLessonMember(id,threadLocalUtils.getCurrentUser().getId())){
             throw AokiException.forbidden();
         }
@@ -115,9 +119,7 @@ public class UserManager {
             throw AokiException.forbidden();
         }
         List<TeamVo> teamList=teamEntityManager.getTeams(lessonId);
-        teamList.forEach((team -> {
-            team.setMemberList(teamEntityManager.getTeamMembers(team.getId()));
-        }));
+        teamList.forEach((team -> team.setMemberList(teamEntityManager.getTeamMembers(team.getId()))));
         return teamList;
     }
 

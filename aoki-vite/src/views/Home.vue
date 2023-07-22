@@ -35,6 +35,7 @@ import {LessonListType} from "../common/typeClass";
 import {emitter, Lesson, User} from "../common/gloableData";
 import router, {routerPath} from "../router";
 import {storage} from "../common/storage";
+import {adminApi} from "../api/adminApi";
 const currentPage = ref(1)
 const pageSizeList=ref([20, 40, 60])
 const pageSize = ref(pageSizeList.value[0])
@@ -59,8 +60,8 @@ const refreshPageLessonList=()=>{
 }
 
 const getLessonList = () => {
-  userApi.getLessonList().then(res=>{
-    res&& (lessonList.value=res.data.reverse())
+  (User.value.role===0?adminApi.getAllLessonList():userApi.getLessonList()).then(res=>{
+    lessonList.value=res.data.reverse()
     lessonTotalNum.value=lessonList.value.length
     refreshPageLessonList()
   }).catch(e=>{
