@@ -79,7 +79,7 @@ services:
       - ./aoki/file:/workspace/aoki/file
     environment:
       - TZ=Asia/Shanghai
-      - JAVA_OPTS=-Xms192m -Xmx384m
+      # - JAVA_OPTS=-Xms192m -Xmx384m
 
       - MYSQL_HOST=172.20.0.3
       - MYSQL_PORT=3306
@@ -89,11 +89,13 @@ services:
       - REDIS_HOST=172.20.0.2
       - REDIS_PORT=6379
       - REDIS_PASSWORD=aoki123456
+      - NACOS_HOST=172.20.0.4
+      - NACOS_PORT=8848
 
       - MAIL_HOST=smtp.qq.com # 请使用邮件服务的域名或ip
       - MAIL_PORT=465 # 请使用邮件服务的端口号
-      - MAIL_USERNAME=2701679328@qq.com # 请使用对应邮箱账号
-      - MAIL_PASSWORD=habozfhkpjgsdfjg # 请使用对应邮箱密码
+      - MAIL_USERNAME=your_username # 请使用对应邮箱账号
+      - MAIL_PASSWORD=your_password # 请使用对应邮箱密码
     ports:
       - 8080:8080
     networks:
