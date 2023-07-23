@@ -111,7 +111,7 @@ const routes:Array<RouteRecordRaw>=[
         children:[
             {
                 path:"",
-                redirect:"/admin/UserConfig"
+                redirect:"/admin/user"
             },
             {
                 path:"dashboard",
@@ -130,7 +130,7 @@ const routes:Array<RouteRecordRaw>=[
             },
         ],
         meta:{
-            requiresAuth:false,     // 是否需要登录
+            requiresAuth:true,     // 是否需要登录
             showHeader:true,
         }
     },
